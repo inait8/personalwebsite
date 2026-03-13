@@ -1,13 +1,13 @@
 {
   "input": "./galleryimages",
   "output": "./gallery-output",
-  "title": "My Gallery",
+  "title": "Katharina Burger",
   "sort-albums-by": "title",
   "sort-media-by": "filename",
   "download-photos": "copy",
   "cleanup": true,
   "theme": "cards",
   "navbar-title": false,
-  "footer": "© 2026 Your Name",
+  "footer": "© 2026 Katharina Burger",
   "usage-stats": false
 }
