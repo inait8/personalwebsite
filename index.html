@@ -81,6 +81,7 @@
 
         /* --- MAIN IMAGE SECTION --- */
        /* --- MAIN: SINGLE BIG IMAGE --- */
+        /* --- MAIN: SINGLE BIG IMAGE --- */
         .main-image-section {
             flex: 1;
             display: flex;
@@ -92,9 +93,8 @@
         .image-container {
             position: relative;
             width: 100%;
-            max-width: 300px;  /* or whatever size you want */
+            max-width: 400px;
             margin: 0 auto;
-            cursor: pointer;
         }
         
         .image-container a {
@@ -107,11 +107,27 @@
             width: 100%;
             height: auto;
             border: none;
-            outline: none;
-            box-shadow: none;
         }
         
-        /* Caption on hover (bottom right) */
+        /* Instagram icon - hidden by default, appears on hover */
+        .instagram-icon {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            opacity: 0;  /* Hidden by default */
+            transition: opacity 0.3s ease;
+            z-index: 20;
+            pointer-events: none;  /* So clicks go through to the link */
+        }
+        
+        /* Show icon when hovering over the container */
+        .image-container:hover .instagram-icon {
+            opacity: 1;
+        }
+        
+        /* Caption on hover (stays the same) */
         .image-caption {
             position: absolute;
             bottom: 20px;
@@ -120,7 +136,6 @@
             color: #ffffff;
             padding: 8px 16px;
             font-size: 0.9rem;
-            letter-spacing: 0.5px;
             border-radius: 3px;
             opacity: 0;
             transition: opacity 0.3s ease;
@@ -130,35 +145,6 @@
         
         .image-container:hover .image-caption {
             opacity: 1;
-        }
-        
-        /* Instagram icon (top right corner) */
-        .instagram-icon {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background-color: rgba(0, 0, 0, 0.6);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0.7;
-            transition: opacity 0.2s ease, transform 0.2s ease;
-            z-index: 20;
-            pointer-events: none;  /* So clicks go through to the link */
-        }
-        
-        .instagram-icon svg {
-            width: 24px;
-            height: 24px;
-            fill: #ffffff;
-        }
-        
-        .image-container:hover .instagram-icon {
-            opacity: 1;
-            transform: scale(1.1);
         }
 
         /* Optional image navigation */
@@ -219,11 +205,8 @@
                     <img src="images/image-start-1.jpeg" alt="Your photograph" class="main-image">
                     
                     <!-- Instagram icon (top right) -->
-                    <div class="instagram-icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/>
-                        </svg>
-                    </div>
+                    
+                    <img src="icons/Instagram_Glyph_Black.svg" alt="Instagram" class="instagram-icon">
                     
                     <!-- Caption (bottom right) -->
                     <div class="image-caption">near the tripoint of 3 countries / at-cz-de, 2024</div>
