@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Katharina Burger</title>
+    <title>Contact – Your Name</title>
     <style>
-        /* --- RESET & BASE --- */
         * {
             margin: 0;
             padding: 0;
@@ -16,6 +15,7 @@
             font-family: 'Arial', 'Helvetica', sans-serif;
             background-color: #1a1a1a;
             color: #dddddd;
+            line-height: 1.7;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -34,13 +34,13 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 0 20px;
             width: 100%;
         }
 
-        /* --- HEADER & NAVIGATION --- */
+        /* HEADER */
         header {
             border-bottom: 1px solid #333;
             padding: 20px 0;
@@ -55,7 +55,6 @@
             align-items: baseline;
         }
 
-        /* Your name (home link) */
         nav ul li:first-child {
             margin-right: auto;
         }
@@ -69,7 +68,6 @@
             text-transform: uppercase;
         }
 
-        /* Gallery & About links */
         nav ul li:not(:first-child) a {
             text-transform: uppercase;
             font-size: 0.9em;
@@ -81,69 +79,112 @@
             border-bottom-color: #aaa;
         }
 
-        /* --- MAIN IMAGE SECTION --- */
-        .main-image-section {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
+        /* CONTENT */
+        .contact-content {
+            margin: 60px 0;
         }
 
-        .image-container {
-            position: relative;
-            width: 100%;
-            max-width: 1000px;
-            margin: 0 auto;
-            cursor: default;
-        }
-
-        .main-image {
-            display: block;
-            width: 100%;
-            height: auto;
-            border: none;
-            outline: none;
-            box-shadow: none;
-        }
-
-        .image-caption {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            background-color: rgba(0, 0, 0, 0.7);
+        h1 {
             color: #ffffff;
-            padding: 8px 16px;
-            font-size: 0.9rem;
-            letter-spacing: 0.5px;
-            border-radius: 3px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            font-size: 2.2em;
         }
 
-        .image-container:hover .image-caption {
-            opacity: 1;
+        p {
+            margin-bottom: 30px;
+            font-size: 1.1em;
         }
 
-        /* Optional image navigation */
-        .image-nav {
-            text-align: center;
-            margin-top: 30px;
+        .contact-method {
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: #252525;
+            border: 1px solid #333;
+            border-radius: 4px;
+        }
+
+        .contact-method h2 {
+            color: #ffffff;
+            font-weight: 300;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .contact-method a {
+            font-size: 1.2em;
+            word-break: break-word;
+        }
+
+        /* Simple contact form (optional) */
+        .contact-form {
+            margin-top: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #cccccc;
             font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .image-nav a {
-            margin: 0 15px;
-            border-bottom: none;
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            background-color: #252525;
+            border: 1px solid #444;
+            color: #ffffff;
+            font-family: inherit;
+            font-size: 1em;
+            transition: border-color 0.2s ease;
         }
 
-        .image-nav a:hover {
-            border-bottom: 1px dotted #aaa;
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #777;
         }
 
-        /* --- FOOTER --- */
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        button {
+            background-color: transparent;
+            color: #cccccc;
+            border: 1px solid #555;
+            padding: 12px 30px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #333;
+            color: #ffffff;
+            border-color: #777;
+        }
+
+        .note {
+            font-size: 0.85em;
+            color: #888;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        /* FOOTER */
         footer {
+            margin-top: auto;
             padding: 30px 0;
             border-top: 1px solid #333;
             text-align: center;
@@ -160,10 +201,6 @@
             border-bottom: none;
             font-size: 0.9em;
         }
-
-        .social-links a:hover {
-            border-bottom: 1px dotted #aaa;
-        }
     </style>
 </head>
 <body>
@@ -174,33 +211,59 @@
                     <li><a href="index.html">YOUR NAME</a></li>
                     <li><a href="gallery.html">Gallery</a></li>
                     <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <main class="main-image-section">
-        <div class="container">
-            <div class="image-container">
-                <!-- REPLACE with your own image -->
-                <img src="your-photo.jpg" alt="Your photograph" class="main-image">
-                <div class="image-caption">Title / Location, 2026</div>
+    <main class="container">
+        <div class="contact-content">
+            <h1>Contact</h1>
+
+            <p>For inquiries about photography, research, or collaborations, please reach out.</p>
+
+            <!-- Direct contact methods -->
+            <div class="contact-method">
+                <h2>Email</h2>
+                <a href="mailto:your.email@example.com">your.email@example.com</a>
             </div>
 
-            <!-- Optional: remove if you don't want navigation -->
-            <div class="image-nav">
-                <a href="#">← Previous</a>
-                <a href="#">Index</a>
-                <a href="#">Next →</a>
+            <div class="contact-method">
+                <h2>Instagram</h2>
+                <a href="https://instagram.com/yourusername" target="_blank">@yourusername</a>
             </div>
+
+            <!-- Simple contact form (optional – remove if you prefer) -->
+            <div class="contact-form">
+                <h2 style="color: #fff; font-weight: 300; margin-bottom: 20px;">Or send a message</h2>
+                <form action="https://formspree.io/f/your-form-id" method="POST">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <button type="submit">Send Message</button>
+                </form>
+                <p class="note">The form uses Formspree – you'll need to set up a free account at <a href="https://formspree.io" target="_blank">formspree.io</a> and replace `your-form-id` in the form action.</p>
+            </div>
+
+            <p style="margin-top: 40px;"><a href="index.html" style="border-bottom: none;">← Back to images</a></p>
         </div>
     </main>
 
     <footer>
         <div class="container">
-            <p>&copy; 2026 Katharina Burger</p>
+            <p>&copy; 2026 Your Name</p>
             <div class="social-links">
-                <a href="https://instagram.com/komposition10" target="_blank">Instagram</a>
+                <a href="https://instagram.com/yourusername" target="_blank">Instagram</a>
             </div>
         </div>
     </footer>
