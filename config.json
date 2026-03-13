@@ -2,7 +2,6 @@
   "input": "./galleryimages",
   "output": "./gallery-output",
   "theme": "mosaic",
-  "css": "./custom-gallery.css",
   "thumb-size": 600,
   "large-size": 1600,
   "quality": 90,
