@@ -7,6 +7,7 @@
   "download-photos": "copy",
   "cleanup": true,
   "theme": "mosaic",
+  "css": "./custom-gallery.css",
   "navbar-title": false,
   "usage-stats": false,
   "base-path": "/personalwebsite/gallery",  
