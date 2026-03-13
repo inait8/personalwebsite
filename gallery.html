@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gallery – Your Name</title>
     <style>
-        /* Same styles as index.html + gallery grid */
         * {
             margin: 0;
             padding: 0;
@@ -40,7 +39,7 @@
             width: 100%;
         }
 
-        /* HEADER (same as index) */
+        /* HEADER */
         header {
             border-bottom: 1px solid #333;
             padding: 20px 0;
@@ -79,47 +78,21 @@
             border-bottom-color: #aaa;
         }
 
-        /* GALLERY GRID */
-        
-        .gallery-vertical {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-            margin: 50px 0;
-            max-width: 600px;  /* Angenehme Breite zum Lesen */
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .gallery-item {
-            background-color: #252525;
-            border: 1px solid #333;
-            transition: transform 0.2s ease;
-            width: 100%;
-        }
-        
-        .gallery-item:hover {
-            transform: translateY(-3px);
-            border-color: #555;
-        }
-        
-        .gallery-item img {
-            width: 100%;
-            height: auto;  /* Bild behält Original-Proportionen */
-            display: block;
-            border-bottom: 1px solid #333;
-        }
-        
-        .gallery-item p {
-            padding: 15px;
-            text-align: center;
-            font-size: 0.9em;
-            color: #bbbbbb;
+        /* MAIN CONTENT */
+        main {
+            flex: 1;
+            padding: 40px 0;
         }
 
-        /* FOOTER (same as index) */
+        .gallery-frame {
+            width: 100%;
+            height: 800px;
+            border: none;
+            background-color: #1a1a1a;
+        }
+
+        /* FOOTER */
         footer {
-            margin-top: auto;
             padding: 30px 0;
             border-top: 1px solid #333;
             text-align: center;
@@ -136,10 +109,6 @@
             border-bottom: none;
             font-size: 0.9em;
         }
-
-        .social-links a:hover {
-            border-bottom: 1px dotted #aaa;
-        }
     </style>
 </head>
 <body>
@@ -147,7 +116,7 @@
         <div class="container">
             <nav>
                 <ul>
-                    <li><a href="index.html">Katharina Burger</a></li>
+                    <li><a href="index.html">YOUR NAME</a></li>
                     <li><a href="gallery.html">Gallery</a></li>
                     <li><a href="about.html">About</a></li>
                     <li><a href="contact.html">Contact</a></li>
@@ -157,36 +126,14 @@
     </header>
 
     <main class="container">
-        <h2 style="font-weight: 300; margin: 40px 0 20px; letter-spacing: 1px; color: #fff;">Gallery</h2>
+        <h1 style="font-weight: 300; margin-bottom: 30px;">Gallery</h1>
         
-        <div class="gallery-vertical">
-            <!-- REPLACE with your own images -->
-            <div class="gallery-item">
-                <img src="photo1.jpg" alt="Photograph">
-                <p>Title, 2026</p>
-            </div>
-            <div class="gallery-item">
-                <img src="photo2.jpg" alt="Photograph">
-                <p>Title, 2026</p>
-            </div>
-            <div class="gallery-item">
-                <img src="photo3.jpg" alt="Photograph">
-                <p>Title, 2026</p>
-            </div>
-            <div class="gallery-item">
-                <img src="photo4.jpg" alt="Photograph">
-                <p>Title, 2026</p>
-            </div>
-            <div class="gallery-item">
-                <img src="photo5.jpg" alt="Photograph">
-                <p>Title, 2026</p>
-            </div>
-            <div class="gallery-item">
-                <img src="photo6.jpg" alt="Photograph">
-                <p>Title, 2026</p>
-            </div>
-            <!-- Add more as needed -->
-        </div>
+        <iframe 
+            src="gallery-content/index.html" 
+            class="gallery-frame"
+            title="Photo Gallery"
+            loading="lazy">
+        </iframe>
     </main>
 
     <footer>
@@ -196,6 +143,9 @@
                 <a href="https://instagram.com/yourusername" target="_blank">Instagram</a>
             </div>
         </div>
+    </footer>
+</body>
+</html>
     </footer>
 </body>
 </html>
