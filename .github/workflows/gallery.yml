@@ -2,9 +2,11 @@ name: Build Gallery
 
 on:
   push:
-    branches: [ main ]  # Use 'master' if your default branch is master
+    branches: [ main ]
     paths:
       - 'galleryimages/**'
+      - '*.html'
+      - 'config.json'
 
 jobs:
   build:
