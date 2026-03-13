@@ -201,3 +201,85 @@ nav.pagination a {
 #zip a {
   color: #3399ff;
 }
+/* Dark background for entire gallery */
+html, body {
+    background-color: #1a1a1a !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Main gallery container */
+.gallery,
+.mosaic-grid,
+.thumbnail-grid,
+.image-grid,
+.album-container {
+    background-color: #1a1a1a !important;
+}
+
+/* Individual image containers */
+.mosaic-item,
+.thumbnail,
+.grid-item,
+.album-item {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Images themselves */
+img {
+    background-color: transparent !important;
+}
+
+/* Any potential white spaces or containers */
+div, section, article, main {
+    background-color: #1a1a1a !important;
+}
+
+/* Hide "Photo Album" and all text */
+.album-title,
+.photo-title,
+h1.album-title,
+h1:contains("Photo Album"),
+.thumbnail-caption,
+.photo-album-title,
+.gallery-header h1,
+.gallery-header h2,
+.gallery-header h3,
+.breadcrumbs,
+.album-breadcrumbs,
+.navbar,
+footer,
+h1, h2, h3, h4, h5, h6,
+p, span, a {
+    display: none !important;
+}
+
+/* Force any remaining text to be invisible */
+* {
+    color: transparent !important;
+    text-shadow: none !important;
+}
+
+/* Keep the image grid functional */
+.mosaic-grid,
+.thumbnail-grid,
+.gallery {
+    display: grid !important;
+    gap: 15px !important;
+    padding: 20px !important;
+    max-width: 1600px !important;
+    margin: 0 auto !important;
+}
+
+/* Ensure images are visible */
+.mosaic-item img,
+.thumbnail img {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    border: none !important;
+    outline: none !important;
+}
+
