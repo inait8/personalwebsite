@@ -7,62 +7,49 @@ on:
       - 'galleryimages/**'
       - '*.html'
       - 'config.json'
+      - '.github/workflows/gallery.yml'
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-    
-    - name: Install thumbsup
-      run: npm install -g thumbsup
-    
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y exiftool graphicsmagick
-    
-    - name: Build gallery with thumbsup
-      run: thumbsup --input ./galleryimages --output ./gallery-output --config ./config.json
-    
-    - name: Prepare deployment folder
-      run: |
-        # Create a clean deployment folder
-        mkdir -p ./deploy
-        
-        # Copy all HTML files from root
-        cp *.html ./deploy/ 2>/dev/null || true
-        
-        # Copy images folder if it exists
-        cp -r images ./deploy/ 2>/dev/null || true
-        
-        # Copy the generated gallery to /gallery folder
-        mkdir -p ./deploy/gallery
-        cp -r gallery-output/* ./deploy/gallery/
-        
-        # List what we have
-        echo "=== Files to deploy ==="
-        ls -la ./deploy/
-        echo "=== Gallery files ==="
-        ls -la ./deploy/gallery/
+      - name: Checkout
+        uses: actions/checkout@v4
 
-        cp -r icons ./deploy/ 2>/dev/null || true
-    
-    - name: Deploy to gh-pages branch
-      uses: peaceiris/actions-gh-pages@v4
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./deploy
-        publish_branch: gh-pages
-        keep_files: false  # Clean deploy each time
-        user_name: 'github-actions[bot]'
-        user_email: 'github-actions[bot]@users.noreply.github.com'
-        commit_message: 'Deploy site with gallery'
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install thumbsup
+        run: npm install -g thumbsup
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y exiftool graphicsmagick
+
+      - name: Build gallery with thumbsup
+        run: thumbsup --input ./galleryimages --output ./gallery-output --config ./config.json
+
+      - name: Prepare deployment folder
+        run: |
+          mkdir -p ./deploy
+          touch ./deploy/.nojekyll
+          cp *.html ./deploy/ 2>/dev/null || true
+          cp -r images ./deploy/ 2>/dev/null || true
+          cp -r icons ./deploy/ 2>/dev/null || true
+          mkdir -p ./deploy/gallery
+          cp -r gallery-output/* ./deploy/gallery/
+
+      - name: Deploy to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./deploy
+          publish_branch: gh-pages
+          keep_files: false
