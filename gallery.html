@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery – Your Name</title>
+    <style>
+        /* Same styles as index.html + gallery grid */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            background-color: #1a1a1a;
+            color: #dddddd;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            color: #cccccc;
+            text-decoration: none;
+            border-bottom: 1px dotted #555;
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+
+        a:hover {
+            color: #ffffff;
+            border-bottom-color: #ffffff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        /* HEADER (same as index) */
+        header {
+            border-bottom: 1px solid #333;
+            padding: 20px 0;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+            margin: 0;
+            padding: 0;
+            align-items: baseline;
+        }
+
+        nav ul li:first-child {
+            margin-right: auto;
+        }
+
+        nav ul li:first-child a {
+            color: #ffffff;
+            font-size: 1.4em;
+            font-weight: 300;
+            letter-spacing: 1px;
+            border-bottom: none;
+            text-transform: uppercase;
+        }
+
+        nav ul li:not(:first-child) a {
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+            border-bottom: 1px solid transparent;
+        }
+
+        nav ul li:not(:first-child) a:hover {
+            border-bottom-color: #aaa;
+        }
+
+        /* GALLERY GRID */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 50px 0;
+        }
+
+        .gallery-item {
+            background-color: #252525;
+            border: 1px solid #333;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-3px);
+            border-color: #555;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+            border-bottom: 1px solid #333;
+        }
+
+        .gallery-item p {
+            padding: 12px;
+            text-align: center;
+            font-size: 0.85em;
+            color: #bbbbbb;
+        }
+
+        /* FOOTER (same as index) */
+        footer {
+            margin-top: auto;
+            padding: 30px 0;
+            border-top: 1px solid #333;
+            text-align: center;
+            font-size: 0.8em;
+            color: #777;
+        }
+
+        .social-links {
+            margin-top: 10px;
+        }
+
+        .social-links a {
+            margin: 0 10px;
+            border-bottom: none;
+            font-size: 0.9em;
+        }
+
+        .social-links a:hover {
+            border-bottom: 1px dotted #aaa;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <ul>
+                    <li><a href="index.html">YOUR NAME</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <h2 style="font-weight: 300; margin: 40px 0 20px; letter-spacing: 1px; color: #fff;">Gallery</h2>
+        
+        <div class="gallery-grid">
+            <!-- REPLACE with your own images -->
+            <div class="gallery-item">
+                <img src="photo1.jpg" alt="Photograph">
+                <p>Title, 2026</p>
+            </div>
+            <div class="gallery-item">
+                <img src="photo2.jpg" alt="Photograph">
+                <p>Title, 2026</p>
+            </div>
+            <div class="gallery-item">
+                <img src="photo3.jpg" alt="Photograph">
+                <p>Title, 2026</p>
+            </div>
+            <div class="gallery-item">
+                <img src="photo4.jpg" alt="Photograph">
+                <p>Title, 2026</p>
+            </div>
+            <div class="gallery-item">
+                <img src="photo5.jpg" alt="Photograph">
+                <p>Title, 2026</p>
+            </div>
+            <div class="gallery-item">
+                <img src="photo6.jpg" alt="Photograph">
+                <p>Title, 2026</p>
+            </div>
+            <!-- Add more as needed -->
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Your Name</p>
+            <div class="social-links">
+                <a href="https://instagram.com/yourusername" target="_blank">Instagram</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
