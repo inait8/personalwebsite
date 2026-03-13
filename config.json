@@ -9,5 +9,6 @@
   "theme": "cards",
   "navbar-title": false,
   "footer": "© 2026 Katharina Burger",
-  "usage-stats": false
+  "usage-stats": false,
+  "base-path": "/personalwebsite/gallery"
 }
