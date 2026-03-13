@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katharina Burgerrr</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            background-color: #1a1a1a;
+            color: #dddddd;
+            line-height: 1.7;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            color: #cccccc;
+            text-decoration: none;
+            border-bottom: 1px dotted #555;
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+
+        a:hover {
+            color: #ffffff;
+            border-bottom-color: #ffffff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        /* HEADER */
+        header {
+            border-bottom: 1px solid #333;
+            padding: 20px 0;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+            margin: 0;
+            padding: 0;
+            align-items: baseline;
+        }
+
+        nav ul li:first-child {
+            margin-right: auto;
+        }
+
+        nav ul li:first-child a {
+            color: #ffffff;
+            font-size: 1.4em;
+            font-weight: 300;
+            letter-spacing: 1px;
+            border-bottom: none;
+            text-transform: uppercase;
+        }
+
+        nav ul li:not(:first-child) a {
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+            border-bottom: 1px solid transparent;
+        }
+
+        nav ul li:not(:first-child) a:hover {
+            border-bottom-color: #aaa;
+        }
+
+        /* ABOUT CONTENT */
+        .about-content {
+            max-width: 800px;
+            margin: 60px auto;
+        }
+
+        h1 {
+            color: #ffffff;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+            border-bottom: 1px solid #333;
+            padding-bottom: 15px;
+        }
+
+        h2 {
+            color: #ffffff;
+            font-weight: 300;
+            letter-spacing: 1px;
+            margin: 40px 0 20px;
+            font-size: 1.5em;
+        }
+
+        h3 {
+            color: #ffffff;
+            font-weight: 300;
+            margin: 25px 0 10px;
+            font-size: 1.2em;
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+
+        /* Work History List */
+        .work-list {
+            list-style: none;
+            margin: 20px 0 30px;
+        }
+
+        .work-list li {
+            margin-bottom: 15px;
+            padding-left: 20px;
+            border-left: 2px solid #444;
+        }
+
+        .work-list .date {
+            color: #aaaaaa;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .work-list .title {
+            color: #ffffff;
+            font-size: 1.1em;
+            font-weight: 300;
+        }
+
+        .work-list .location {
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        /* Recent Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .project-card {
+            background-color: #252525;
+            border: 1px solid #333;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: #555;
+        }
+
+        .project-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            border-bottom: 1px solid #333;
+        }
+
+        .project-info {
+            padding: 20px;
+        }
+
+        .project-info h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #ffffff;
+            font-weight: 300;
+        }
+
+        .project-info p {
+            font-size: 0.95em;
+            color: #bbbbbb;
+            margin-bottom: 15px;
+        }
+
+        .project-link {
+            display: inline-block;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #555;
+            padding-bottom: 3px;
+        }
+
+        .back-link {
+            margin-top: 50px;
+            display: inline-block;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #333;
+            margin: 40px 0;
+        }
+
+        /* FOOTER */
+        footer {
+            margin-top: auto;
+            padding: 30px 0;
+            border-top: 1px solid #333;
+            text-align: center;
+            font-size: 0.8em;
+            color: #777;
+        }
+
+        .social-links {
+            margin-top: 10px;
+        }
+
+        .social-links a {
+            margin: 0 10px;
+            border-bottom: none;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <ul>
+                    <li><a href="index.html">Katharina Burger</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="about-content">
+            <h1>About</h1>
+            
+            <p>I work with both analogue and digital photography. My practice is shaped by a background that moves between observation and documentation—whether through a camera, on an excavation, or in the details of historical research.</p>
+
+            <h2>Background</h2>
+            <p>Alongside photography, I work as a surveyor and do hand-paint lettering on borderstones. I work extensively with <strong>GIS programs</strong> (Geographic Information Systems), mapping landscapes, archaeological sites, and boundaries. The precision of digital mapping complements the observational slowness of photography—both ways of understanding place.</p>
+
+            <p>I studied art history and archaeology, with experience on excavations, and have done historical research for an artist's work, looking into the layers of the past before they were transformed into art.</p>
+
+            <p>These different ways of seeing—surveyor, photographer, researcher, GIS analyst—inform one another. The land, its boundaries, its histories, and its images all come into focus.</p>
+
+            <hr>
+
+            <h2>Selected Work History</h2>
+            <ul class="work-list">
+                <li>
+                    <div class="date">Summer of 2018, 2019 and 2020</div>
+                    <div class="title">Archaeological Excavation</div>
+                    <div class="location">Buchberg am Attersee</div>
+                </li>
+                <li>
+                    <div class="date">Summer of 2021</div>
+                    <div class="title">Archaological Excavation</div>
+                    <div class="location">Schloss Hahnfelden</div>
+                </li>
+                <li>
+                    <div class="date">Summer of 2019, 2020</div>
+                    <div class="title">Assistant Surveyor at Österreichische Bundesforste</div>
+                    <div class="location">Nationalpark Kalkalpen</div>
+                </li>
+                <li>
+                    <div class="date">since 2021</div>
+                    <div class="title">Technician (Surveyor)</div>
+                    <div class="location">Stateborder, Federal Office for Metrology and Surveying</div>
+                </li>
+            </ul>
+
+            <hr>
+            
+            <!--            <h2>Recent Projects</h2>
+            
+            <div class="projects-grid">
+                
+                <div class="project-card">
+                    <a href="LINK-TO-PROJECT-1" target="_blank">
+                        <img src="images/project1.jpg" alt="Project 1">
+                        <div class="project-info">
+                            <h3>Borderstone Lettering Project</h3>
+                            <p>Documenting and hand-painting historical boundary markers in [Region]. A combination of survey work, photography, and traditional craftsmanship.</p>
+                            <span class="project-link">View Project →</span>
+                        </div>
+                    </a>
+                </div>
+
+                
+                <div class="project-card">
+                    <a href="LINK-TO-PROJECT-2" target="_blank">
+                        <img src="images/project2.jpg" alt="Project 2">
+                        <div class="project-info">
+                            <h3>Excavatiion Photography</h3>
+                            <p>Analogue documentation of archaeological work at [Site Name]. Exploring how photography can capture both the process and the finding.</p>
+                            <span class="project-link">View Project →</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            -->
+        
+            <p style="margin-top: 40px; font-style: italic; color: #aaa;">For more projects, visit the <a href="gallery.html">gallery</a>.</p>
+
+            <a href="index.html" class="back-link">← Back to images</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Katharina Burger</p>
+            <div class="social-links">
+                <a href="https://instagram.com/komposition10" target="_blank">Instagram</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

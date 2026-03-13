@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katharina Burger</title>
+    <style>
+        /* --- RESET & BASE --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            background-color: #1a1a1a;
+            color: #dddddd;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            color: #cccccc;
+            text-decoration: none;
+            border-bottom: 1px dotted #555;
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+
+        a:hover {
+            color: #ffffff;
+            border-bottom-color: #ffffff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        /* --- HEADER & NAVIGATION --- */
+        header {
+            border-bottom: 1px solid #333;
+            padding: 20px 0;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+            margin: 0;
+            padding: 0;
+            align-items: baseline;
+        }
+
+        nav ul li:first-child {
+            margin-right: auto;
+        }
+
+        nav ul li:first-child a {
+            color: #ffffff;
+            font-size: 1.4em;
+            font-weight: 300;
+            letter-spacing: 1px;
+            border-bottom: none;
+            text-transform: uppercase;
+        }
+
+        nav ul li:not(:first-child) a {
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+            border-bottom: 1px solid transparent;
+        }
+
+        nav ul li:not(:first-child) a:hover {
+            border-bottom-color: #aaa;
+        }
+
+        /* --- MAIN IMAGE SECTION --- */
+       /* --- MAIN: SINGLE BIG IMAGE --- */
+        /* --- MAIN: SINGLE BIG IMAGE --- */
+        .main-image-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+        
+        .image-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .image-container a {
+            display: block;
+            text-decoration: none;
+        }
+        
+        .main-image {
+            display: block;
+            width: 100%;
+            height: auto;
+            border: none;
+        }
+        
+        /* Instagram icon - hidden by default, appears on hover */
+        .instagram-icon {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            opacity: 0;  /* Hidden by default */
+            transition: opacity 0.3s ease;
+            z-index: 20;
+            pointer-events: none;  /* So clicks go through to the link */
+        }
+        
+        /* Show icon when hovering over the container */
+        .image-container:hover .instagram-icon {
+            opacity: 1;
+        }
+        
+        /* Caption on hover (stays the same) */
+        .image-caption {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #ffffff;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            border-radius: 3px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        .image-container:hover .image-caption {
+            opacity: 1;
+        }
+
+        /* Optional image navigation */
+        .image-nav {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.9em;
+        }
+
+        .image-nav a {
+            margin: 0 15px;
+            border-bottom: none;
+        }
+
+        .image-nav a:hover {
+            border-bottom: 1px dotted #aaa;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 30px 0;
+            border-top: 1px solid #333;
+            text-align: center;
+            font-size: 0.8em;
+            color: #777;
+        }
+
+        .social-links {
+            margin-top: 10px;
+        }
+
+        .social-links a {
+            margin: 0 10px;
+            border-bottom: none;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <ul>
+                    <li><a href="index.html">Katharina Burger</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-image-section">
+        <div class="container">
+
+            <div class="image-container">
+                <a href="https://instagram.com/komposition10" target="_blank">
+                    <img src="images/image-start-1.jpeg" alt="Your photograph" class="main-image">
+                    
+                    <!-- Instagram icon (top right)  -->
+                    
+                    <img src="icons/Instagram-Glyph-Black.svg" alt="Instagram" class="instagram-icon">
+                    
+                    <!-- Caption (bottom right) -->
+                    <div class="image-caption">near the tripoint of 3 countries / at-cz-de, 2024</div>
+                </a>
+            </div>
+
+
+            <!-- Optional: remove if you don't want navigation
+            <div class="image-nav">
+                <a href="#">← Previous</a>
+                <a href="#">Index</a>
+                <a href="#">Next →</a>
+            </div>
+            -->
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Katharina Burger</p>
+            <div class="social-links">
+                <a href="https://instagram.com/komposition10" target="_blank">Instagram</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
