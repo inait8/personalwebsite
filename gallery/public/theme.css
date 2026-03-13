@@ -201,7 +201,14 @@ nav.pagination a {
 #zip a {
   color: #3399ff;
 }
-/* Completely hide all text */
+/* Dark background */
+body {
+    background-color: #1a1a1a !important;
+    margin: 0 !important;
+    padding: 20px !important;
+}
+
+/* Hide all text */
 .thumbnail-caption,
 .photo-title,
 .photo-date,
@@ -213,89 +220,36 @@ footer,
 .breadcrumbs,
 .pagination,
 h1, h2, h3, h4, h5, h6,
-p, span, div:not(.thumbnail):not(.image-container) {
+p, span {
     display: none !important;
 }
 
-/* Dark background */
-body {
-    background-color: #1a1a1a !important;
-    margin: 0 !important;
-    padding: 20px !important;
-}
-
-/* Image grid container */
-.gallery, 
-.thumbnail-grid,
+/* Image grid */
 .mosaic-grid {
     display: grid !important;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
-    gap: 20px !important;
+    gap: 15px !important;
     max-width: 1600px !important;
     margin: 0 auto !important;
-    padding: 20px !important;
 }
 
-/* Individual image containers */
-.thumbnail,
-.mosaic-item,
-.grid-item {
+/* Image containers */
+.mosaic-item {
     width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
     background: transparent !important;
     border: none !important;
-    border-radius: 0 !important;
-    transition: transform 0.2s ease !important;
 }
 
-/* Make images span different heights naturally */
-.mosaic-item {
-    grid-row-end: span 1 !important;
-}
-
-/* Images themselves */
-.thumbnail img,
-.mosaic-item img,
-.grid-item img {
+.mosaic-item img {
     width: 100% !important;
     height: auto !important;
-    max-height: none !important;
-    object-fit: cover !important;
     display: block !important;
     border: none !important;
-    outline: none !important;
-    box-shadow: none !important;
 }
 
-/* Remove all hover effects that might show text */
-.thumbnail:hover,
-.mosaic-item:hover,
-.grid-item:hover {
-    transform: scale(1.02) !important;
-}
-
-.thumbnail:hover .thumbnail-caption,
-.mosaic-item:hover .mosaic-caption {
-    display: none !important;
-}
-
-/* Remove any colored text (fixes the blue) */
+/* Remove all link colors */
 a, a:visited, a:hover, a:active {
     color: transparent !important;
     text-decoration: none !important;
-}
-
-/* Remove any overlays */
-.image-overlay,
-.thumbnail-overlay,
-.meta-overlay {
-    display: none !important;
-}
-
-/* Force all text elements to be invisible */
-* {
-    color: transparent !important;
-    text-shadow: none !important;
 }
 
