@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About – Your Name</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            background-color: #1a1a1a;
+            color: #dddddd;
+            line-height: 1.7;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            color: #cccccc;
+            text-decoration: none;
+            border-bottom: 1px dotted #555;
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+
+        a:hover {
+            color: #ffffff;
+            border-bottom-color: #ffffff;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        /* HEADER (same as index) */
+        header {
+            border-bottom: 1px solid #333;
+            padding: 20px 0;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+            margin: 0;
+            padding: 0;
+            align-items: baseline;
+        }
+
+        nav ul li:first-child {
+            margin-right: auto;
+        }
+
+        nav ul li:first-child a {
+            color: #ffffff;
+            font-size: 1.4em;
+            font-weight: 300;
+            letter-spacing: 1px;
+            border-bottom: none;
+            text-transform: uppercase;
+        }
+
+        nav ul li:not(:first-child) a {
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+            border-bottom: 1px solid transparent;
+        }
+
+        nav ul li:not(:first-child) a:hover {
+            border-bottom-color: #aaa;
+        }
+
+        /* ABOUT CONTENT */
+        .about-content {
+            margin: 60px 0;
+        }
+
+        h1 {
+            color: #ffffff;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+        }
+
+        h2 {
+            color: #ffffff;
+            font-weight: 300;
+            letter-spacing: 1px;
+            margin: 30px 0 15px;
+            font-size: 1.5em;
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+
+        .back-link {
+            margin-top: 40px;
+            display: inline-block;
+        }
+
+        /* FOOTER */
+        footer {
+            margin-top: auto;
+            padding: 30px 0;
+            border-top: 1px solid #333;
+            text-align: center;
+            font-size: 0.8em;
+            color: #777;
+        }
+
+        .social-links {
+            margin-top: 10px;
+        }
+
+        .social-links a {
+            margin: 0 10px;
+            border-bottom: none;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <ul>
+                    <li><a href="index.html">YOUR NAME</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="about-content">
+            <h1>About</h1>
+            
+            <p>I work with both analogue and digital photography, drawn to the textures of light, time, and place. My practice is shaped by a background that moves between observation and documentation—whether through a camera, on an excavation, or in the details of historical research.</p>
+
+            <h2>Background</h2>
+            <p>Alongside photography, I work as a surveyor and also hand-paint lettering on borderstones—a meticulous craft that connects measurement and mark-making. I studied art history and archaeology, with experience on excavations, and have done historical research for an artist's work, looking into the layers of the past before they were transformed into art.</p>
+
+            <p>These different ways of seeing—surveyor, photographer, researcher—inform one another. The land, its boundaries, its histories, and its images all come into focus.</p>
+
+            <!-- Optional contact or email -->
+            <p style="margin-top: 40px;">For inquiries: <a href="mailto:your.email@example.com">your.email@example.com</a></p>
+
+            <a href="index.html" class="back-link" style="border-bottom: none;">← Back to images</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Your Name</p>
+            <div class="social-links">
+                <a href="https://instagram.com/yourusername" target="_blank">Instagram</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
