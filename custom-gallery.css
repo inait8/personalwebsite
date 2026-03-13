@@ -1,48 +1,97 @@
-/* Dark background for gallery */
+/* Completely hide all text */
+.thumbnail-caption,
+.photo-title,
+.photo-date,
+.album-title,
+.album-stats,
+.image-stats,
+footer,
+.navbar,
+.breadcrumbs,
+.pagination,
+h1, h2, h3, h4, h5, h6,
+p, span, div:not(.thumbnail):not(.image-container) {
+    display: none !important;
+}
+
+/* Dark background */
 body {
     background-color: #1a1a1a !important;
+    margin: 0 !important;
+    padding: 20px !important;
 }
 
-/* Make thumbnails bigger */
-.thumbnail {
-    width: 100% !important;
-    max-width: 600px !important;  /* Larger images */
+/* Image grid container */
+.gallery, 
+.thumbnail-grid,
+.mosaic-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
+    gap: 20px !important;
+    max-width: 1600px !important;
     margin: 0 auto !important;
-    background-color: #252525 !important;
-    border: 1px solid #333 !important;
+    padding: 20px !important;
 }
 
-.thumbnail img {
+/* Individual image containers */
+.thumbnail,
+.mosaic-item,
+.grid-item {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    transition: transform 0.2s ease !important;
+}
+
+/* Make images span different heights naturally */
+.mosaic-item {
+    grid-row-end: span 1 !important;
+}
+
+/* Images themselves */
+.thumbnail img,
+.mosaic-item img,
+.grid-item img {
     width: 100% !important;
     height: auto !important;
-    max-height: 500px !important;  /* Taller images */
-    object-fit: contain !important;  /* Show full image without cropping */
+    max-height: none !important;
+    object-fit: cover !important;
+    display: block !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
-/* Caption styling */
-.thumbnail-caption {
-    color: #dddddd !important;
-    background-color: #252525 !important;
-    padding: 10px !important;
-    text-align: center !important;
-}
-
-/* Hover effect */
-.thumbnail:hover {
+/* Remove all hover effects that might show text */
+.thumbnail:hover,
+.mosaic-item:hover,
+.grid-item:hover {
     transform: scale(1.02) !important;
-    border-color: #666 !important;
-    transition: all 0.2s ease !important;
 }
 
-/* Navigation (if present) */
-.pagination {
-    color: #777 !important;
+.thumbnail:hover .thumbnail-caption,
+.mosaic-item:hover .mosaic-caption {
+    display: none !important;
 }
 
-.pagination a {
-    color: #ccc !important;
+/* Remove any colored text (fixes the blue) */
+a, a:visited, a:hover, a:active {
+    color: transparent !important;
+    text-decoration: none !important;
 }
 
-.pagination a:hover {
-    color: #fff !important;
+/* Remove any overlays */
+.image-overlay,
+.thumbnail-overlay,
+.meta-overlay {
+    display: none !important;
+}
+
+/* Force all text elements to be invisible */
+* {
+    color: transparent !important;
+    text-shadow: none !important;
 }
