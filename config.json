@@ -1,15 +1,8 @@
 {
   "input": "./galleryimages",
   "output": "./gallery-output",
-  "sort-albums-by": "title",
-  "sort-media-by": "filename",
-  "download-photos": "copy",
-  "cleanup": true,
   "theme": "mosaic",
   "css": "./custom-gallery.css",
-  "navbar-title": false,
-  "usage-stats": false,
-  "base-path": "/personalwebsite/gallery",  
   "thumb-size": 600,
   "large-size": 1600,
   "quality": 90
