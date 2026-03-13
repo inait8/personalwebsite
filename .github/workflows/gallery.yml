@@ -7,20 +7,25 @@ on:
       - 'galleryimages/**'
       - '*.html'
       - 'config.json'
-  workflow_dispatch:  # Allows manual runs
+  workflow_dispatch:
+
+# Add this permissions block
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4  # Updated to v4
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
     
     - name: Setup Node.js
-      uses: actions/setup-node@v4  # Updated to v4
+      uses: actions/setup-node@v4
       with:
-        node-version: '20'  # Using Node.js 20 LTS
+        node-version: '20'
     
     - name: Install thumbsup
       run: npm install -g thumbsup
@@ -34,12 +39,12 @@ jobs:
       run: thumbsup --input ./galleryimages --output ./gallery-output --config ./config.json || true
     
     - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v4  # Updated to v4
+      uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./gallery-output
         destination_dir: gallery-content
-        keep_files: true  # This preserves your other files
-        force_orphan: false
+        keep_files: true
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'
+        publish_branch: gh-pages  # Explicitly set the branch
