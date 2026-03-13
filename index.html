@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Photography Portfolio</title>
+    <title>My Photography</title>
     <style>
         /* --- Reset & Base Styles --- */
         * {
@@ -13,17 +13,19 @@
         }
 
         body {
-            font-family: 'Arial', 'Helvetica', sans-serif; /* Simple, clean font */
-            background-color: #1a1a1a; /* Very dark grey, almost black */
-            color: #dddddd; /* Light grey for text, soft contrast */
-            line-height: 1.6;
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            background-color: #1a1a1a;  /* Dark background */
+            color: #dddddd;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         a {
             color: #cccccc;
             text-decoration: none;
             border-bottom: 1px dotted #555;
-            transition: color 0.2s ease, border-color 0.2s ease;
+            transition: color 0.2s ease;
         }
 
         a:hover {
@@ -31,92 +33,99 @@
             border-bottom-color: #ffffff;
         }
 
-        /* --- Layout Containers --- */
+        /* --- Layout Container --- */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+            width: 100%;
         }
 
-        /* --- Header & Navigation --- */
+        /* --- Header & Navigation (Simple) --- */
         header {
-            padding: 40px 0 20px 0;
+            padding: 30px 0 20px 0;
             border-bottom: 1px solid #333;
-            margin-bottom: 40px;
         }
 
         .site-title {
-            font-size: 2.2em;
-            font-weight: 300; /* Lighter weight for elegance */
+            font-size: 1.8em;
+            font-weight: 300;
             letter-spacing: 2px;
             text-transform: uppercase;
             color: #ffffff;
-            margin-bottom: 15px;
         }
         .site-title a {
-            border-bottom: none;
-        }
-        .site-title a:hover {
             border-bottom: none;
         }
 
         nav ul {
             list-style: none;
             display: flex;
-            flex-wrap: wrap;
             gap: 30px;
+            margin-top: 15px;
         }
 
         nav ul li a {
             font-size: 0.9em;
             text-transform: uppercase;
             letter-spacing: 1px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid transparent; /* Placeholder for hover */
+            border-bottom: 1px solid transparent;
         }
 
         nav ul li a:hover {
             border-bottom-color: #aaa;
         }
 
-        /* --- Main Content Area (Image Gallery) --- */
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin: 50px 0;
+        /* --- MAIN FOCUS: Single Big Image --- */
+        .main-image-section {
+            flex: 1;  /* Takes up available space */
+            display: flex;
+            align-items: center;     /* Vertically center */
+            justify-content: center; /* Horizontally center */
+            padding: 40px 20px;
         }
 
-        .gallery-item {
-            background-color: #252525;
-            border: 1px solid #333;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        .image-container {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;  /* Limits how big it can get on very wide screens */
+            margin: 0 auto;
+            cursor: default;     /* Keeps normal cursor, not clickable */
         }
 
-        .gallery-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-            border-color: #555;
-        }
-
-        .gallery-item img {
+        /* The Image Itself - NO FRAME, NO BORDER */
+        .main-image {
             display: block;
             width: 100%;
-            height: 250px; /* Fixed height for consistency, adjust as needed */
-            object-fit: cover; /* Crops images to fit the box nicely */
-            border-bottom: 1px solid #333;
+            height: auto;
+            border: none;        /* Explicitly no border */
+            outline: none;       /* No outline */
+            box-shadow: none;    /* No shadow/frame */
         }
 
-        .gallery-caption {
-            padding: 15px;
-            text-align: center;
-            font-size: 0.9em;
-            color: #bbbbbb;
+        /* Caption that appears ONLY on hover */
+        .image-caption {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.7);  /* Semi-transparent black */
+            color: #ffffff;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            border-radius: 3px;    /* Slightly rounded corners, optional */
+            opacity: 0;             /* Hidden by default */
+            transition: opacity 0.3s ease;
+            pointer-events: none;   /* Caption doesn't block mouse */
+        }
+
+        /* Show caption when hovering over the image container */
+        .image-container:hover .image-caption {
+            opacity: 1;
         }
 
         /* --- Footer --- */
         footer {
-            margin-top: 60px;
             padding: 30px 0;
             border-top: 1px solid #333;
             text-align: center;
@@ -124,70 +133,60 @@
             color: #777;
         }
 
-        /* Simple utility for any additional text */
-        .intro-text {
+        /* Simple navigation for different images */
+        .image-nav {
             text-align: center;
-            max-width: 700px;
-            margin: 0 auto 40px auto;
-            color: #aaaaaa;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+
+        .image-nav a {
+            margin: 0 15px;
+            border-bottom: none;
+        }
+
+        .image-nav a:hover {
+            border-bottom: 1px dotted #aaa;
         }
     </style>
 </head>
 <body>
     <header>
         <div class="container">
-            <h1 class="site-title"><a href="index.html">Your Name Here</a></h1>
+            <h1 class="site-title"><a href="index.html">Your Name</a></h1>
             <nav>
                 <ul>
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="#">Gallery</a></li>
+                    <li><a href="#">Archive</a></li>
                     <li><a href="#">About</a></li>
-                    <li><a href="#">Contact</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <main class="container">
-        <!-- Optional intro section, similar to Vivian Maier's site -->
-        <div class="intro-text">
-            <p>A brief, elegant description of your work or project. This area sets the tone, just like the simple text on a classic photography site. Keep it minimal and focused.</p>
-        </div>
+    <!-- This is the main section with the single big image -->
+    <main class="main-image-section">
+        <div class="container">
+            <div class="image-container">
+                <!-- REPLACE THIS with your own image file name -->
+                <img src="your-photo.jpg" alt="Photography" class="main-image">
+                
+                <!-- This text appears ONLY when you hover over the image -->
+                <div class="image-caption">Title or Location, 2026</div>
+            </div>
 
-        <!-- Image Gallery Section -->
-        <section class="gallery">
-            <!-- Replace the image sources with your own photos -->
-            <div class="gallery-item">
-                <img src="https://via.placeholder.com/400x300/333333/666666?text=Your+Photo+1" alt="Description of photo 1">
-                <div class="gallery-caption">Title or Location, Year</div>
+            <!-- Optional: Simple navigation for multiple images -->
+            <div class="image-nav">
+                <a href="#">← Previous</a>
+                <a href="#">Index</a>
+                <a href="#">Next →</a>
             </div>
-            <div class="gallery-item">
-                <img src="https://via.placeholder.com/400x300/333333/666666?text=Your+Photo+2" alt="Description of photo 2">
-                <div class="gallery-caption">Title or Location, Year</div>
-            </div>
-            <div class="gallery-item">
-                <img src="https://via.placeholder.com/400x300/333333/666666?text=Your+Photo+3" alt="Description of photo 3">
-                <div class="gallery-caption">Title or Location, Year</div>
-            </div>
-            <div class="gallery-item">
-                <img src="https://via.placeholder.com/400x300/333333/666666?text=Your+Photo+4" alt="Description of photo 4">
-                <div class="gallery-caption">Title or Location, Year</div>
-            </div>
-            <div class="gallery-item">
-                <img src="https://via.placeholder.com/400x300/333333/666666?text=Your+Photo+5" alt="Description of photo 5">
-                <div class="gallery-caption">Title or Location, Year</div>
-            </div>
-            <div class="gallery-item">
-                <img src="https://via.placeholder.com/400x300/333333/666666?text=Your+Photo+6" alt="Description of photo 6">
-                <div class="gallery-caption">Title or Location, Year</div>
-            </div>
-            <!-- Add more gallery-item blocks as needed -->
-        </section>
+        </div>
     </main>
 
     <footer>
         <div class="container">
-            <p>&copy; 2026 Your Name. All rights reserved. | <a href="#">Instagram</a> | <a href="#">Email</a></p>
+            <p>&copy; 2026 Your Name | <a href="#">Contact</a></p>
         </div>
     </footer>
 </body>
