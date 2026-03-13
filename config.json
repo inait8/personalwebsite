@@ -9,7 +9,7 @@
   "css": "./custom-gallery.css",
   "navbar-title": false,
   "usage-stats": false,
-  "base-path": "/personalwebsite/gallery"
+  "base-path": "/personalwebsite/gallery",  // ← Comma was missing here!
   "thumb-size": 600,
   "large-size": 1600,
   "quality": 90
