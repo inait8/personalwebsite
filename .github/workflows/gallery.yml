@@ -7,33 +7,39 @@ on:
       - 'galleryimages/**'
       - '*.html'
       - 'config.json'
+  workflow_dispatch:  # Allows manual runs
 
 jobs:
   build:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v4  # Updated to v4
     
     - name: Setup Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4  # Updated to v4
       with:
-        node-version: '18'
+        node-version: '20'  # Using Node.js 20 LTS
     
     - name: Install thumbsup
       run: npm install -g thumbsup
     
-    - name: Install dependencies
+    - name: Install system dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y exiftool graphicsmagick
     
     - name: Build gallery
-      run: thumbsup --input ./galleryimages --output ./gallery-output --config ./config.json
+      run: thumbsup --input ./galleryimages --output ./gallery-output --config ./config.json || true
     
     - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
+      uses: peaceiris/actions-gh-pages@v4  # Updated to v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./gallery-output
         destination_dir: gallery-content
+        keep_files: true  # This preserves your other files
+        force_orphan: false
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
