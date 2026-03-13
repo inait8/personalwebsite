@@ -1,0 +1,48 @@
+/* Dark background for gallery */
+body {
+    background-color: #1a1a1a !important;
+}
+
+/* Make thumbnails bigger */
+.thumbnail {
+    width: 100% !important;
+    max-width: 600px !important;  /* Larger images */
+    margin: 0 auto !important;
+    background-color: #252525 !important;
+    border: 1px solid #333 !important;
+}
+
+.thumbnail img {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 500px !important;  /* Taller images */
+    object-fit: contain !important;  /* Show full image without cropping */
+}
+
+/* Caption styling */
+.thumbnail-caption {
+    color: #dddddd !important;
+    background-color: #252525 !important;
+    padding: 10px !important;
+    text-align: center !important;
+}
+
+/* Hover effect */
+.thumbnail:hover {
+    transform: scale(1.02) !important;
+    border-color: #666 !important;
+    transition: all 0.2s ease !important;
+}
+
+/* Navigation (if present) */
+.pagination {
+    color: #777 !important;
+}
+
+.pagination a {
+    color: #ccc !important;
+}
+
+.pagination a:hover {
+    color: #fff !important;
+}
