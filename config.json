@@ -8,7 +8,9 @@
   "theme": "mosaic",
   "css": "./custom-gallery.css",
   "navbar-title": false,
-  "footer": "© 2026 Katharina Burger",
   "usage-stats": false,
   "base-path": "/personalwebsite/gallery"
+  "thumb-size": 600,
+  "large-size": 1600,
+  "quality": 90
 }
