@@ -291,13 +291,16 @@
             <hr>
 
 
-            <button onclick="closesection1()">Hide</button>
+            <button onclick="closesection()">Hide</button>
 
             <div id ="section1", style="background-color: green;"> 
                 <p>Section 1 - Button</p>
             </div>
-            
-            
+
+            <button onclick="closesection()">Hide2</button>
+            <div id ="section2", style="background-color: green;"> 
+                <p>Section 2 - Button</p>
+            </div>
 
                 
             <!--            <h2>Recent Projects</h2>
@@ -345,8 +348,9 @@
     </footer>
 </body>
     <script>
-        function closesection1() {
-        var section = document.querySelector("#section1");
+        function closesection() {
+        var section1 = document.querySelector("#section1");
+        var section2 = document.querySelector("#section2");
         section.style.display="none";
         }
     </script>
