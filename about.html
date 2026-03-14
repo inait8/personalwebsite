@@ -291,13 +291,13 @@
             <hr>
 
 
-            <button onclick="closesection('sectionId')">Hide</button>
+            <button onclick="closesection('section1')">Hide</button>
 
             <div id ="section1", style="background-color: green;"> 
                 <p>Section 1 - Button</p>
             </div>
 
-            <button onclick="closesection('sectionId')">Hide2</button>
+            <button onclick="closesection('section2')">Hide2</button>
             <div id ="section2", style="background-color: green;"> 
                 <p>Section 2 - Button</p>
             </div>
@@ -348,8 +348,8 @@
     </footer>
 </body>
     <script>
-        function closesection() {
-        var section = document.getElementById('sectionId');
+        function closesection(sectionId) {
+        var section = document.getElementById(sectionId);
         section.style.display="none";
         }
     </script>
