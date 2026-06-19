@@ -607,9 +607,9 @@ body{color:var(--ink);font-family:var(--f);}
           <input type="checkbox" id="tog-europeana">
           <span>🗺️ Europeana Archaeology</span>
         </label>
-        <div class="met-status" id="europeana-status">Uses your private server proxy, so the Europeana API key is not exposed in this HTML.</div>
+        <div class="met-status" id="europeana-status">Loads a static europeana_archaeology.json file from this folder. No API key is used by the public game.</div>
         <div class="met-controls">
-          <button class="cat-ctrl-btn" type="button" onclick="G.reloadEuropeanaEvents()">🔄 New Europeana Set</button>
+          <button class="cat-ctrl-btn" type="button" onclick="G.reloadEuropeanaEvents()">🔄 Reload Europeana JSON</button>
           <button class="cat-ctrl-btn" type="button" onclick="G.clearEuropeanaCache()">🗑 Clear Europeana Cache</button>
         </div>
       </div>
@@ -1032,7 +1032,7 @@ let EUROPEANA_EVT=[];
 let europeanaLoadPromise=null;
 const MET_CACHE_KEY='chronos_met_evt_v4';
 const EUROPEANA_CACHE_KEY='chronos_europeana_evt_v1';
-const EUROPEANA_TARGET_COUNT=100;
+const EUROPEANA_TARGET_COUNT=200;
 const MET_TARGET_COUNT=100;
 const MET_CANDIDATE_COUNT=700;
 
@@ -1200,36 +1200,42 @@ async function loadEuropeanaEvents(force=false){
       }catch(e){}
     }
 
-    europeanaStatus(force ? 'Loading a new Europeana archaeology set…' : 'Loading Europeana archaeology objects…');
-    const params=new URLSearchParams({query:'archaeology OR archaeological OR antiquity OR ancient', rows:String(EUROPEANA_TARGET_COUNT)});
-    const res=await fetch('/api/europeana/search?'+params.toString(), {headers:{'Accept':'application/json'}});
-    if(!res.ok) throw new Error('Europeana proxy returned '+res.status);
+    // Static GitHub Pages mode: load the pre-built JSON pack from the same folder
+    // as chronos_8.html. No Europeana API key is used by the public game.
+    europeanaStatus(force ? 'Reloading Europeana archaeology JSON…' : 'Loading Europeana archaeology JSON…');
+    const res=await fetch('./europeana_archaeology.json?cb=' + Date.now(), {headers:{'Accept':'application/json'}});
+    if(!res.ok) throw new Error('Could not load europeana_archaeology.json: HTTP '+res.status);
     const data=await res.json();
-    const items=Array.isArray(data.items)?data.items:[];
+    const items=Array.isArray(data) ? data : (Array.isArray(data.items) ? data.items : []);
 
     const out=items.map((item,idx)=>{
       const title=Array.isArray(item.title)?item.title[0]:item.title;
-      const year=parseEuropeanaYear(item.year||item.dcDate||item.date||item.edmTimespanLabel);
-      const img=Array.isArray(item.edmPreview)?item.edmPreview[0]:item.edmPreview;
+      const year=Number.isFinite(Number(item.year)) ? Number(item.year) : parseEuropeanaYear(item.year||item.dcDate||item.date||item.edmTimespanLabel);
+      const img=Array.isArray(item.img)?item.img[0]:(item.img || (Array.isArray(item.image)?item.image[0]:item.image) || (Array.isArray(item.edmPreview)?item.edmPreview[0]:item.edmPreview));
       if(!title || !year || !img) return null;
       return {
-        id:'eu_'+(item.id||idx), type:'img', cat:'europeana',
+        id:String(item.id||('eu_'+idx)), type:'img', cat:'europeana',
         title:String(title), year, img:String(img),
-        desc:[item.dataProvider, item.country, Array.isArray(item.year)?item.year[0]:item.year].filter(Boolean).join(' · '),
-        credit:item.dataProvider||item.provider||'Europeana',
-        source:item.guid||item.link||null,
-        rights:Array.isArray(item.rights)?item.rights[0]:item.rights||'Check item rights on Europeana',
+        desc:String(item.desc || item.description || 'Archaeology-related object from Europeana.'),
+        credit:item.credit || item.dataProvider || item.provider || 'Europeana',
+        source:item.source || item.link || item.guid || null,
+        rights:item.rights || 'Check item rights on Europeana',
         wiki:null
       };
-    }).filter(Boolean).slice(0,EUROPEANA_TARGET_COUNT);
+    }).filter(Boolean).slice(0,EUROPEANA_TARGET_COUNT || 200);
 
     EUROPEANA_EVT=out;
     try{ localStorage.setItem(EUROPEANA_CACHE_KEY,JSON.stringify(EUROPEANA_EVT)); }catch(e){}
-    europeanaStatus(`Europeana ready: ${EUROPEANA_EVT.length} objects loaded.`, EUROPEANA_EVT.length?'ok':'bad');
+    europeanaStatus(
+      EUROPEANA_EVT.length
+        ? `Europeana ready: ${EUROPEANA_EVT.length} objects loaded from europeana_archaeology.json.`
+        : 'Europeana JSON loaded, but it contains no usable objects. Create a filled europeana_archaeology.json with the importer.',
+      EUROPEANA_EVT.length?'ok':'bad'
+    );
     return EUROPEANA_EVT;
   })().catch(err=>{
     console.error(err);
-    europeanaStatus('Could not load Europeana. Start the included proxy server; do not open the HTML directly as file://.', 'bad');
+    europeanaStatus('Could not load europeana_archaeology.json. Put it in the same folder as chronos_8.html and open via GitHub Pages/local server, not file://.', 'bad');
     return [];
   }).finally(()=>{ europeanaLoadPromise=null; });
 
@@ -1841,7 +1847,7 @@ const G = (()=>{
     const togEuropeana=document.getElementById('tog-europeana');
     if(togEuropeana){
       togEuropeana.checked=appSettings.cats.europeana!==false;
-      europeanaStatus(EUROPEANA_EVT.length?`Europeana ready: ${EUROPEANA_EVT.length} objects loaded.`:'Off by default. Tick this box and Apply to load via the private proxy.', EUROPEANA_EVT.length?'ok':'');
+      europeanaStatus(EUROPEANA_EVT.length?`Europeana ready: ${EUROPEANA_EVT.length} objects loaded.`:'Off by default. Tick this box and Apply to load europeana_archaeology.json.', EUROPEANA_EVT.length?'ok':'');
     }
     const togCustom=document.getElementById('tog-custom');
     if(togCustom) togCustom.checked=appSettings.cats.custom!==false;
@@ -1998,7 +2004,7 @@ const G = (()=>{
     localStorage.removeItem(EUROPEANA_CACHE_KEY);
     EUROPEANA_EVT=[];
     europeanaLoadPromise=null;
-    europeanaStatus('Loading a new Europeana set…');
+    europeanaStatus('Reloading Europeana JSON…');
     await loadEuropeanaEvents(true);
     renderSettingsModal();
   }
@@ -2007,7 +2013,7 @@ const G = (()=>{
     localStorage.removeItem(EUROPEANA_CACHE_KEY);
     EUROPEANA_EVT=[];
     europeanaLoadPromise=null;
-    europeanaStatus('Europeana cache cleared. Tick Europeana and click Apply & Play, or use New Europeana Set.', 'ok');
+    europeanaStatus('Europeana cache cleared. Tick Europeana and click Apply & Play, or use Reload Europeana JSON.', 'ok');
     renderSettingsModal();
   }
 
