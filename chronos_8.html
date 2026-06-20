@@ -3,14 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CHRONOS</title>
+<title>CHRONOS — Europeana</title>
 <link href="https://fonts.cdnfonts.com/css/junicode" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
 <style>
-:root{
-  --f:'Junicode','EB Garamond',Georgia,'Times New Roman',serif;
-  --bg:#ffffff;--ink:#111111;--dim:#777777;--dim2:#bbbbbb;--rule:#dddddd;
-  --green:#2a6e44;--red:#b83030;--gold:#8a6a00;--panel:#f7f6f3;
+:root {
+  --f: 'Junicode','EB Garamond',Georgia,'Times New Roman',serif;
+  --bg:    #ffffff;
+  --ink:   #111111;
+  --dim:   #777777;
+  --dim2:  #bbbbbb;
+  --rule:  #dddddd;
+  --green: #2a6e44;
+  --red:   #b83030;
+  --gold:  #8a6a00;
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 html,body{height:100%;overflow:hidden;background:#fff;}
@@ -18,8 +24,11 @@ body{color:var(--ink);font-family:var(--f);}
 .screen{display:none;width:100%;height:100%;position:absolute;top:0;left:0;}
 .screen.active{display:flex;flex-direction:column;}
 
-/* HEADER */
-#hdr{display:flex;align-items:center;padding:0 20px;gap:18px;height:50px;flex-shrink:0;}
+/* ─── HEADER ─── */
+#hdr{
+  display:flex;align-items:center;padding:0 20px;gap:18px;
+  height:50px;flex-shrink:0;
+}
 .hdr-logo{font-size:17px;letter-spacing:.22em;font-weight:600;flex-shrink:0;}
 .hdr-lives{display:flex;align-items:center;gap:4px;flex-shrink:0;}
 .life-heart{font-size:15px;color:#8B0000;line-height:1;flex-shrink:0;font-style:normal;}
@@ -29,134 +38,183 @@ body{color:var(--ink);font-family:var(--f);}
 .hdr-score-num{font-size:17px;font-weight:600;display:block;}
 .hdr-score-lbl{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);}
 .hdr-nav{margin-left:auto;display:flex;gap:8px;flex-shrink:0;}
-.hdr-btn{padding:5px 14px;border:1px solid var(--rule);border-radius:3px;background:none;
-  color:var(--ink);cursor:pointer;font-family:var(--f);font-size:13px;transition:border-color .15s,color .15s;}
+.hdr-btn{
+  padding:5px 14px;border:1px solid var(--rule);border-radius:3px;
+  background:none;color:var(--ink);cursor:pointer;font-family:var(--f);
+  font-size:13px;transition:border-color .15s,color .15s;
+}
 .hdr-btn:hover{border-color:var(--ink);}
 
-/* EVENT AREA */
-#evt-area{flex-shrink:0;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;padding:20px 20px 0;background:#fff;}
-.evt-cat{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--dim);margin-bottom:10px;}
+/* ─── EVENT AREA ─── */
+#evt-area{
+  flex-shrink:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:20px 20px 0;background:#fff;
+}
+.evt-cat{
+  font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--dim);
+  margin-bottom:10px;
+}
 #evt-display{display:flex;flex-direction:column;align-items:center;gap:5px;width:100%;}
-.ev-img-el{max-height:160px;max-width:min(260px,65vw);object-fit:contain;
-  border:1px solid var(--rule);display:block;cursor:zoom-in;}
+/* styles for dynamically injected content */
+.ev-img-el{
+  max-height:160px;max-width:min(260px,65vw);
+  object-fit:contain;border:1px solid var(--rule);display:block;
+  cursor:zoom-in;
+}
+.img-zoom-hint{font-size:9px;color:var(--dim2);letter-spacing:.08em;text-transform:uppercase;}
+#img-modal{
+  position:fixed;top:0;left:0;right:0;bottom:0;z-index:260;
+  display:flex;align-items:center;justify-content:center;
+}
+#img-modal.hidden{display:none;}
+.img-modal-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.72);}
+.img-modal-box{
+  position:relative;z-index:1;max-width:min(92vw,1100px);max-height:90vh;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+}
+.img-modal-box img{
+  max-width:100%;max-height:78vh;object-fit:contain;background:#fff;
+  border:1px solid rgba(255,255,255,.35);cursor:zoom-out;
+}
+.img-modal-caption{font-size:13px;color:#fff;text-align:center;line-height:1.45;max-width:760px;}
+.img-modal-caption a{color:#fff;text-decoration:underline;}
+.img-modal-close{
+  position:absolute;top:-38px;right:0;background:none;border:1px solid rgba(255,255,255,.7);
+  color:#fff;font-family:var(--f);font-size:18px;line-height:1;cursor:pointer;padding:5px 9px;border-radius:2px;
+}
+.img-modal-close:hover{background:rgba(255,255,255,.12);}
 .ev-img-credit{font-size:9px;color:var(--dim);font-style:italic;text-align:center;}
 .ev-img-title{font-size:17px;font-weight:600;text-align:center;}
-.ev-text-title{font-size:clamp(24px,4vw,38px);font-weight:600;line-height:1.2;text-align:center;max-width:640px;}
-.ev-period{font-size:11px;color:var(--dim);font-style:italic;text-align:center;margin-top:3px;}
-.ev-img-placeholder{width:min(220px,60vw);height:140px;border:1px solid var(--rule);
+.ev-text-title{
+  font-size:clamp(24px,4vw,38px);font-weight:600;
+  line-height:1.2;text-align:center;max-width:640px;
+}
+.ev-img-placeholder{
+  width:min(220px,60vw);height:140px;border:1px solid var(--rule);
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:8px;color:var(--dim);font-size:11px;letter-spacing:.1em;text-transform:uppercase;}
+  gap:8px;color:var(--dim);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+}
 .ev-img-placeholder-icon{font-size:32px;}
-/* Starting point intro card */
-.evt-start-lbl{display:inline-block;font-size:10px;letter-spacing:.22em;text-transform:uppercase;
-  color:var(--ink);border:1px solid var(--ink);padding:3px 12px;border-radius:2px;margin-bottom:10px;}
-#yr-area.start-mode #yr-input{opacity:.45;pointer-events:none;}
-#yr-area.start-mode .yr-era-toggle{opacity:.3;pointer-events:none;}
+.ev-img-loading{
+  width:min(220px,60vw);height:140px;display:flex;align-items:center;
+  justify-content:center;color:var(--dim2);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+}
 
-/* YEAR INPUT */
-#yr-area{flex-shrink:0;padding:14px 20px 16px;background:#fff;
-  display:flex;flex-direction:column;align-items:center;gap:10px;}
+/* ─── YEAR INPUT AREA ─── */
+#yr-area{
+  flex-shrink:0;padding:14px 20px 16px;background:#fff;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+}
 .yr-controls{display:flex;align-items:center;gap:0;}
-#yr-input{font-family:var(--f);font-size:clamp(36px,6vw,56px);font-weight:600;
-  text-align:center;letter-spacing:.04em;width:min(220px,60vw);border:none;
-  border-bottom:2.5px solid var(--ink);background:none;color:var(--ink);padding:2px 4px;display:block;}
+#yr-input{
+  font-family:var(--f);font-size:clamp(36px,6vw,56px);
+  font-weight:600;text-align:center;letter-spacing:.04em;
+  width:min(220px,60vw);border:none;border-bottom:2.5px solid var(--ink);
+  background:none;color:var(--ink);padding:2px 4px;display:block;
+}
 #yr-input:focus{outline:none;}
 #yr-input::placeholder{color:var(--dim2);}
-.yr-era-toggle{display:flex;border:1px solid var(--ink);border-radius:2px;overflow:hidden;flex-shrink:0;}
-.yr-era-btn{padding:6px 14px;background:none;border:none;font-family:var(--f);
-  font-size:12px;letter-spacing:.04em;cursor:pointer;color:var(--dim);transition:all .12s;white-space:nowrap;}
+.yr-era-toggle{
+  display:flex;border:1px solid var(--ink);border-radius:2px;overflow:hidden;
+  flex-shrink:0;
+}
+.yr-era-btn{
+  padding:6px 14px;background:none;border:none;font-family:var(--f);
+  font-size:12px;letter-spacing:.04em;cursor:pointer;color:var(--dim);transition:all .12s;
+  white-space:nowrap;
+}
 .yr-era-btn.active{background:var(--ink);color:#fff;}
-#yr-hint{font-size:12px;color:var(--dim);letter-spacing:.03em;min-height:18px;text-align:center;font-style:italic;}
+#yr-hint{
+  font-size:12px;color:var(--dim);letter-spacing:.03em;
+  min-height:18px;text-align:center;font-style:italic;
+}
 #yr-hint.ok{color:var(--green);}
 #yr-hint.bad{color:var(--red);}
 
-/* IMAGE ZOOM MODAL */
-#img-modal{position:fixed;top:0;left:0;right:0;bottom:0;z-index:260;
-  display:flex;align-items:center;justify-content:center;}
-#img-modal.hidden{display:none;}
-.img-modal-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.72);}
-.img-modal-box{position:relative;z-index:1;max-width:min(92vw,1100px);max-height:90vh;
-  display:flex;flex-direction:column;align-items:center;gap:8px;}
-.img-modal-box img{max-width:100%;max-height:78vh;object-fit:contain;background:#fff;
-  border:1px solid rgba(255,255,255,.35);cursor:zoom-out;}
-.img-modal-caption{font-size:13px;color:#fff;text-align:center;line-height:1.45;max-width:760px;}
-.img-modal-caption a{color:#fff;text-decoration:underline;}
-.img-modal-close{position:absolute;top:-38px;right:0;background:none;border:1px solid rgba(255,255,255,.7);
-  color:#fff;font-family:var(--f);font-size:18px;line-height:1;cursor:pointer;padding:5px 9px;border-radius:2px;}
-.img-modal-close:hover{background:rgba(255,255,255,.12);}
-
-/* INFO MODAL */
-#info-modal{position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;
-  display:flex;align-items:center;justify-content:center;}
+/* ─── INFO MODAL ─── */
+#info-modal{
+  position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;
+  display:flex;align-items:center;justify-content:center;
+}
 #info-modal.hidden{display:none;}
 .info-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.25);}
-.info-box{position:relative;background:#fff;border:1px solid var(--ink);
-  padding:30px 32px;max-width:420px;width:92%;z-index:1;}
-.info-close{position:absolute;top:12px;right:14px;background:none;border:none;
-  font-size:18px;cursor:pointer;color:var(--dim);font-family:var(--f);line-height:1;transition:color .12s;}
+.info-box{
+  position:relative;background:#fff;border:1px solid var(--ink);
+  padding:30px 32px;max-width:420px;width:92%;z-index:1;
+}
+.info-close{
+  position:absolute;top:12px;right:14px;background:none;border:none;
+  font-size:18px;cursor:pointer;color:var(--dim);font-family:var(--f);
+  line-height:1;transition:color .12s;
+}
 .info-close:hover{color:var(--ink);}
 .info-box h2{font-size:17px;font-weight:600;margin-bottom:14px;letter-spacing:.06em;}
 .info-box p{font-size:13px;color:var(--dim);line-height:1.7;margin-bottom:10px;}
 .info-rule{border-top:1px solid var(--rule);padding-top:12px;margin-top:4px;}
 .info-rule h3{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:10px;}
 .info-shortcut{display:flex;gap:10px;align-items:baseline;margin-bottom:8px;}
-.info-key{font-family:monospace;background:var(--rule);padding:1px 7px;font-size:13px;
-  white-space:nowrap;color:var(--ink);flex-shrink:0;border-radius:2px;}
+.info-key{
+  font-family:monospace;background:var(--rule);padding:1px 7px;
+  font-size:13px;white-space:nowrap;color:var(--ink);flex-shrink:0;border-radius:2px;
+}
 .info-key-desc{font-size:12px;color:var(--dim);line-height:1.5;}
 
-/* SETTINGS MODAL */
-#settings-modal{position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;
-  display:flex;align-items:center;justify-content:center;}
+/* ─── SETTINGS MODAL ─── */
+#settings-modal{
+  position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;
+  display:flex;align-items:center;justify-content:center;
+}
 #settings-modal.hidden{display:none;}
 .st-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.25);}
-.st-box{position:relative;background:#fff;border:1px solid var(--ink);
-  width:min(540px,94vw);max-height:84vh;overflow-y:auto;z-index:1;display:flex;flex-direction:column;}
-.st-hdr{display:flex;align-items:center;justify-content:space-between;
+.st-box{
+  position:relative;background:#fff;border:1px solid var(--ink);
+  width:min(540px,94vw);max-height:84vh;overflow-y:auto;z-index:1;
+  display:flex;flex-direction:column;
+}
+.st-hdr{
+  display:flex;align-items:center;justify-content:space-between;
   padding:20px 26px 14px;border-bottom:1px solid var(--rule);
-  position:sticky;top:0;background:#fff;z-index:2;}
+  position:sticky;top:0;background:#fff;z-index:2;
+}
 .st-hdr h2{font-size:16px;font-weight:600;letter-spacing:.06em;}
 .st-close{background:none;border:none;font-size:18px;cursor:pointer;color:var(--dim);line-height:1;transition:color .12s;}
 .st-close:hover{color:var(--ink);}
 .st-body{padding:18px 26px 20px;display:flex;flex-direction:column;gap:20px;}
-.st-sec-lbl{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--dim);margin-bottom:10px;display:block;}
+.st-sec-lbl{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--dim);
+  margin-bottom:10px;display:block;}
 .cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px 12px;margin-bottom:6px;}
 .cat-chk{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;padding:3px 0;}
 .cat-chk input{cursor:pointer;accent-color:var(--ink);width:13px;height:13px;flex-shrink:0;}
 .cat-sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
 .cat-sec-hdr .st-sec-lbl{margin-bottom:0;}
 .cat-ctrl-btns{display:flex;gap:6px;}
-.cat-ctrl-btn{background:none;border:1px solid var(--rule);border-radius:2px;
+.cat-ctrl-btn{
+  background:none;border:1px solid var(--rule);border-radius:2px;
   padding:3px 10px;font-family:var(--f);font-size:11px;letter-spacing:.06em;
-  cursor:pointer;color:var(--dim);transition:border-color .15s,color .15s;}
+  cursor:pointer;color:var(--dim);transition:border-color .15s,color .15s;
+}
 .cat-ctrl-btn:hover{border-color:var(--ink);color:var(--ink);}
 .img-chk{display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;
   padding:8px 0 2px;border-top:1px solid var(--rule);margin-top:6px;}
 .img-chk input{cursor:pointer;accent-color:var(--ink);width:13px;height:13px;flex-shrink:0;}
-.csv-browse-btn{display:inline-block;margin-top:8px;padding:6px 18px;
+.csv-browse-btn{
+  display:inline-block;margin-top:8px;padding:6px 18px;
   border:1px solid var(--ink);border-radius:2px;cursor:pointer;
-  font-family:var(--f);font-size:12px;letter-spacing:.06em;transition:opacity .15s;user-select:none;}
+  font-family:var(--f);font-size:12px;letter-spacing:.06em;
+  transition:opacity .15s;user-select:none;
+}
 .csv-browse-btn:hover{opacity:.65;}
 .st-hint{font-size:12px;color:var(--dim);line-height:1.7;margin-bottom:10px;}
 .st-hint code{background:var(--rule);padding:1px 5px;font-size:11px;border-radius:2px;font-family:monospace;}
 .met-status{font-size:12px;color:var(--dim);font-style:italic;line-height:1.5;margin-top:6px;}
-.met-status.ok{color:var(--green);}.met-status.bad{color:var(--red);}
+.met-status.ok{color:var(--green);}
+.met-status.bad{color:var(--red);}
 .met-controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;}
 .met-controls .cat-ctrl-btn{padding:5px 12px;}
-/* Settings group differentiation: standard categories (plain) /
-   image categories (ink-accented box) / databases (gold-accented box, "live" badge) */
-.st-group-desc{font-size:11px;color:var(--dim);line-height:1.5;margin-bottom:10px;}
-.st-group-images{margin-top:16px;padding:12px 16px;border:1px solid var(--rule);
-  border-left:3px solid var(--ink);border-radius:2px;background:var(--panel);}
-.st-group-db{margin-top:16px;padding:14px 16px;border:1px solid var(--rule);
-  border-left:3px solid var(--gold);border-radius:2px;background:var(--panel);}
-.st-badge-live{display:inline-block;font-size:8px;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--gold);border:1px solid var(--gold);padding:1px 7px;border-radius:8px;
-  margin-left:8px;vertical-align:middle;font-style:normal;}
-.db-card{padding:10px 0;}
-.db-card+.db-card{border-top:1px solid var(--rule);margin-top:6px;padding-top:14px;}
-.csv-drop{border:1px dashed var(--dim2);padding:18px;text-align:center;
-  transition:border-color .15s,background .15s;user-select:none;}
+.csv-drop{
+  border:1px dashed var(--dim2);padding:18px;text-align:center;cursor:pointer;
+  transition:border-color .15s,background .15s;user-select:none;
+}
 .csv-drop:hover,.csv-drop.drag-over{border-color:var(--ink);background:#f9f9f9;}
 .csv-drop input[type="file"]{display:none;}
 .csv-drop-icon{font-size:22px;display:block;margin-bottom:5px;}
@@ -166,70 +224,138 @@ body{color:var(--ink);font-family:var(--f);}
 .csv-tbl{width:100%;border-collapse:collapse;font-size:12px;}
 .csv-tbl th{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);
   text-align:left;padding:4px 8px;border-bottom:1px solid var(--rule);}
-.csv-tbl td{padding:4px 8px;border-bottom:1px solid var(--rule);max-width:300px;
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.csv-tbl td{padding:4px 8px;border-bottom:1px solid var(--rule);max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .csv-tbl tr:last-child td{border-bottom:none;}
 .csv-more{color:var(--dim);font-style:italic;text-align:center!important;padding:5px!important;}
 .csv-error{color:var(--red);font-size:12px;margin-top:8px;font-style:italic;}
-.st-footer{display:flex;align-items:center;gap:10px;padding:12px 26px;
-  border-top:1px solid var(--rule);position:sticky;bottom:0;background:#fff;flex-shrink:0;}
+.csv-mode{display:flex;flex-direction:column;gap:7px;margin-top:12px;}
+.csv-mode label{display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;}
+.csv-mode input{accent-color:var(--ink);}
+.st-footer{
+  display:flex;align-items:center;gap:10px;padding:12px 26px;
+  border-top:1px solid var(--rule);position:sticky;bottom:0;background:#fff;flex-shrink:0;
+}
+.st-note{font-size:11px;color:var(--dim);font-style:italic;flex:1;}
 
-/* TIMELINE */
-#tl-area{flex:1;position:relative;overflow:hidden;min-height:150px;background:#fff;}
-.tl-arr{position:absolute;top:50%;transform:translateY(-50%);z-index:9;
+/* ─── TIMELINE ─── */
+#tl-area{
+  flex:1;position:relative;overflow:hidden;min-height:150px;
+  background:#fff;
+}
+.tl-arr{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:9;
   width:28px;height:28px;background:#fff;border:1px solid var(--rule);
   border-radius:2px;display:flex;align-items:center;justify-content:center;
-  cursor:pointer;font-size:13px;color:var(--ink);transition:border-color .15s;}
+  cursor:pointer;font-size:13px;color:var(--ink);transition:border-color .15s;
+}
 .tl-arr:hover{border-color:var(--ink);}
-.tl-arr.left{left:6px;}.tl-arr.right{right:6px;}
-#tl-vp{width:100%;height:100%;overflow-x:scroll;overflow-y:hidden;
-  cursor:grab;scrollbar-width:thin;scrollbar-color:var(--rule) transparent;}
+.tl-arr.left{left:6px;}
+.tl-arr.right{right:6px;}
+#tl-vp{
+  width:100%;height:100%;overflow-x:scroll;overflow-y:hidden;
+  cursor:grab;scrollbar-width:thin;scrollbar-color:var(--rule) transparent;
+}
 #tl-vp:active{cursor:grabbing;}
 #tl-vp::-webkit-scrollbar{height:3px;}
 #tl-vp::-webkit-scrollbar-thumb{background:var(--rule);}
-#tl-inner{position:relative;width:6400px;height:100%;}
-#tl-line{position:absolute;left:0;right:0;height:1.5px;background:var(--ink);}
-.era-lbl{position:absolute;font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+#tl-inner{
+  position:relative;width:6400px;height:100%;
+}
+
+/* The line */
+#tl-line{
+  position:absolute;left:0;right:0;height:1.5px;background:var(--ink);
+}
+
+/* Era labels */
+.era-lbl{
+  position:absolute;font-size:9px;letter-spacing:.22em;text-transform:uppercase;
   color:var(--dim2);white-space:nowrap;transform:translateX(-50%);
-  border-top:1px solid var(--rule);padding-top:4px;}
-.ev-pin{position:absolute;display:flex;flex-direction:column;align-items:center;pointer-events:none;}
+  border-top:1px solid var(--rule);padding-top:4px;
+}
+
+/* Placed event pin */
+.ev-pin{
+  position:absolute;display:flex;flex-direction:column;align-items:center;
+  pointer-events:none;
+}
+.ev-pin.above{flex-direction:column;}
+.ev-pin.below{flex-direction:column-reverse;}
 .ev-card-wrap{display:flex;flex-direction:column;align-items:center;width:130px;}
-.ev-thumb{width:48px;height:48px;object-fit:cover;display:block;border:1px solid var(--rule);margin-bottom:4px;}
-.ev-card-title{font-size:10px;text-align:center;line-height:1.3;color:var(--ink);max-width:130px;}
-.ev-card-yr{font-size:14px;font-weight:600;color:var(--ink);text-align:center;
-  font-variant-numeric:tabular-nums;margin-top:2px;}
+.ev-thumb{
+  width:48px;height:48px;object-fit:cover;display:block;
+  border:1px solid var(--rule);margin-bottom:4px;
+}
+.ev-card-title{
+  font-size:10px;text-align:center;line-height:1.3;color:var(--ink);
+  max-width:130px;
+}
+.ev-card-yr{
+  font-size:14px;font-weight:600;color:var(--ink);text-align:center;
+  font-variant-numeric:tabular-nums;margin-top:2px;
+}
 .ev-stem{width:1px;background:var(--ink);}
-.ev-dot{width:8px;height:8px;border-radius:50%;background:var(--ink);flex-shrink:0;}
-.ev-pin.is-img .ev-dot{width:9px;height:9px;background:#fff;border:2px solid var(--ink);}
-#tl-ghost{position:absolute;display:flex;flex-direction:column;align-items:center;
-  pointer-events:none;z-index:6;opacity:0;transition:opacity .15s;}
+.ev-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--ink);flex-shrink:0;
+}
+/* Image events get a slightly larger dot */
+.ev-pin.is-img .ev-dot{
+  width:9px;height:9px;background:#fff;border:2px solid var(--ink);
+}
+
+/* Ghost / preview pin */
+#tl-ghost{
+  position:absolute;display:flex;flex-direction:column;align-items:center;
+  pointer-events:none;z-index:6;opacity:0;transition:opacity .15s;
+}
 #tl-ghost.visible{opacity:1;}
 .ghost-stem{width:1px;height:50px;background:var(--ink);opacity:.35;border-left:1.5px dashed var(--ink);}
-.ghost-dot{width:10px;height:10px;border-radius:50%;background:#fff;border:2px solid var(--ink);flex-shrink:0;}
-.ghost-lbl{font-size:11px;color:var(--ink);font-weight:600;white-space:nowrap;
-  background:#fff;padding:1px 5px;border:1px solid var(--dim2);border-radius:2px;margin-bottom:3px;font-style:italic;}
+.ghost-dot{
+  width:10px;height:10px;border-radius:50%;
+  background:#fff;border:2px solid var(--ink);flex-shrink:0;
+}
+.ghost-lbl{
+  font-size:11px;color:var(--ink);font-weight:600;white-space:nowrap;
+  background:#fff;padding:1px 5px;border:1px solid var(--dim2);
+  border-radius:2px;margin-bottom:3px;font-style:italic;
+}
 #tl-ghost.correct .ghost-dot{background:var(--green);border-color:var(--green);}
 #tl-ghost.correct .ghost-lbl{color:var(--green);border-color:var(--green);}
-#tl-ghost.wrong .ghost-dot{background:var(--red);border-color:var(--red);}
-#tl-ghost.wrong .ghost-lbl{color:var(--red);border-color:var(--red);}
+#tl-ghost.wrong   .ghost-dot{background:var(--red);border-color:var(--red);}
+#tl-ghost.wrong   .ghost-lbl{color:var(--red);border-color:var(--red);}
 
-/* FEEDBACK */
-#feedback{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:80;
-  display:flex;align-items:center;justify-content:center;}
-.fb{font-family:var(--f);font-size:20px;font-weight:600;
+/* ─── FEEDBACK ─── */
+#feedback{
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  pointer-events:none;z-index:80;
+  display:flex;align-items:center;justify-content:center;
+}
+.fb{
+  font-family:var(--f);font-size:20px;font-weight:600;
   padding:16px 36px;border-radius:3px;text-align:center;letter-spacing:.04em;
-  animation:fbFadeIn .25s ease forwards;}
-.fb-ok{background:rgba(42,110,68,.94);color:#fff;}
-.fb-no{background:rgba(184,48,48,.94);color:#fff;}
-@keyframes fbFadeIn{from{opacity:0;transform:translateY(8px) scale(.95);}to{opacity:1;transform:translateY(0) scale(1);}}
-.pt-float{position:fixed;font-family:var(--f);font-size:17px;font-weight:600;
-  color:var(--gold);pointer-events:none;z-index:90;animation:ptFloat 1.4s ease-out forwards;}
+  animation:fbFadeIn .25s ease forwards;
+}
+.fb-ok {background:rgba(42,110,68,.94);color:#fff;}
+.fb-no {background:rgba(184,48,48,.94);color:#fff;}
+@keyframes fbFadeIn{
+  from{opacity:0;transform:translateY(8px) scale(.95);}
+  to  {opacity:1;transform:translateY(0)   scale(1);}
+}
+.pt-float{
+  position:fixed;font-family:var(--f);font-size:17px;font-weight:600;
+  color:var(--gold);pointer-events:none;z-index:90;
+  animation:ptFloat 1.4s ease-out forwards;
+}
 @keyframes ptFloat{0%{opacity:1;transform:translateY(0);}100%{opacity:0;transform:translateY(-50px);}}
 
-/* BADGE NOTIF */
-#badge-notif{position:fixed;top:62px;right:16px;z-index:100;background:#fff;
-  border:1px solid var(--ink);padding:16px 22px;max-width:220px;text-align:center;
-  display:none;animation:slideIn .35s ease;font-family:var(--f);}
+/* ─── BADGE NOTIF ─── */
+#badge-notif{
+  position:fixed;top:62px;right:16px;z-index:100;
+  background:#fff;border:1px solid var(--ink);padding:16px 22px;
+  max-width:220px;text-align:center;display:none;
+  animation:slideIn .35s ease;font-family:var(--f);
+}
 #badge-notif.show{display:block;}
 @keyframes slideIn{from{opacity:0;transform:translateX(16px);}to{opacity:1;transform:translateX(0);}}
 .bn-label{font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--dim);margin-bottom:6px;}
@@ -237,42 +363,66 @@ body{color:var(--ink);font-family:var(--f);}
 .bn-name{font-size:14px;font-weight:600;margin-bottom:4px;}
 .bn-desc{font-size:11px;color:var(--dim);line-height:1.4;}
 
-/* HOME */
-#scr-home{align-items:center;justify-content:center;gap:18px;background:#fff;}
+/* ─── HOME ─── */
+#scr-home{
+  align-items:center;justify-content:center;gap:18px;background:#fff;
+}
 .home-logo{font-size:clamp(42px,8vw,72px);letter-spacing:.2em;font-weight:600;}
 .home-sub{font-size:11px;letter-spacing:.3em;color:var(--dim);text-transform:uppercase;}
-.home-desc{max-width:400px;text-align:center;color:var(--dim);line-height:1.8;
-  font-size:14px;border-top:1px solid var(--rule);padding-top:18px;}
+.home-desc{
+  max-width:400px;text-align:center;color:var(--dim);line-height:1.8;
+  font-size:14px;border-top:1px solid var(--rule);padding-top:18px;
+}
 .home-btns{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:4px;}
-.btn-main{padding:12px 40px;background:var(--ink);color:#fff;border:none;
-  font-family:var(--f);font-size:16px;letter-spacing:.12em;cursor:pointer;border-radius:2px;transition:opacity .15s;}
+.btn-main{
+  padding:12px 40px;background:var(--ink);color:#fff;border:none;
+  font-family:var(--f);font-size:16px;letter-spacing:.12em;cursor:pointer;
+  border-radius:2px;transition:opacity .15s;
+}
 .btn-main:hover{opacity:.75;}
-.btn-ghost{padding:11px 24px;background:none;border:1px solid var(--ink);color:var(--ink);
-  font-family:var(--f);font-size:14px;cursor:pointer;border-radius:2px;letter-spacing:.06em;transition:opacity .15s;}
+.btn-ghost{
+  padding:11px 24px;background:none;border:1px solid var(--ink);color:var(--ink);
+  font-family:var(--f);font-size:14px;cursor:pointer;border-radius:2px;
+  letter-spacing:.06em;transition:opacity .15s;
+}
 .btn-ghost:hover{opacity:.6;}
 .home-hi{font-size:13px;color:var(--dim);}
 .home-hi b{color:var(--ink);}
 
-/* BADGES */
+/* ─── BADGES SCREEN ─── */
 #scr-badges{overflow-y:auto;}
-.bs-hdr{position:sticky;top:0;background:#fff;z-index:10;
-  display:flex;align-items:center;padding:14px 22px;gap:14px;border-bottom:1px solid var(--rule);}
+.bs-hdr{
+  position:sticky;top:0;background:#fff;z-index:10;
+  display:flex;align-items:center;padding:14px 22px;gap:14px;
+  border-bottom:1px solid var(--rule);
+}
 .bs-hdr h1{font-size:20px;letter-spacing:.08em;font-weight:600;}
-.bs-back{margin-left:auto;padding:6px 16px;border:1px solid var(--rule);
+.bs-back{
+  margin-left:auto;padding:6px 16px;border:1px solid var(--rule);
   background:none;color:var(--ink);cursor:pointer;font-family:var(--f);font-size:13px;
-  border-radius:2px;transition:border-color .15s;}
+  border-radius:2px;transition:border-color .15s;
+}
 .bs-back:hover{border-color:var(--ink);}
-.bs-stats{display:flex;border-bottom:1px solid var(--rule);}
-.bs-stat{flex:1;text-align:center;padding:14px 8px;border-right:1px solid var(--rule);}
+.bs-stats{
+  display:flex;border-bottom:1px solid var(--rule);
+}
+.bs-stat{
+  flex:1;text-align:center;padding:14px 8px;border-right:1px solid var(--rule);
+}
 .bs-stat:last-child{border-right:none;}
 .bs-sv{font-size:28px;font-weight:600;}
 .bs-sl{font-size:9px;letter-spacing:.2em;color:var(--dim);text-transform:uppercase;margin-top:3px;}
 .bs-body{padding:22px 20px 40px;}
 .bs-sec{margin-bottom:30px;}
-.bs-sec-title{font-size:9px;letter-spacing:.28em;color:var(--dim);text-transform:uppercase;
-  padding-bottom:8px;border-bottom:1px solid var(--rule);margin-bottom:14px;}
+.bs-sec-title{
+  font-size:9px;letter-spacing:.28em;color:var(--dim);text-transform:uppercase;
+  padding-bottom:8px;border-bottom:1px solid var(--rule);margin-bottom:14px;
+}
 .bs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:10px;}
-.bc{border:1px solid var(--rule);padding:16px 14px;text-align:center;transition:border-color .15s;}
+.bc{
+  border:1px solid var(--rule);padding:16px 14px;text-align:center;
+  transition:border-color .15s;
+}
 .bc.earned{border-color:var(--ink);}
 .bc-icon{font-size:28px;margin-bottom:6px;display:block;}
 .bc.locked .bc-icon{opacity:.3;filter:grayscale(1);}
@@ -284,48 +434,41 @@ body{color:var(--ink);font-family:var(--f);}
 .bc-prog{font-size:10px;color:var(--dim);margin-top:5px;}
 .bc-check{font-size:11px;color:var(--ink);margin-top:5px;}
 
-/* GAME OVER */
-#scr-gameover{align-items:center;justify-content:center;gap:14px;
-  background:#fff;overflow-y:auto;padding:20px;}
+/* ─── GAME OVER ─── */
+#scr-gameover{
+  align-items:center;justify-content:center;gap:16px;
+  background:#fff;overflow-y:auto;
+}
 .go-title{font-size:clamp(28px,6vw,48px);letter-spacing:.2em;font-weight:600;}
-.go-stats{display:flex;gap:0;border:1px solid var(--rule);}
+.go-score{font-size:clamp(56px,12vw,88px);font-weight:600;font-variant-numeric:tabular-nums;line-height:1;}
+.go-score-lbl{font-size:10px;letter-spacing:.25em;color:var(--dim);text-transform:uppercase;}
+.go-stats{
+  display:flex;gap:0;border:1px solid var(--rule);
+}
 .go-stat{padding:14px 24px;text-align:center;border-right:1px solid var(--rule);}
 .go-stat:last-child{border-right:none;}
 .go-sv{font-size:26px;font-weight:600;}
 .go-sl{font-size:9px;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;margin-top:2px;}
-/* Stats section */
-.go-stats-section{width:100%;max-width:480px;text-align:center;}
-.go-avg-time{font-size:13px;color:var(--dim);font-style:italic;margin-bottom:10px;}
-.go-chart-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--dim);margin-bottom:8px;display:block;}
-/* Post-game timeline */
-.go-tl-section{width:100%;max-width:min(90vw,700px);}
-.go-tl-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--dim);margin-bottom:8px;padding-top:14px;border-top:1px solid var(--rule);display:block;}
-.go-tl-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px;align-items:flex-start;}
-.go-tl-evt{min-width:90px;max-width:120px;text-align:center;flex-shrink:0;}
-.go-tl-thumb{width:52px;height:52px;object-fit:cover;border:1px solid var(--rule);display:block;margin:0 auto 4px;}
-.go-tl-yr{font-size:12px;font-weight:600;display:block;}
-.go-tl-evt.correct .go-tl-yr{color:var(--green);}
-.go-tl-evt.wrong .go-tl-yr{color:var(--red);}
-.go-tl-ttl{font-size:9px;color:var(--dim);line-height:1.3;margin-top:2px;}
-.go-tl-guess{font-size:9px;color:var(--red);font-style:italic;margin-top:2px;}
-/* Badges in game over */
 .go-badges-sec{text-align:center;}
 .go-badges-lbl{font-size:9px;letter-spacing:.28em;color:var(--dim);text-transform:uppercase;margin-bottom:10px;}
 .go-badge-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
-.go-badge{font-size:24px;padding:8px;border:1px solid var(--rule);}
+.go-badge{
+  font-size:24px;padding:8px;border:1px solid var(--rule);
+}
 .go-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
 </style>
 </head>
 <body>
 
-<!-- HOME -->
+<!-- ══════════════════════════ HOME ══════════════════════════ -->
 <div id="scr-home" class="screen active">
   <div class="home-logo">CHRONOS</div>
   <div class="home-sub">History Timeline Game</div>
-  <p class="home-desc">An event or artwork appears. Type the year you think it's from.<br>
-    Your year places it on the timeline — land between the correct neighbouring events to score.</p>
+  <p class="home-desc">
+    An event or artwork appears. Type the year you think it's from.<br>
+    Your year places it on the timeline — be in the right era to score.<br>
+    The closer to the exact year, the more bonus points.
+  </p>
   <div class="home-btns">
     <button class="btn-main" onclick="G.startGame()">Play</button>
     <button class="btn-ghost" onclick="G.showScreen('badges')">Badges</button>
@@ -334,7 +477,7 @@ body{color:var(--ink);font-family:var(--f);}
   <div class="home-hi" id="home-hi"></div>
 </div>
 
-<!-- GAME -->
+<!-- ══════════════════════════ GAME ══════════════════════════ -->
 <div id="scr-game" class="screen">
   <div id="hdr">
     <div class="hdr-logo">CHRONOS</div>
@@ -351,21 +494,27 @@ body{color:var(--ink);font-family:var(--f);}
       <button class="hdr-btn" onclick="G.quitGame()">Quit</button>
     </div>
   </div>
+
+  <!-- Event display -->
   <div id="evt-area">
     <div class="evt-cat" id="evt-cat"></div>
     <div id="evt-display"></div>
   </div>
+
+  <!-- Year input -->
   <div id="yr-area">
     <input type="text" inputmode="decimal" id="yr-input" placeholder="year"
            oninput="G.onYearInput()" onkeydown="G.onYearKey(event)" autocomplete="off">
     <div class="yr-controls">
       <div class="yr-era-toggle">
         <button class="yr-era-btn" id="btn-bce" onclick="G.setEra('BCE')">← before</button>
-        <button class="yr-era-btn active" id="btn-ce" onclick="G.setEra('CE')">after →</button>
+        <button class="yr-era-btn active" id="btn-ce"  onclick="G.setEra('CE')">after →</button>
       </div>
     </div>
     <div id="yr-hint"></div>
   </div>
+
+  <!-- Timeline -->
   <div id="tl-area">
     <button class="tl-arr left" onclick="G.scrollTL(-320)">◀</button>
     <div id="tl-vp">
@@ -382,7 +531,7 @@ body{color:var(--ink);font-family:var(--f);}
   </div>
 </div>
 
-<!-- BADGES -->
+<!-- ══════════════════════════ BADGES ══════════════════════════ -->
 <div id="scr-badges" class="screen">
   <div class="bs-hdr">
     <h1>Badges &amp; Progress</h1>
@@ -397,121 +546,145 @@ body{color:var(--ink);font-family:var(--f);}
   <div class="bs-body" id="bs-body"></div>
 </div>
 
-<!-- GAME OVER — simplified: no big "Events Placed", just 4 stats + chart + timeline -->
+<!-- ══════════════════════════ GAME OVER ══════════════════════════ -->
 <div id="scr-gameover" class="screen">
   <div class="go-title">Game Over</div>
+  <div>
+    <div class="go-score" id="go-score">0</div>
+    <div class="go-score-lbl">Events Placed</div>
+  </div>
   <div class="go-stats">
     <div class="go-stat"><div class="go-sv" style="color:var(--green)" id="go-correct">0</div><div class="go-sl">Correct</div></div>
-    <div class="go-stat"><div class="go-sv" style="color:var(--red)" id="go-wrong">0</div><div class="go-sl">Wrong</div></div>
+    <div class="go-stat"><div class="go-sv" style="color:var(--red)"   id="go-wrong">0</div><div class="go-sl">Wrong</div></div>
     <div class="go-stat"><div class="go-sv" id="go-streak">0</div><div class="go-sl">Best Streak</div></div>
     <div class="go-stat"><div class="go-sv" style="color:var(--gold)" id="go-yr">0</div><div class="go-sl">Year Hits</div></div>
   </div>
-  <!-- Per-era accuracy chart + avg response time -->
-  <div class="go-stats-section" id="go-stats-section"></div>
-  <!-- Post-game timeline (correct=green, wrong=red) -->
-  <div class="go-tl-section" id="go-tl-section"></div>
   <div class="go-badges-sec" id="go-badges-sec">
     <div class="go-badges-lbl">Badges earned this game</div>
     <div class="go-badge-row" id="go-badge-row"></div>
   </div>
   <div class="go-btns">
     <button class="btn-main" onclick="G.startGame()">Play Again</button>
-    <button class="btn-ghost" onclick="G.printTimeline()">🖨 Print Timeline</button>
     <button class="btn-ghost" onclick="G.showScreen('badges')">Badges</button>
     <button class="btn-ghost" onclick="G.showScreen('home')">Home</button>
   </div>
 </div>
 
-<!-- SETTINGS MODAL -->
+<!-- ══════════════════════════ SETTINGS MODAL ══════════════════════════ -->
 <div id="settings-modal" class="hidden">
   <div class="st-overlay" onclick="G.hideSettings()"></div>
   <div class="st-box">
-    <div class="st-hdr"><h2>⚙ Settings</h2><button class="st-close" onclick="G.hideSettings()">✕</button></div>
+    <div class="st-hdr">
+      <h2>⚙ Settings</h2>
+      <button class="st-close" onclick="G.hideSettings()">✕</button>
+    </div>
     <div class="st-body">
+
+      <!-- Built-in categories -->
       <div>
         <div class="cat-sec-hdr">
-          <span class="st-sec-lbl">Standard Categories</span>
+          <span class="st-sec-lbl">Categories</span>
           <div class="cat-ctrl-btns">
             <button class="cat-ctrl-btn" onclick="G.selectAllCats(true)">All</button>
             <button class="cat-ctrl-btn" onclick="G.selectAllCats(false)">None</button>
           </div>
         </div>
-        <p class="st-group-desc">Built-in historical text events, grouped by topic.</p>
-        <div class="cat-grid" id="cat-grid"></div>
-
-        <div class="st-group-images">
-          <span class="st-sec-lbl" style="margin-bottom:4px;">🖼 Image Categories</span>
-          <p class="st-group-desc">Curated artworks &amp; archaeological objects bundled with the game — independent of the topics above.</p>
-          <label class="img-chk" style="border-top:none;margin-top:0;padding-top:0;"><input type="checkbox" id="tog-images"><span>Artworks &amp; Archaeological Objects</span></label>
+        <div class="cat-grid" id="cat-grid"><!-- filled by JS --></div>
+        <label class="img-chk">
+          <input type="checkbox" id="tog-images" checked>
+          <span>🖼 Artworks &amp; Archaeological Objects</span>
+        </label>
+        <label class="img-chk">
+          <input type="checkbox" id="tog-met">
+          <span>🏛 Met Museum</span>
+        </label>
+        <div class="met-status" id="met-status">Loads artworks with images from The Met Museum and caches them in this browser.</div>
+        <div class="met-controls">
+          <button class="cat-ctrl-btn" type="button" onclick="G.reloadMetArtworks()">🔄 New Met Set</button>
+          <button class="cat-ctrl-btn" type="button" onclick="G.clearMetCache()">🗑 Clear Met Cache</button>
         </div>
-
-        <div class="st-group-db">
-          <span class="st-sec-lbl" style="margin-bottom:4px;">Databases<span class="st-badge-live">live data</span></span>
-          <p class="st-group-desc">Loads additional artwork &amp; object events from external museum and cultural heritage databases.</p>
-          <div class="db-card">
-            <label class="img-chk" style="border-top:none;margin-top:0;padding-top:0;"><input type="checkbox" id="tog-met"><span>🏛 Met Museum</span></label>
-            <div class="met-status" id="met-status">Off by default. Tick and Apply to load Met Museum artworks.</div>
-            <div class="met-controls">
-              <button class="cat-ctrl-btn" type="button" onclick="G.reloadMetArtworks()">🔄 New Met Set</button>
-              <button class="cat-ctrl-btn" type="button" onclick="G.clearMetCache()">🗑 Clear Met Cache</button>
-            </div>
-          </div>
-          <div class="db-card">
-            <label class="img-chk" style="border-top:none;margin-top:0;padding-top:0;"><input type="checkbox" id="tog-europeana"><span>🗺️ Europeana Archaeology</span></label>
-            <div class="met-status" id="europeana-status">Loads europeana_archaeology.json from this folder. No API key needed.</div>
-            <div class="met-controls">
-              <button class="cat-ctrl-btn" type="button" onclick="G.reloadEuropeanaEvents()">🔄 Reload Europeana JSON</button>
-              <button class="cat-ctrl-btn" type="button" onclick="G.clearEuropeanaCache()">🗑 Clear Europeana Cache</button>
-            </div>
-          </div>
+        <label class="img-chk">
+          <input type="checkbox" id="tog-europeana">
+          <span>🗺️ Europeana Archaeology</span>
+        </label>
+        <div class="met-status" id="europeana-status">Loads a static europeana_archaeology.json file from this folder. No API key is used by the public game.</div>
+        <div class="met-controls">
+          <button class="cat-ctrl-btn" type="button" onclick="G.reloadEuropeanaEvents()">🔄 Reload Europeana JSON</button>
+          <button class="cat-ctrl-btn" type="button" onclick="G.clearEuropeanaCache()">🗑 Clear Europeana Cache</button>
         </div>
       </div>
+
+      <!-- CSV upload -->
       <div>
         <span class="st-sec-lbl">Your Own Events</span>
-        <label class="img-chk" style="margin-bottom:14px;"><input type="checkbox" id="tog-custom"><span>📋 Include My CSV events</span></label>
+
+        <label class="img-chk" style="margin-bottom:14px;">
+          <input type="checkbox" id="tog-custom" checked>
+          <span>📋 Include My CSV events in the game</span>
+        </label>
+
         <p class="st-hint">
-          One event per line: <code>Title, Year</code> or <code>Title, Year1, Year2</code> (date range)<br>
-          e.g. <code>Moon landing, 1969</code> · <code>Bronze Age, -3300, -1200</code> · <code>Caesar killed, -44</code><br>
-          Optional last column: image URL or filename
+          One event per line: <code>Title, Year</code><br>
+          e.g. <code>Moon landing, 1969</code> &nbsp;·&nbsp; <code>Caesar killed, -44</code><br>
+          Optional 3rd column: image URL or filename &nbsp;e.g. <code>Title, 1850, photo.jpg</code><br>
+          Drop image files alongside the CSV to use local pictures.
         </p>
-        <input type="file" id="csv-file" accept=".csv,.txt,image/*" multiple style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;">
+
+        <!-- File input: hidden off-screen; label below opens it via for= -->
+        <input type="file" id="csv-file" accept=".csv,.txt,image/*" multiple
+               style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;">
+
         <div class="csv-drop" id="csv-drop">
           <span class="csv-drop-icon" id="csv-drop-icon">📄</span>
           <span class="csv-drop-lbl" id="csv-drop-lbl">Drag CSV + images here</span>
           <label for="csv-file" class="csv-browse-btn">Browse…</label>
         </div>
+
         <div class="csv-preview" id="csv-preview"></div>
       </div>
+
     </div>
     <div class="st-footer">
       <button class="btn-ghost" id="btn-clear-csv" onclick="G.clearCSV()" style="display:none">Clear CSV</button>
       <button class="btn-ghost" onclick="G.hideSettings()">Cancel</button>
       <button class="btn-ghost" id="btn-settings-save" onclick="G.applySettings(false)">Save</button>
-      <button class="btn-main" onclick="G.applySettings(true)">Apply &amp; Play →</button>
+      <button class="btn-main"  onclick="G.applySettings(true)">Apply &amp; Play →</button>
     </div>
   </div>
 </div>
 
-<!-- INFO MODAL -->
+<!-- ══════════════════════════ INFO MODAL ══════════════════════════ -->
 <div id="info-modal" class="hidden">
   <div class="info-overlay" onclick="G.hideInfo()"></div>
   <div class="info-box">
     <button class="info-close" onclick="G.hideInfo()">✕</button>
     <h2>How to Play</h2>
-    <p>A historical event or artwork appears. Type the year and press <strong>Enter</strong>.</p>
-    <p>Your year determines where the event lands on the timeline. Correct placement = +1 placed. Close year = +1 year hit.</p>
-    <p>Some events have <em>uncertain dates</em> — guessing within the documented period counts as a year hit.</p>
+    <p>A historical event or artwork appears. Type the year you think it's from and press <strong>Enter</strong>.</p>
+    <p>Your year determines where the event lands on the timeline. If it falls between the right neighbours, you score a placement point.</p>
+    <p><strong>Placed</strong> counts correct placements. <strong>Years</strong> counts how often your year estimate was close to the actual date.</p>
     <div class="info-rule">
       <h3>Shortcuts</h3>
-      <div class="info-shortcut"><span class="info-key">−44</span><span class="info-key-desc">Minus → auto-switches to BCE</span></div>
-      <div class="info-shortcut"><span class="info-key">+1503</span><span class="info-key-desc">Plus → auto-switches to CE</span></div>
-      <div class="info-shortcut"><span class="info-key">Enter</span><span class="info-key-desc">Place event / advance after result</span></div>
-      <div class="info-shortcut"><span class="info-key">← / →</span><span class="info-key-desc">Scroll the timeline</span></div>
+      <div class="info-shortcut">
+        <span class="info-key">−44</span>
+        <span class="info-key-desc">Minus prefix → automatically switches to <em>before</em> (BCE)</span>
+      </div>
+      <div class="info-shortcut">
+        <span class="info-key">+1503</span>
+        <span class="info-key-desc">Plus prefix → automatically switches to <em>after</em> (CE)</span>
+      </div>
+      <div class="info-shortcut">
+        <span class="info-key">Enter</span>
+        <span class="info-key-desc">Places the event — no button needed</span>
+      </div>
+      <div class="info-shortcut">
+        <span class="info-key">← / →</span>
+        <span class="info-key-desc">Arrow keys scroll the timeline</span>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- IMAGE ZOOM MODAL -->
+<!-- ══════════════════════════ IMAGE ZOOM MODAL ══════════════════════════ -->
 <div id="img-modal" class="hidden">
   <div class="img-modal-overlay" onclick="G.hideImageModal()"></div>
   <div class="img-modal-box">
@@ -521,478 +694,796 @@ body{color:var(--ink);font-family:var(--f);}
   </div>
 </div>
 
+<!-- ══════════════════════════ OVERLAYS ══════════════════════════ -->
 <div id="feedback"></div>
 <div id="badge-notif"></div>
 
 <script>
 /* ═══════════════════════════════════════════════════════
-   DATA — TEXT EVENTS  (yearRange = [start, end] for uncertain/period events)
+   DATA — TEXT EVENTS
 ═══════════════════════════════════════════════════════ */
-const TEXT_EVT=[
-  {id:'t1', title:'First controlled use of fire',      year:-400000, yearRange:[-800000,-200000], cat:'prehistoric', desc:'Homo erectus tames fire'},
-  {id:'t2', title:'Homo sapiens emerge',               year:-300000, yearRange:[-350000,-150000], cat:'prehistoric', desc:'Anatomically modern humans appear in Africa'},
-  {id:'t3', title:'End of the last Ice Age',           year:-10000,  yearRange:[-12000,-9000],   cat:'prehistoric', desc:'The glacial period ends, reshaping continents'},
-  {id:'t4', title:'First agricultural settlements',    year:-9000,   yearRange:[-11000,-7000],   cat:'food',        desc:'Humans begin farming in the Fertile Crescent'},
-  {id:'t5', title:'Wheat domesticated',                year:-8000,   yearRange:[-9500,-6500],    cat:'food',        desc:'Wheat is cultivated in the Near East'},
-  {id:'t6', title:'Invention of the wheel',            year:-3500,   yearRange:[-4000,-3000],    cat:'ancient',     desc:'Mesopotamians devise the wheel'},
-  {id:'t7', title:'Cuneiform writing invented',        year:-3200,   yearRange:[-3400,-3000],    cat:'ancient',     desc:'Sumerians develop the world\'s first writing system'},
-  {id:'t8', title:'Stonehenge constructed',            year:-2500,   yearRange:[-3100,-1500],    cat:'ancient',     desc:'The iconic stone circle in Wiltshire'},
-  {id:'t9', title:'Code of Hammurabi',                 year:-1754,   cat:'ancient',     desc:'Babylonian king Hammurabi creates an early legal code'},
-  {id:'t10',title:'Trojan War',                        year:-1200,   yearRange:[-1300,-1100],    cat:'wars',        desc:'The legendary Greek siege of Troy'},
-  {id:'t11',title:'First Olympic Games',               year:-776,    cat:'ancient',     desc:'First recorded Olympic Games in Olympia, Greece'},
-  {id:'t12',title:'Founding of Rome',                  year:-753,    cat:'roman',       desc:'Rome is traditionally founded by Romulus'},
-  {id:'t13',title:'Democracy born in Athens',          year:-508,    cat:'ancient',     desc:'Cleisthenes introduces democratic reforms'},
-  {id:'t14',title:'Battle of Marathon',                year:-490,    cat:'wars',        desc:'Greeks defeat a far larger Persian army'},
-  {id:'t15',title:'Alexander conquers Persia',         year:-334,    cat:'wars',        desc:'Alexander leads his Macedonian army into Persia'},
-  {id:'t16',title:'Library of Alexandria founded',     year:-283,    yearRange:[-295,-270],      cat:'ancient',     desc:'The greatest library of the ancient world'},
-  {id:'t17',title:'Caesar crosses the Rubicon',        year:-49,     cat:'roman',       desc:'Julius Caesar defies Roman law'},
-  {id:'t18',title:'Assassination of Julius Caesar',    year:-44,     cat:'roman',       desc:'Caesar is stabbed on the Ides of March'},
-  {id:'t19',title:'Birth of Jesus Christ',             year:1,       cat:'ancient',     desc:'Jesus of Nazareth is born in Bethlehem'},
-  {id:'t20',title:'Pompeii destroyed by Vesuvius',     year:79,      cat:'roman',       desc:'Mount Vesuvius erupts, burying Pompeii'},
-  {id:'t21',title:'Roman Colosseum completed',         year:80,      cat:'roman',       desc:'The largest amphitheatre ever built opens'},
-  {id:'t22',title:'Fall of the Western Roman Empire',  year:476,     cat:'roman',       desc:'Romulus Augustulus is deposed'},
-  {id:'t23',title:'Muhammad\'s first revelation',      year:610,     cat:'medieval',    desc:'Muhammad receives his first revelation near Mecca'},
-  {id:'t24',title:'Charlemagne crowned Emperor',       year:800,     cat:'medieval',    desc:'Pope Leo III crowns Charlemagne Emperor'},
-  {id:'t25',title:'Leif Erikson reaches America',      year:1000,    yearRange:[995,1010],        cat:'exploration', desc:'Norse explorer Leif Erikson lands in North America'},
-  {id:'t26',title:'Battle of Hastings',                year:1066,    cat:'wars',        desc:'William the Conqueror defeats King Harold'},
-  {id:'t27',title:'Magna Carta signed',                year:1215,    cat:'medieval',    desc:'King John signs the Magna Carta'},
-  {id:'t28',title:'Black Death reaches Europe',        year:1347,    yearRange:[1346,1353],       cat:'medieval',    desc:'The plague kills 30–60% of Europe\'s population'},
-  {id:'t29',title:'Joan of Arc at Orléans',            year:1429,    cat:'wars',        desc:'A teenage peasant girl leads France to victory'},
-  {id:'t30',title:'Fall of Constantinople',            year:1453,    cat:'wars',        desc:'Mehmed II captures Constantinople'},
-  {id:'t31',title:'Gutenberg\'s printing press',       year:1440,    yearRange:[1436,1455],       cat:'science',     desc:'Movable type makes books affordable'},
-  {id:'t32',title:'Columbus reaches the Americas',     year:1492,    cat:'exploration', desc:'Columbus lands in the Caribbean'},
-  {id:'t33',title:'Magellan circumnavigates Earth',    year:1522,    cat:'exploration', desc:'The first voyage around the world'},
-  {id:'t34',title:'Copernicus: heliocentric model',    year:1543,    cat:'science',     desc:'Copernicus proves Earth revolves around the Sun'},
-  {id:'t35',title:'Galileo improves the telescope',    year:1609,    cat:'science',     desc:'Galileo discovers the moons of Jupiter'},
-  {id:'t36',title:'Potatoes introduced to Europe',     year:1570,    yearRange:[1565,1580],       cat:'food',        desc:'Spanish bring the potato from the Americas'},
-  {id:'t37',title:'First English coffee house',        year:1652,    cat:'food',        desc:'First coffee house in England opens in Oxford'},
-  {id:'t38',title:'Newton\'s Principia published',     year:1687,    cat:'science',     desc:'Newton describes the laws of motion'},
-  {id:'t39',title:'American Declaration of Independence',year:1776,  cat:'modern',      desc:'The thirteen colonies declare independence'},
-  {id:'t40',title:'French Revolution begins',          year:1789,    cat:'modern',      desc:'The storming of the Bastille ignites change'},
-  {id:'t41',title:'First steam locomotive',            year:1804,    cat:'science',     desc:'Richard Trevithick builds the first locomotive'},
-  {id:'t42',title:'Darwin: On the Origin of Species',  year:1859,    cat:'science',     desc:'Darwin proposes evolution by natural selection'},
-  {id:'t43',title:'American Civil War begins',         year:1861,    cat:'wars',        desc:'The Confederate attack on Fort Sumter'},
-  {id:'t44',title:'First powered airplane flight',     year:1903,    cat:'science',     desc:'The Wright Brothers achieve controlled flight'},
-  {id:'t45',title:'World War I begins',                year:1914,    cat:'wars',        desc:'The assassination of Franz Ferdinand triggers WWI'},
-  {id:'t46',title:'Penicillin discovered',             year:1928,    cat:'science',     desc:'Alexander Fleming discovers penicillin'},
-  {id:'t47',title:'World War II begins',               year:1939,    cat:'wars',        desc:'Nazi Germany invades Poland'},
-  {id:'t48',title:'Moon Landing',                      year:1969,    cat:'science',     desc:'Apollo 11 lands on the Moon'},
-  {id:'t49',title:'Fall of the Berlin Wall',           year:1989,    cat:'modern',      desc:'The Wall falls, ending the Cold War'},
-  {id:'t50',title:'World Wide Web launched',           year:1991,    cat:'science',     desc:'Tim Berners-Lee makes the Web publicly available'},
-];
-/* ═══ IMAGE EVENTS ═══ */
-const IMG_EVT=[
-  {id:'i1',type:'img',year:-25000,cat:'art',title:'Venus of Willendorf',credit:'Naturhistorisches Museum Wien',wiki:'Venus of Willendorf',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Venus_of_Willendorf_frontview_retouched_2.jpg/300px-Venus_of_Willendorf_frontview_retouched_2.jpg'},
-  {id:'i2',type:'img',year:-17000,yearRange:[-20000,-14000],cat:'art',title:'Lascaux Cave Paintings',credit:'Lascaux, Dordogne, France',wiki:'Cave of Lascaux',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Lascaux_II.jpg/400px-Lascaux_II.jpg'},
-  {id:'i3',type:'img',year:-1323,cat:'ancient',title:'Death Mask of Tutankhamun',credit:'Egyptian Museum, Cairo',wiki:'Tutankhamun',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Tutanchamun_Maske.jpg/300px-Tutanchamun_Maske.jpg'},
-  {id:'i4',type:'img',year:-210,cat:'ancient',title:'The Terracotta Army',credit:"Museum of the Terracotta Army, Xi'an",wiki:'Terracotta Army',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Terracotta_army_2016.jpg/400px-Terracotta_army_2016.jpg'},
-  {id:'i5',type:'img',year:-196,cat:'ancient',title:'The Rosetta Stone',credit:'British Museum, London',wiki:'Rosetta Stone',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Rosetta_Stone.JPG/300px-Rosetta_Stone.JPG'},
-  {id:'i6',type:'img',year:-87,cat:'science',title:'The Antikythera Mechanism',credit:'National Archaeological Museum, Athens',wiki:'Antikythera mechanism',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/NAMA_Antiky%CE%B8%CE%AE%CF%81%CE%B1_1.jpg/300px-NAMA_Antiky%CE%B8%CE%AE%CF%81%CE%B1_1.jpg'},
-  {id:'i7',type:'img',year:625,cat:'medieval',title:'Sutton Hoo Helmet',credit:'British Museum, London',wiki:'Sutton Hoo helmet',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Sutton_Hoo_helmet_2016.jpg/300px-Sutton_Hoo_helmet_2016.jpg'},
-  {id:'i8',type:'img',year:800,cat:'art',title:'Book of Kells — Chi Rho Page',credit:'Trinity College Library, Dublin',wiki:'Book of Kells',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/KellsFol034rChristEnthroned.jpg/300px-KellsFol034rChristEnthroned.jpg'},
-  {id:'i9',type:'img',year:1070,yearRange:[1066,1077],cat:'medieval',title:'Bayeux Tapestry (detail)',credit:'Bayeux Museum, Normandy',wiki:'Bayeux Tapestry',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Bayeux_Tapestry_scene57_Harold_dead.jpg/400px-Bayeux_Tapestry_scene57_Harold_dead.jpg'},
-  {id:'i10',type:'img',year:1150,yearRange:[1150,1200],cat:'medieval',title:'The Lewis Chessmen',credit:'British Museum & National Museum of Scotland',wiki:'Lewis chessmen',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Lewis_Chessmen_Overview.jpg/400px-Lewis_Chessmen_Overview.jpg'},
-  {id:'i11',type:'img',year:1434,cat:'art',title:'The Arnolfini Portrait',credit:'National Gallery, London',wiki:'Arnolfini Portrait',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Van_Eyck_-_Arnolfini_Portrait.jpg/300px-Van_Eyck_-_Arnolfini_Portrait.jpg'},
-  {id:'i12',type:'img',year:1486,cat:'art',title:'The Birth of Venus',credit:'Uffizi Gallery, Florence',wiki:'The Birth of Venus',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg/400px-Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg'},
-  {id:'i13',type:'img',year:1495,yearRange:[1494,1498],cat:'art',title:'The Last Supper',credit:'Santa Maria delle Grazie, Milan',wiki:'The Last Supper (Leonardo)',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/%22The_Last_Supper%22_by_Leonardo_da_Vinci.jpg/400px-%22The_Last_Supper%22_by_Leonardo_da_Vinci.jpg'},
-  {id:'i14',type:'img',year:1503,yearRange:[1503,1519],cat:'art',title:'The Mona Lisa',credit:'Musée du Louvre, Paris',wiki:'Mona Lisa',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/300px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg'},
-  {id:'i15',type:'img',year:1665,cat:'art',title:'Girl with a Pearl Earring',credit:'Mauritshuis, The Hague',wiki:'Girl with a Pearl Earring',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/1665_Girl_with_a_Pearl_Earring.jpg/300px-1665_Girl_with_a_Pearl_Earring.jpg'},
-  {id:'i16',type:'img',year:1831,cat:'art',title:'The Great Wave off Kanagawa',credit:'Metropolitan Museum of Art, New York',wiki:'The Great Wave off Kanagawa',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/The_Great_Wave_off_Kanagawa.jpg/400px-The_Great_Wave_off_Kanagawa.jpg'},
-  {id:'i17',type:'img',year:1889,cat:'art',title:'The Starry Night',credit:'Museum of Modern Art, New York',wiki:'The Starry Night',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/400px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg'},
-  {id:'i18',type:'img',year:1893,cat:'art',title:'The Scream',credit:'National Museum of Norway, Oslo',wiki:'The Scream',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg/300px-Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg'},
+const TEXT_EVT = [
+  {id:'t1',  title:'First controlled use of fire',      year:-400000, cat:'prehistoric', desc:'Homo erectus tames fire — for warmth, cooking, and protection'},
+  {id:'t2',  title:'Homo sapiens emerge',               year:-300000, cat:'prehistoric', desc:'Anatomically modern humans appear in Africa'},
+  {id:'t3',  title:'End of the last Ice Age',           year:-10000,  cat:'prehistoric', desc:'The glacial period ends, reshaping continents and enabling new civilisations'},
+  {id:'t4',  title:'First agricultural settlements',    year:-9000,   cat:'food',        desc:'Humans begin farming in the Fertile Crescent, ending nomadic life'},
+  {id:'t5',  title:'Wheat domesticated',                year:-8000,   cat:'food',        desc:'Wheat is cultivated in the Near East — a cornerstone of civilisation'},
+  {id:'t6',  title:'Invention of the wheel',            year:-3500,   cat:'ancient',     desc:'Mesopotamians devise the wheel, transforming transport forever'},
+  {id:'t7',  title:'Cuneiform writing invented',        year:-3200,   cat:'ancient',     desc:'Sumerians develop the world\'s first writing system in Mesopotamia'},
+  {id:'t8',  title:'Stonehenge constructed',            year:-2500,   cat:'ancient',     desc:'The iconic stone circle in Wiltshire is erected over several centuries'},
+  {id:'t9',  title:'Code of Hammurabi',                 year:-1754,   cat:'ancient',     desc:'Babylonian king Hammurabi creates one of the earliest written legal codes'},
+  {id:'t10', title:'Trojan War',                        year:-1200,   cat:'wars',        desc:'The legendary Greek siege of Troy, immortalised by Homer in the Iliad'},
+  {id:'t11', title:'First Olympic Games',               year:-776,    cat:'ancient',     desc:'The first recorded Olympic Games are held in Olympia, Greece'},
+  {id:'t12', title:'Founding of Rome',                  year:-753,    cat:'roman',       desc:'Rome is traditionally founded by Romulus, who becomes its first king'},
+  {id:'t13', title:'Democracy born in Athens',          year:-508,    cat:'ancient',     desc:'Cleisthenes introduces democratic reforms, giving Athenian citizens political power'},
+  {id:'t14', title:'Battle of Marathon',                year:-490,    cat:'wars',        desc:'The Greeks defeat a far larger Persian army — inspiring the marathon race legend'},
+  {id:'t15', title:'Alexander conquers Persia',         year:-334,    cat:'wars',        desc:'Alexander the Great leads his Macedonian army into the vast Persian Empire'},
+  {id:'t16', title:'Library of Alexandria founded',     year:-283,    cat:'ancient',     desc:'The greatest library of the ancient world is established in Egypt'},
+  {id:'t17', title:'Caesar crosses the Rubicon',        year:-49,     cat:'roman',       desc:'Julius Caesar defies Roman law by crossing the Rubicon with his army'},
+  {id:'t18', title:'Assassination of Julius Caesar',    year:-44,     cat:'roman',       desc:'Caesar is stabbed 23 times by senators on the Ides of March'},
+  {id:'t19', title:'Birth of Jesus Christ',             year:1,       cat:'ancient',     desc:'Jesus of Nazareth is born in Bethlehem — central figure of Christianity'},
+  {id:'t20', title:'Pompeii destroyed by Vesuvius',     year:79,      cat:'roman',       desc:'Mount Vesuvius erupts, burying Pompeii under metres of volcanic ash'},
+  {id:'t21', title:'Roman Colosseum completed',         year:80,      cat:'roman',       desc:'The largest amphitheatre ever built opens under Emperor Titus'},
+  {id:'t22', title:'Fall of the Western Roman Empire',  year:476,     cat:'roman',       desc:'Romulus Augustulus is deposed — ending a millennium of Roman power'},
+  {id:'t23', title:'Muhammad\'s first revelation',      year:610,     cat:'medieval',    desc:'Muhammad receives his first revelation near Mecca, founding Islam'},
+  {id:'t24', title:'Charlemagne crowned Emperor',       year:800,     cat:'medieval',    desc:'Pope Leo III crowns Charlemagne Emperor of the Romans on Christmas Day'},
+  {id:'t25', title:'Leif Erikson reaches America',      year:1000,    cat:'exploration', desc:'Norse explorer Leif Erikson lands in North America — 500 years before Columbus'},
+  {id:'t26', title:'Battle of Hastings',                year:1066,    cat:'wars',        desc:'William the Conqueror defeats King Harold, transforming English culture'},
+  {id:'t27', title:'Magna Carta signed',                year:1215,    cat:'medieval',    desc:'King John of England signs the Magna Carta — a cornerstone of modern law'},
+  {id:'t28', title:'Black Death reaches Europe',        year:1347,    cat:'medieval',    desc:'The plague kills an estimated 30–60 % of Europe\'s population'},
+  {id:'t29', title:'Joan of Arc at Orléans',            year:1429,    cat:'wars',        desc:'A teenage peasant girl leads France to victory at the Siege of Orléans'},
+  {id:'t30', title:'Fall of Constantinople',            year:1453,    cat:'wars',        desc:'Mehmed II captures Constantinople, ending the Byzantine Empire'},
+  {id:'t31', title:'Gutenberg\'s printing press',       year:1440,    cat:'science',     desc:'Movable type makes books affordable, accelerating the Renaissance'},
+  {id:'t32', title:'Columbus reaches the Americas',     year:1492,    cat:'exploration', desc:'Christopher Columbus lands in the Caribbean, connecting Old and New Worlds'},
+  {id:'t33', title:'Magellan circumnavigates Earth',    year:1522,    cat:'exploration', desc:'The first voyage around the world proves the Earth is a sphere'},
+  {id:'t34', title:'Copernicus: heliocentric model',    year:1543,    cat:'science',     desc:'Copernicus proves that Earth revolves around the Sun'},
+  {id:'t35', title:'Galileo improves the telescope',    year:1609,    cat:'science',     desc:'Galileo discovers the moons of Jupiter, confirming the heliocentric model'},
+  {id:'t36', title:'Potatoes introduced to Europe',     year:1570,    cat:'food',        desc:'Spanish explorers bring the potato from the Americas, transforming European diets'},
+  {id:'t37', title:'First English coffee house',        year:1652,    cat:'food',        desc:'The first coffee house in England opens in Oxford, sparking intellectual debate'},
+  {id:'t38', title:'Newton\'s Principia published',     year:1687,    cat:'science',     desc:'Newton describes the laws of motion and universal gravitation'},
+  {id:'t39', title:'American Declaration of Independence', year:1776, cat:'modern',      desc:'The thirteen colonies declare independence from Britain'},
+  {id:'t40', title:'French Revolution begins',          year:1789,    cat:'modern',      desc:'The storming of the Bastille ignites radical political change in France'},
+  {id:'t41', title:'First steam locomotive',            year:1804,    cat:'science',     desc:'Richard Trevithick builds the first steam-powered locomotive'},
+  {id:'t42', title:'Darwin: On the Origin of Species',  year:1859,    cat:'science',     desc:'Darwin proposes evolution by natural selection, transforming biology'},
+  {id:'t43', title:'American Civil War begins',         year:1861,    cat:'wars',        desc:'The Confederate attack on Fort Sumter begins the bloodiest war in American history'},
+  {id:'t44', title:'First powered airplane flight',     year:1903,    cat:'science',     desc:'The Wright Brothers achieve the first controlled powered flight at Kitty Hawk'},
+  {id:'t45', title:'World War I begins',                year:1914,    cat:'wars',        desc:'The assassination of Archduke Franz Ferdinand triggers the Great War'},
+  {id:'t46', title:'Penicillin discovered',             year:1928,    cat:'science',     desc:'Alexander Fleming accidentally discovers penicillin, beginning the antibiotic era'},
+  {id:'t47', title:'World War II begins',               year:1939,    cat:'wars',        desc:'Nazi Germany invades Poland, triggering a war that kills over 70 million people'},
+  {id:'t48', title:'Moon Landing',                      year:1969,    cat:'science',     desc:'Apollo 11 lands on the Moon — Neil Armstrong takes one small step'},
+  {id:'t49', title:'Fall of the Berlin Wall',           year:1989,    cat:'modern',      desc:'The Wall falls, symbolising the end of the Cold War'},
+  {id:'t50', title:'World Wide Web launched',           year:1991,    cat:'science',     desc:'Tim Berners-Lee makes the Web publicly available, transforming communication'},
 ];
 
-const ALL_EVT=[...TEXT_EVT,...IMG_EVT];
+/* ═══════════════════════════════════════════════════════
+   DATA — IMAGE EVENTS (artworks & archaeological objects)
+═══════════════════════════════════════════════════════ */
+const IMG_EVT = [
+  {
+    id:'i1', type:'img', year:-25000, cat:'art',
+    title:'Venus of Willendorf',
+    desc:'A limestone figurine found in Austria — one of the oldest known sculptures of a human figure',
+    credit:'Naturhistorisches Museum Wien',
+    wiki:'Venus of Willendorf',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Venus_of_Willendorf_frontview_retouched_2.jpg/300px-Venus_of_Willendorf_frontview_retouched_2.jpg'
+  },
+  {
+    id:'i2', type:'img', year:-17000, cat:'art',
+    title:'Lascaux Cave Paintings',
+    desc:'Ancient paintings of aurochs and horses on cave walls in the Dordogne, France',
+    credit:'Lascaux, Dordogne, France',
+    wiki:'Cave of Lascaux',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Lascaux_II.jpg/400px-Lascaux_II.jpg'
+  },
+  {
+    id:'i3', type:'img', year:-1323, cat:'ancient',
+    title:'Death Mask of Tutankhamun',
+    desc:'The golden funerary mask of the young Egyptian pharaoh — discovered by Howard Carter in 1922',
+    credit:'Egyptian Museum, Cairo',
+    wiki:'Tutankhamun',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Tutanchamun_Maske.jpg/300px-Tutanchamun_Maske.jpg'
+  },
+  {
+    id:'i4', type:'img', year:-210, cat:'ancient',
+    title:'The Terracotta Army',
+    desc:'An army of 8,000 clay soldiers buried with China\'s first emperor, Qin Shi Huang',
+    credit:'Museum of the Terracotta Army, Xi\'an',
+    wiki:'Terracotta Army',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Terracotta_army_2016.jpg/400px-Terracotta_army_2016.jpg'
+  },
+  {
+    id:'i5', type:'img', year:-196, cat:'ancient',
+    title:'The Rosetta Stone',
+    desc:'A granodiorite stele inscribed with a priestly decree in three scripts — the key to deciphering hieroglyphics',
+    credit:'British Museum, London',
+    wiki:'Rosetta Stone',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Rosetta_Stone.JPG/300px-Rosetta_Stone.JPG'
+  },
+  {
+    id:'i6', type:'img', year:-87, cat:'science',
+    title:'The Antikythera Mechanism',
+    desc:'An ancient Greek hand-powered orrery — the world\'s oldest known analogue computer',
+    credit:'National Archaeological Museum, Athens',
+    wiki:'Antikythera mechanism',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/NAMA_Antiky%CE%B8%CE%AE%CF%81%CE%B1_1.jpg/300px-NAMA_Antiky%CE%B8%CE%AE%CF%81%CE%B1_1.jpg'
+  },
+  {
+    id:'i7', type:'img', year:625, cat:'medieval',
+    title:'Sutton Hoo Helmet',
+    desc:'An iconic Anglo-Saxon ceremonial helmet found in a royal burial mound in Suffolk, England',
+    credit:'British Museum, London',
+    wiki:'Sutton Hoo helmet',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Sutton_Hoo_helmet_2016.jpg/300px-Sutton_Hoo_helmet_2016.jpg'
+  },
+  {
+    id:'i8', type:'img', year:800, cat:'art',
+    title:'Book of Kells — Chi Rho Page',
+    desc:'An illuminated Gospel manuscript made by Celtic monks, regarded as Ireland\'s finest national treasure',
+    credit:'Trinity College Library, Dublin',
+    wiki:'Book of Kells',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/KellsFol034rChristEnthroned.jpg/300px-KellsFol034rChristEnthroned.jpg'
+  },
+  {
+    id:'i9', type:'img', year:1070, cat:'medieval',
+    title:'Bayeux Tapestry (detail)',
+    desc:'A 70-metre embroidered cloth depicting the Norman conquest of England in 1066',
+    credit:'Bayeux Museum, Normandy',
+    wiki:'Bayeux Tapestry',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Bayeux_Tapestry_scene57_Harold_dead.jpg/400px-Bayeux_Tapestry_scene57_Harold_dead.jpg'
+  },
+  {
+    id:'i10', type:'img', year:1150, cat:'medieval',
+    title:'The Lewis Chessmen',
+    desc:'Medieval chess pieces carved from walrus ivory, found on the Isle of Lewis, Scotland',
+    credit:'British Museum & National Museum of Scotland',
+    wiki:'Lewis chessmen',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Lewis_Chessmen_Overview.jpg/400px-Lewis_Chessmen_Overview.jpg'
+  },
+  {
+    id:'i11', type:'img', year:1434, cat:'art',
+    title:'The Arnolfini Portrait',
+    desc:'A painting by Jan van Eyck, celebrated for its extraordinary detail and intricate symbolism',
+    credit:'National Gallery, London',
+    wiki:'Arnolfini Portrait',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Van_Eyck_-_Arnolfini_Portrait.jpg/300px-Van_Eyck_-_Arnolfini_Portrait.jpg'
+  },
+  {
+    id:'i12', type:'img', year:1486, cat:'art',
+    title:'The Birth of Venus',
+    desc:'Botticelli\'s iconic painting of the goddess Venus emerging from the sea',
+    credit:'Uffizi Gallery, Florence',
+    wiki:'The Birth of Venus',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg/400px-Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg'
+  },
+  {
+    id:'i13', type:'img', year:1495, cat:'art',
+    title:'The Last Supper',
+    desc:'Leonardo da Vinci\'s mural in Milan depicting the final meal of Jesus with his twelve Apostles',
+    credit:'Santa Maria delle Grazie, Milan',
+    wiki:'The Last Supper (Leonardo)',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/%22The_Last_Supper%22_by_Leonardo_da_Vinci.jpg/400px-%22The_Last_Supper%22_by_Leonardo_da_Vinci.jpg'
+  },
+  {
+    id:'i14', type:'img', year:1503, cat:'art',
+    title:'The Mona Lisa',
+    desc:'Leonardo da Vinci\'s enigmatic portrait — the world\'s most visited painting',
+    credit:'Musée du Louvre, Paris',
+    wiki:'Mona Lisa',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/300px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg'
+  },
+  {
+    id:'i15', type:'img', year:1665, cat:'art',
+    title:'Girl with a Pearl Earring',
+    desc:'Vermeer\'s celebrated portrait — often called the "Mona Lisa of the North"',
+    credit:'Mauritshuis, The Hague',
+    wiki:'Girl with a Pearl Earring',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/1665_Girl_with_a_Pearl_Earring.jpg/300px-1665_Girl_with_a_Pearl_Earring.jpg'
+  },
+  {
+    id:'i16', type:'img', year:1831, cat:'art',
+    title:'The Great Wave off Kanagawa',
+    desc:'Hokusai\'s iconic woodblock print — one of the most recognised artworks in the world',
+    credit:'Metropolitan Museum of Art, New York',
+    wiki:'The Great Wave off Kanagawa',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/The_Great_Wave_off_Kanagawa.jpg/400px-The_Great_Wave_off_Kanagawa.jpg'
+  },
+  {
+    id:'i17', type:'img', year:1889, cat:'art',
+    title:'The Starry Night',
+    desc:'Van Gogh painted this swirling night sky from his room at the Saint-Paul-de-Mausole asylum',
+    credit:'Museum of Modern Art, New York',
+    wiki:'The Starry Night',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/400px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg'
+  },
+  {
+    id:'i18', type:'img', year:1893, cat:'art',
+    title:'The Scream',
+    desc:'Edvard Munch\'s Expressionist masterpiece depicting existential anguish against a blood-red sky',
+    credit:'National Museum of Norway, Oslo',
+    wiki:'The Scream',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg/300px-Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg'
+  },
+];
 
-/* ═══ CATEGORIES & BADGES ═══ */
-const CATS={
-  prehistoric:{name:'Prehistoric',icon:'🦴'},ancient:{name:'Ancient World',icon:'🏛️'},
-  roman:{name:'Roman Empire',icon:'🦅'},medieval:{name:'Medieval',icon:'🏰'},
-  exploration:{name:'Exploration',icon:'🌍'},science:{name:'Science',icon:'🔬'},
-  art:{name:'Art & Culture',icon:'🎨'},food:{name:'Food & Trade',icon:'🌾'},
-  wars:{name:'Wars',icon:'⚔️'},modern:{name:'Modern',icon:'💡'},
-  custom:{name:'My CSV',icon:'📋'},met:{name:'Met Museum',icon:'🏛'},
-  europeana:{name:'Europeana',icon:'🗺️'},
+const ALL_EVT = [...TEXT_EVT, ...IMG_EVT];
+
+/* ═══════════════════════════════════════════════════════
+   CATEGORIES & BADGES
+═══════════════════════════════════════════════════════ */
+const CATS = {
+  prehistoric:{ name:'Prehistoric',   icon:'🦴' },
+  ancient:    { name:'Ancient World', icon:'🏛️'},
+  roman:      { name:'Roman Empire',  icon:'🦅' },
+  medieval:   { name:'Medieval',      icon:'🏰' },
+  exploration:{ name:'Exploration',   icon:'🌍' },
+  science:    { name:'Science',       icon:'🔬' },
+  art:        { name:'Art & Culture', icon:'🎨' },
+  food:       { name:'Food & Trade',  icon:'🌾' },
+  wars:       { name:'Wars',          icon:'⚔️' },
+  modern:     { name:'Modern',        icon:'💡' },
+  custom:     { name:'My CSV',        icon:'📋' },
+  met:        { name:'Met Museum',    icon:'🏛' },
+  europeana:  { name:'Europeana',     icon:'🗺️' },
 };
 
-const BADGES=[
-  {id:'prehistoric',cat:'prehistoric',name:'Bone Collector',icon:'🦴',req:2,desc:'Correctly place 2 prehistoric events',special:false},
-  {id:'ancient',cat:'ancient',name:'Ancient Scholar',icon:'🏛️',req:4,desc:'Correctly place 4 Ancient World events',special:false},
-  {id:'roman',cat:'roman',name:'Roman Senator',icon:'🦅',req:3,desc:'Correctly place 3 Roman Empire events',special:false},
-  {id:'medieval',cat:'medieval',name:'Medieval Knight',icon:'🏰',req:3,desc:'Correctly place 3 Medieval events',special:false},
-  {id:'exploration',cat:'exploration',name:'Great Explorer',icon:'🌍',req:3,desc:'Correctly place 3 Exploration events',special:false},
-  {id:'science',cat:'science',name:'Science Pioneer',icon:'🔬',req:4,desc:'Correctly place 4 Science events',special:false},
-  {id:'art',cat:'art',name:'Art Connoisseur',icon:'🎨',req:4,desc:'Correctly place 4 Art events',special:false},
-  {id:'food',cat:'food',name:'Food Historian',icon:'🌾',req:3,desc:'Correctly place 3 Food events',special:false},
-  {id:'wars',cat:'wars',name:'War Strategist',icon:'⚔️',req:4,desc:'Correctly place 4 Wars events',special:false},
-  {id:'modern',cat:'modern',name:'Modern Thinker',icon:'💡',req:3,desc:'Correctly place 3 Modern events',special:false},
-  {id:'centurion',cat:null,name:'Centurion',icon:'💯',desc:'Place 15 events correctly in one game',special:true,check:s=>s.placements>=15},
-  {id:'historian',cat:null,name:'Historian',icon:'📚',desc:'Correctly place 20 events across all games',special:true,check:()=>G.persist.totalCorrect>=20},
-  {id:'timeTraveler',cat:null,name:'Time Traveler',icon:'⏰',desc:'Score 5 year hits in one game',special:true,check:s=>s.yearHits>=5},
-  {id:'streakMaster',cat:null,name:'Streak Master',icon:'🔥',desc:'Get a 5-event correct streak',special:true,check:s=>s.maxStreak>=5},
-  {id:'curator',cat:null,name:'Curator',icon:'🖼️',desc:'Correctly place 5 artwork/object events',special:true,check:s=>(s.catCorrect['art']||0)>=5},
+const BADGES = [
+  {id:'prehistoric',  cat:'prehistoric',  name:'Bone Collector',    icon:'🦴',  req:2, desc:'Correctly place 2 prehistoric events',    special:false},
+  {id:'ancient',      cat:'ancient',      name:'Ancient Scholar',   icon:'🏛️', req:4, desc:'Correctly place 4 Ancient World events',  special:false},
+  {id:'roman',        cat:'roman',        name:'Roman Senator',     icon:'🦅',  req:3, desc:'Correctly place 3 Roman Empire events',   special:false},
+  {id:'medieval',     cat:'medieval',     name:'Medieval Knight',   icon:'🏰',  req:3, desc:'Correctly place 3 Medieval events',       special:false},
+  {id:'exploration',  cat:'exploration',  name:'Great Explorer',    icon:'🌍',  req:3, desc:'Correctly place 3 Exploration events',    special:false},
+  {id:'science',      cat:'science',      name:'Science Pioneer',   icon:'🔬',  req:4, desc:'Correctly place 4 Science events',        special:false},
+  {id:'art',          cat:'art',          name:'Art Connoisseur',   icon:'🎨',  req:4, desc:'Correctly place 4 Art events',           special:false},
+  {id:'food',         cat:'food',         name:'Food Historian',    icon:'🌾',  req:3, desc:'Correctly place 3 Food & Trade events',  special:false},
+  {id:'wars',         cat:'wars',         name:'War Strategist',    icon:'⚔️',  req:4, desc:'Correctly place 4 Wars events',          special:false},
+  {id:'modern',       cat:'modern',       name:'Modern Thinker',    icon:'💡',  req:3, desc:'Correctly place 3 Modern events',        special:false},
+  {id:'centurion',    cat:null, name:'Centurion',      icon:'💯', desc:'Place 15 events correctly in one game',       special:true, check:s=>s.placements>=15},
+  {id:'historian',    cat:null, name:'Historian',      icon:'📚', desc:'Correctly place 20 events across all games',  special:true, check:()=>G.persist.totalCorrect>=20},
+  {id:'timeTraveler', cat:null, name:'Time Traveler',  icon:'⏰', desc:'Score 5 year hits in one game',               special:true, check:s=>s.yearHits>=5},
+  {id:'streakMaster', cat:null, name:'Streak Master',  icon:'🔥', desc:'Get a 5-event correct streak',               special:true, check:s=>s.maxStreak>=5},
+  {id:'curator',      cat:null, name:'Curator',        icon:'🖼️', desc:'Correctly place 5 artwork or object events', special:true, check:s=>(s.catCorrect['art']||0)>=5},
 ];
 
-/* ═══ TIMELINE POSITIONING ═══ */
-const SEGS=[
-  {y0:-400001,y1:-10001,x0:200,x1:700},{y0:-10000,y1:-3501,x0:700,x1:1100},
-  {y0:-3500,y1:-1,x0:1100,x1:1850},{y0:0,y1:499,x0:1850,x1:2300},
-  {y0:500,y1:1499,x0:2300,x1:2980},{y0:1500,y1:1799,x0:2980,x1:3900},
-  {y0:1800,y1:2025,x0:3900,x1:6000},
+/* ═══════════════════════════════════════════════════════
+   TIMELINE POSITIONING
+═══════════════════════════════════════════════════════ */
+const SEGS = [
+  {y0:-400001,y1:-10001,x0:200, x1:700},
+  {y0:-10000, y1:-3501, x0:700, x1:1100},
+  {y0:-3500,  y1:-1,    x0:1100,x1:1850},
+  {y0:0,      y1:499,   x0:1850,x1:2300},
+  {y0:500,    y1:1499,  x0:2300,x1:2980},
+  {y0:1500,   y1:1799,  x0:2980,x1:3900},
+  {y0:1800,   y1:2025,  x0:3900,x1:6000},
 ];
-const ERAS=[
-  {label:'Prehistory',x0:200,x1:1100},{label:'Ancient',x0:1100,x1:1850},
-  {label:'Classical',x0:1850,x1:2300},{label:'Medieval',x0:2300,x1:2980},
-  {label:'Renaissance',x0:2980,x1:3900},{label:'Modern',x0:3900,x1:6000},
+const ERAS = [
+  {label:'Prehistory',   x0:200,  x1:1100},
+  {label:'Ancient',      x0:1100, x1:1850},
+  {label:'Classical',    x0:1850, x1:2300},
+  {label:'Medieval',     x0:2300, x1:2980},
+  {label:'Renaissance',  x0:2980, x1:3900},
+  {label:'Modern',       x0:3900, x1:6000},
 ];
-const MIN_GAP=170;
+const MIN_GAP = 170;
 
 function y2x(year){
-  for(const s of SEGS){if(year>=s.y0&&year<=s.y1)return s.x0+(year-s.y0)/(s.y1-s.y0)*(s.x1-s.x0);}
+  for(const s of SEGS){
+    if(year>=s.y0&&year<=s.y1){
+      return s.x0+(year-s.y0)/(s.y1-s.y0)*(s.x1-s.x0);
+    }
+  }
   return year<SEGS[0].y0?SEGS[0].x0:SEGS[SEGS.length-1].x1;
 }
+
 function dispX(sorted){
-  const raw=sorted.map(e=>y2x(e.year));const pos=[...raw];
-  for(let i=1;i<pos.length;i++){if(pos[i]-pos[i-1]<MIN_GAP)pos[i]=pos[i-1]+MIN_GAP;}
+  const raw=sorted.map(e=>y2x(e.year));
+  const pos=[...raw];
+  for(let i=1;i<pos.length;i++){
+    if(pos[i]-pos[i-1]<MIN_GAP) pos[i]=pos[i-1]+MIN_GAP;
+  }
   return pos;
 }
-/* FIX: avoid locale-specific thousand separators (e.g. German 1.665 instead of 1665) */
+
 function fmtYr(y){
-  if(y<0) return Math.abs(y)+' BCE';
+  if(y<0) return Math.abs(y).toLocaleString()+' BCE';
   if(y===0) return '1 CE';
-  return String(y)+' CE';
+  return y.toLocaleString()+' CE';
 }
-function fmtYrRange(r){
-  if(!Array.isArray(r)||r.length<2) return '';
-  const lo=Math.min(r[0],r[1]),hi=Math.max(r[0],r[1]);
-  return fmtYr(lo)+' – '+fmtYr(hi);
-}
-function getSlot(year,sorted){
-  for(let i=0;i<sorted.length;i++){if(year<sorted[i].year)return i;}
+
+function getSlot(year, sorted){
+  for(let i=0;i<sorted.length;i++){
+    if(year<sorted[i].year) return i;
+  }
   return sorted.length;
 }
-function scoreYr(evtY,guessY,yearRange){
-  /* Check if guess falls within the documented period for uncertain events */
-  if(Array.isArray(yearRange)&&yearRange.length===2){
-    const lo=Math.min(yearRange[0],yearRange[1]),hi=Math.max(yearRange[0],yearRange[1]);
-    if(guessY>=lo&&guessY<=hi) return{pts:100,lbl:'Within the period!'};
-  }
-  const diff=Math.abs(evtY-guessY),mag=Math.abs(evtY)||1;
+
+function scoreYr(evtY, guessY){
+  const diff=Math.abs(evtY-guessY);
+  const mag=Math.abs(evtY)||1;
   if(mag>5000){
     const r=diff/mag;
-    if(r<0.03)return{pts:150,lbl:'Pinpoint!'};
-    if(r<0.12)return{pts:100,lbl:'Very close!'};
-    if(r<0.35)return{pts:50,lbl:'Ballpark'};
+    if(r<0.03) return{pts:150,lbl:'Pinpoint!'};
+    if(r<0.12) return{pts:100,lbl:'Very close!'};
+    if(r<0.35) return{pts:50, lbl:'Ballpark'};
     return{pts:0,lbl:''};
   }
-  if(diff===0)return{pts:150,lbl:'Exact year!'};
-  if(diff<=5)return{pts:125,lbl:'Almost exact!'};
-  if(diff<=20)return{pts:100,lbl:'Very close!'};
-  if(diff<=100)return{pts:75,lbl:'Close!'};
-  if(diff<=250)return{pts:50,lbl:'Ballpark'};
+  if(diff===0)   return{pts:150,lbl:'Exact year!'};
+  if(diff<=5)    return{pts:125,lbl:'Almost exact!'};
+  if(diff<=20)   return{pts:100,lbl:'Very close!'};
+  if(diff<=100)  return{pts:75, lbl:'Close!'};
+  if(diff<=250)  return{pts:50, lbl:'Ballpark'};
   return{pts:0,lbl:''};
 }
-function getEraLabel(year){
-  if(year<-10000)return 'Prehistoric';if(year<0)return 'Ancient';
-  if(year<500)return 'Classical';if(year<1500)return 'Medieval';
-  if(year<1800)return 'Renaissance';return 'Modern';
-}
-/* ═══ SETTINGS STATE ═══ */
+
+/* ═══════════════════════════════════════════════════════
+   SETTINGS STATE
+═══════════════════════════════════════════════════════ */
 const DEFAULT_CATS={prehistoric:true,ancient:true,roman:true,medieval:true,
   exploration:true,science:true,art:true,food:true,wars:true,modern:true,
-  custom:false,images:false,met:false,europeana:false};
-const SETTINGS_KEY='chronos_st_v4'; // v4: reset to clean defaults (standard categories only; Images/Met/Europeana/CSV off until user opts in)
+  custom:true, images:true, met:false, europeana:false};
+const SETTINGS_KEY='chronos_st_v3'; // v2 resets Met Museum opt-in to OFF by default
+
 const appSettings={cats:{...DEFAULT_CATS},customEvents:[]};
 let csvDraft=[];
-const uploadedImgs={};
-let MET_EVT=[],metLoadPromise=null;
-let EUROPEANA_EVT=[],europeanaLoadPromise=null;
+const uploadedImgs={}; // filename → blobURL
+let MET_EVT=[];
+let metLoadPromise=null;
+let EUROPEANA_EVT=[];
+let europeanaLoadPromise=null;
 const MET_CACHE_KEY='chronos_met_evt_v4';
 const EUROPEANA_CACHE_KEY='chronos_europeana_evt_v1';
-const MET_TARGET_COUNT=100,MET_CANDIDATE_COUNT=700,EUROPEANA_TARGET_COUNT=200;
+const EUROPEANA_TARGET_COUNT=200;
+const MET_TARGET_COUNT=100;
+const MET_CANDIDATE_COUNT=700;
 
 function loadAppSettings(){
   try{
-    const d=JSON.parse(localStorage.getItem(SETTINGS_KEY)||'null');
-    if(!d)return;
-    if(d.cats)appSettings.cats={...DEFAULT_CATS,...d.cats};
-    if(Array.isArray(d.customEvents))appSettings.customEvents=d.customEvents;
+    let d=JSON.parse(localStorage.getItem(SETTINGS_KEY)||'null');
+    // Migrate older settings, but deliberately do NOT migrate Met opt-in.
+    // The Met category should start OFF unless the user enables it in this version.
+    if(!d){
+      d=JSON.parse(localStorage.getItem('chronos_st_v1')||'null');
+      if(d && d.cats) d.cats={...d.cats, met:false, europeana:false};
+    }
+    if(!d) return;
+    if(d.cats) appSettings.cats={...DEFAULT_CATS,...d.cats, met:d.cats.met===true, europeana:d.cats.europeana===true};
+    // legacy: migrate old includeImages boolean into cats.images
+    if(d.includeImages===false) appSettings.cats.images=false;
+    if(Array.isArray(d.customEvents)) appSettings.customEvents=d.customEvents;
   }catch(e){}
 }
+
 function saveAppSettings(){
-  try{localStorage.setItem(SETTINGS_KEY,JSON.stringify({cats:appSettings.cats,customEvents:appSettings.customEvents.filter(e=>!e.img||e.img.startsWith('http'))}));}catch(e){}
+  try{
+    const saveable={
+      cats:appSettings.cats,
+      customEvents:appSettings.customEvents.filter(e=>!e.img||e.img.startsWith('http'))
+    };
+    localStorage.setItem(SETTINGS_KEY,JSON.stringify(saveable));
+  }catch(e){}
 }
+
 function getActiveEvents(){
   const base=ALL_EVT.filter(e=>{
-    if(e.type==='img')return appSettings.cats.images!==false;
+    if(e.type==='img') return appSettings.cats.images!==false;
     return appSettings.cats[e.cat]!==false;
   });
-  const csv=appSettings.cats.custom!==false?[...appSettings.customEvents]:[];
-  const met=appSettings.cats.met!==false?[...MET_EVT]:[];
-  const eu=appSettings.cats.europeana!==false?[...EUROPEANA_EVT]:[];
-  return[...base,...csv,...met,...eu];
+  const csvEvts=appSettings.cats.custom!==false ? [...appSettings.customEvents] : [];
+  const metEvts=appSettings.cats.met!==false ? [...MET_EVT] : [];
+  const europeanaEvts=appSettings.cats.europeana!==false ? [...EUROPEANA_EVT] : [];
+  return [...base,...csvEvts,...metEvts,...europeanaEvts];
 }
-function metStatus(msg,cls=''){const el=document.getElementById('met-status');if(!el)return;el.textContent=msg;el.className='met-status '+cls;}
-function europeanaStatus(msg,cls=''){const el=document.getElementById('europeana-status');if(!el)return;el.textContent=msg;el.className='met-status '+cls;}
-function shuffledSample(arr,n){const c=[...(arr||[])];for(let i=c.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[c[i],c[j]]=[c[j],c[i]];}return c.slice(0,n);}
+
+function metStatus(msg, cls=''){
+  const el=document.getElementById('met-status');
+  if(!el) return;
+  el.textContent=msg;
+  el.className='met-status '+cls;
+}
+
+function europeanaStatus(msg, cls=''){
+  const el=document.getElementById('europeana-status');
+  if(!el) return;
+  el.textContent=msg;
+  el.className='met-status '+cls;
+}
+
+function shuffledSample(arr,n){
+  const copy=[...(arr||[])];
+  for(let i=copy.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [copy[i],copy[j]]=[copy[j],copy[i]];
+  }
+  return copy.slice(0,n);
+}
 
 async function loadMetArtworks(force=false){
-  if(appSettings.cats.met===false)return[];
-  if(MET_EVT.length&&!force)return MET_EVT;
-  if(metLoadPromise&&!force)return metLoadPromise;
+  if(appSettings.cats.met===false) return [];
+  if(MET_EVT.length&&!force) return MET_EVT;
+  if(metLoadPromise&&!force) return metLoadPromise;
+
   metLoadPromise=(async()=>{
-    if(!force){try{const c=JSON.parse(localStorage.getItem(MET_CACHE_KEY)||'null');if(Array.isArray(c)&&c.length){MET_EVT=c;metStatus(`Met Museum ready: ${MET_EVT.length} cached artworks.`,'ok');return MET_EVT;}}catch(e){}}
-    metStatus(force?'Loading a new random Met set…':'Loading Met Museum artworks…');
-    const search=await fetch('https://collectionapi.metmuseum.org/public/collection/v1/search?'+new URLSearchParams({q:'painting',hasImages:'true',isPublicDomain:'true'})).then(r=>r.json());
-    const ids=shuffledSample(search.objectIDs||[],MET_CANDIDATE_COUNT);const out=[];
-    async function fetchObj(id){
-      try{const obj=await fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${id}`).then(r=>r.json());
-      const year=parseInt(obj.objectBeginDate,10);const img=obj.primaryImageSmall||obj.primaryImage;
-      if(obj.isPublicDomain!==true||!obj.title||!img||!year||year===0)return null;
-      return{id:'met_'+obj.objectID,type:'img',cat:'met',title:obj.title,year,img,
-        desc:[obj.artistDisplayName,obj.objectDate].filter(Boolean).join(' · '),
-        credit:obj.artistDisplayName||'The Metropolitan Museum of Art',
-        source:obj.objectURL||`https://www.metmuseum.org/art/collection/search/${obj.objectID}`,wiki:null};}
-      catch(e){return null;}
+    if(!force){
+      try{
+        const cached=JSON.parse(localStorage.getItem(MET_CACHE_KEY)||'null');
+        if(Array.isArray(cached)&&cached.length){
+          MET_EVT=cached;
+          metStatus(`Met Museum ready: ${MET_EVT.length} cached artworks.`, 'ok');
+          return MET_EVT;
+        }
+      }catch(e){}
     }
-    for(let i=0;i<ids.length&&out.length<MET_TARGET_COUNT;i+=12){
+
+    metStatus(force ? 'Loading a new random Met set…' : 'Loading Met Museum artworks… first time may take a moment.');
+    const searchURL='https://collectionapi.metmuseum.org/public/collection/v1/search?'
+      + new URLSearchParams({q:'painting', hasImages:'true', isPublicDomain:'true'});
+    const search=await fetch(searchURL).then(r=>r.json());
+    const ids=shuffledSample(search.objectIDs||[], MET_CANDIDATE_COUNT);
+    const out=[];
+
+    async function fetchObj(id){
+      try{
+        const obj=await fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${id}`).then(r=>r.json());
+        const year=parseInt(obj.objectBeginDate,10);
+        const img=obj.primaryImageSmall||obj.primaryImage;
+        // Only use Met images that the object record itself marks as Public Domain / Open Access.
+        // The search endpoint is only a first pass; this per-object check is the legal gate.
+        if(obj.isPublicDomain!==true || !obj.title || !img || !year || year===0) return null;
+        return {
+          id:'met_'+obj.objectID, type:'img', cat:'met',
+          title:obj.title, year, img,
+          desc:[obj.artistDisplayName, obj.objectDate].filter(Boolean).join(' · '),
+          credit:obj.artistDisplayName||'The Metropolitan Museum of Art',
+          source:obj.objectURL||`https://www.metmuseum.org/art/collection/search/${obj.objectID}`,
+          rights:'Open Access / Public Domain (isPublicDomain=true)',
+          wiki:null
+        };
+      }catch(e){ return null; }
+    }
+
+    for(let i=0;i<ids.length && out.length<MET_TARGET_COUNT;i+=12){
       const batch=await Promise.all(ids.slice(i,i+12).map(fetchObj));
       out.push(...batch.filter(Boolean));
-      metStatus(`Loading Met set… ${Math.min(out.length,MET_TARGET_COUNT)} usable found.`);
+      metStatus(`Loading random Met set… ${Math.min(out.length,MET_TARGET_COUNT)} usable found.`);
     }
+
     MET_EVT=out.slice(0,MET_TARGET_COUNT);
-    try{localStorage.setItem(MET_CACHE_KEY,JSON.stringify(MET_EVT));}catch(e){}
-    metStatus(`Met Museum ready: ${MET_EVT.length} artworks.`,MET_EVT.length?'ok':'bad');
+    try{ localStorage.setItem(MET_CACHE_KEY,JSON.stringify(MET_EVT)); }catch(e){}
+    metStatus(`Met Museum ready: ${MET_EVT.length} artworks loaded.`, MET_EVT.length?'ok':'bad');
     return MET_EVT;
-  })().catch(err=>{metStatus('Could not load Met artworks.','bad');return[];}).finally(()=>{metLoadPromise=null;});
+  })().catch(err=>{
+    console.error(err);
+    metStatus('Could not load Met Museum artworks. Check your connection or try again later.', 'bad');
+    return [];
+  }).finally(()=>{ metLoadPromise=null; });
+
   return metLoadPromise;
 }
 
-function parseEuropeanaYear(v){
-  const vals=Array.isArray(v)?v:[v];
-  for(const raw of vals){if(raw===undefined||raw===null)continue;const str=String(raw).trim();if(!str)continue;
-    const bc=str.match(/(\d{1,6})\s*(BC|BCE|v\.\s*Chr\.?|av\.?\s*J\.?-?C\.?)\b/i);if(bc)return-parseInt(bc[1],10);
-    const iso=str.match(/^-?\d{1,6}/);if(iso){const y=parseInt(iso[0],10);if(y!==0)return y;}
-    const any=str.match(/\b(\d{3,4})\b/);if(any){const y=parseInt(any[1],10);if(y!==0)return y;}}
+
+function parseEuropeanaYear(value){
+  const vals=Array.isArray(value)?value:[value];
+  for(const raw of vals){
+    if(raw===undefined||raw===null) continue;
+    const str=String(raw).trim();
+    if(!str) continue;
+    const bc=str.match(/(\d{1,6})\s*(BC|BCE|v\.\s*Chr\.?|av\.?\s*J\.?-?C\.?)\b/i);
+    if(bc) return -parseInt(bc[1],10);
+    const iso=str.match(/^-?\d{1,6}/);
+    if(iso){
+      const y=parseInt(iso[0],10);
+      if(y!==0) return y;
+    }
+    const any=str.match(/\b(\d{3,4})\b/);
+    if(any){
+      const y=parseInt(any[1],10);
+      if(y!==0) return y;
+    }
+  }
   return null;
 }
 
 async function loadEuropeanaEvents(force=false){
-  if(appSettings.cats.europeana===false)return[];
-  if(EUROPEANA_EVT.length&&!force)return EUROPEANA_EVT;
-  if(europeanaLoadPromise&&!force)return europeanaLoadPromise;
+  if(appSettings.cats.europeana===false) return [];
+  if(EUROPEANA_EVT.length&&!force) return EUROPEANA_EVT;
+  if(europeanaLoadPromise&&!force) return europeanaLoadPromise;
+
   europeanaLoadPromise=(async()=>{
-    if(!force){try{const c=JSON.parse(localStorage.getItem(EUROPEANA_CACHE_KEY)||'null');if(Array.isArray(c)&&c.length){EUROPEANA_EVT=c;europeanaStatus(`Europeana ready: ${EUROPEANA_EVT.length} cached objects.`,'ok');return EUROPEANA_EVT;}}catch(e){}}
-    europeanaStatus(force?'Reloading Europeana JSON…':'Loading Europeana archaeology JSON…');
-    const res=await fetch('./europeana_archaeology.json?cb='+Date.now(),{headers:{'Accept':'application/json'}});
-    if(!res.ok)throw new Error('HTTP '+res.status);
+    if(!force){
+      try{
+        const cached=JSON.parse(localStorage.getItem(EUROPEANA_CACHE_KEY)||'null');
+        if(Array.isArray(cached)&&cached.length){
+          EUROPEANA_EVT=cached;
+          europeanaStatus(`Europeana ready: ${EUROPEANA_EVT.length} cached objects.`, 'ok');
+          return EUROPEANA_EVT;
+        }
+      }catch(e){}
+    }
+
+    // Static GitHub Pages mode: load the pre-built JSON pack from the same folder
+    // as chronos_8.html. No Europeana API key is used by the public game.
+    europeanaStatus(force ? 'Reloading Europeana archaeology JSON…' : 'Loading Europeana archaeology JSON…');
+    const res=await fetch('./europeana_archaeology.json?cb=' + Date.now(), {headers:{'Accept':'application/json'}});
+    if(!res.ok) throw new Error('Could not load europeana_archaeology.json: HTTP '+res.status);
     const data=await res.json();
-    const items=Array.isArray(data)?data:(Array.isArray(data.items)?data.items:[]);
+    const items=Array.isArray(data) ? data : (Array.isArray(data.items) ? data.items : []);
+
     const out=items.map((item,idx)=>{
       const title=Array.isArray(item.title)?item.title[0]:item.title;
-      const year=Number.isFinite(Number(item.year))?Number(item.year):parseEuropeanaYear(item.year||item.dcDate||item.date||item.edmTimespanLabel);
-      const img=Array.isArray(item.img)?item.img[0]:(item.img||(Array.isArray(item.image)?item.image[0]:item.image)||(Array.isArray(item.edmPreview)?item.edmPreview[0]:item.edmPreview));
-      if(!title||!year||!img)return null;
-      return{id:String(item.id||('eu_'+idx)),type:'img',cat:'europeana',title:String(title),year,img:String(img),
-        desc:String(item.desc||item.description||'Europeana archaeology object.'),
-        credit:item.credit||item.dataProvider||item.provider||'Europeana',
-        source:item.source||item.link||item.guid||null,wiki:null};
-    }).filter(Boolean).slice(0,EUROPEANA_TARGET_COUNT);
+      const year=Number.isFinite(Number(item.year)) ? Number(item.year) : parseEuropeanaYear(item.year||item.dcDate||item.date||item.edmTimespanLabel);
+      const img=Array.isArray(item.img)?item.img[0]:(item.img || (Array.isArray(item.image)?item.image[0]:item.image) || (Array.isArray(item.edmPreview)?item.edmPreview[0]:item.edmPreview));
+      if(!title || !year || !img) return null;
+      return {
+        id:String(item.id||('eu_'+idx)), type:'img', cat:'europeana',
+        title:String(title), year, img:String(img),
+        desc:String(item.desc || item.description || 'Archaeology-related object from Europeana.'),
+        credit:item.credit || item.dataProvider || item.provider || 'Europeana',
+        source:item.source || item.link || item.guid || null,
+        rights:item.rights || 'Check item rights on Europeana',
+        wiki:null
+      };
+    }).filter(Boolean).slice(0,EUROPEANA_TARGET_COUNT || 200);
+
     EUROPEANA_EVT=out;
-    try{localStorage.setItem(EUROPEANA_CACHE_KEY,JSON.stringify(EUROPEANA_EVT));}catch(e){}
-    europeanaStatus(EUROPEANA_EVT.length?`Europeana ready: ${EUROPEANA_EVT.length} objects.`:'No usable objects found in JSON.',EUROPEANA_EVT.length?'ok':'bad');
+    try{ localStorage.setItem(EUROPEANA_CACHE_KEY,JSON.stringify(EUROPEANA_EVT)); }catch(e){}
+    europeanaStatus(
+      EUROPEANA_EVT.length
+        ? `Europeana ready: ${EUROPEANA_EVT.length} objects loaded from europeana_archaeology.json.`
+        : 'Europeana JSON loaded, but it contains no usable objects. Create a filled europeana_archaeology.json with the importer.',
+      EUROPEANA_EVT.length?'ok':'bad'
+    );
     return EUROPEANA_EVT;
-  })().catch(err=>{europeanaStatus('Could not load europeana_archaeology.json.','bad');return[];}).finally(()=>{europeanaLoadPromise=null;});
+  })().catch(err=>{
+    console.error(err);
+    europeanaStatus('Could not load europeana_archaeology.json. Put it in the same folder as chronos_8.html and open via GitHub Pages/local server, not file://.', 'bad');
+    return [];
+  }).finally(()=>{ europeanaLoadPromise=null; });
+
   return europeanaLoadPromise;
 }
 
-function processImgFiles(files){files.forEach(f=>{if(f.type.startsWith('image/')||/\.(jpe?g|png|gif|webp|svg)$/i.test(f.name))uploadedImgs[f.name]=URL.createObjectURL(f);});}
+function processImgFiles(files){
+  files.forEach(f=>{
+    if(f.type.startsWith('image/')||/\.(jpe?g|png|gif|webp|svg)$/i.test(f.name)){
+      uploadedImgs[f.name]=URL.createObjectURL(f);
+    }
+  });
+}
 
-/* CSV: supports title,year | title,year,img | title,year1,year2 | title,year1,year2,img */
-function splitCSVLine(line){const res=[];let f='',q=false;for(const c of line){if(q){if(c==='"')q=false;else f+=c;}else if(c==='"')q=true;else if(c===','){res.push(f.trim());f='';}else f+=c;}res.push(f.trim());return res;}
-function parseYearStr(s){s=s.trim();const u=s.toUpperCase();let n;if(u.endsWith('BCE')||u.endsWith('BC'))n=-Math.abs(parseInt(s));else if(u.endsWith('CE')||u.endsWith('AD'))n=Math.abs(parseInt(s));else n=parseInt(s);return isNaN(n)||n===0?null:n;}
-function isYearStr(s){if(!s)return false;if(s.startsWith('http'))return false;if(/\.(jpe?g|png|gif|webp|svg|csv|txt)$/i.test(s))return false;return parseYearStr(s)!==null;}
+/* ─── CSV parsing ─── */
+function splitCSVLine(line){
+  const res=[];let f='';let q=false;
+  for(const c of line){
+    if(q){if(c==='"')q=false;else f+=c;}
+    else if(c==='"')q=true;
+    else if(c===','){res.push(f.trim());f='';}
+    else f+=c;
+  }
+  res.push(f.trim());return res;
+}
+
+function parseYearStr(s){
+  s=s.trim();const u=s.toUpperCase();let n;
+  if(u.endsWith('BCE')||u.endsWith('BC')) n=-Math.abs(parseInt(s));
+  else if(u.endsWith('CE')||u.endsWith('AD')) n=Math.abs(parseInt(s));
+  else n=parseInt(s);
+  return isNaN(n)||n===0?null:n;
+}
+
 function parseCSVText(text){
-  const lines=text.replace(/\r\n?/g,'\n').trim().split('\n');const evts=[];
+  const lines=text.replace(/\r\n?/g,'\n').trim().split('\n');
+  const evts=[];
   for(let i=0;i<lines.length;i++){
-    const line=lines[i].trim();if(!line||line.startsWith('#'))continue;
-    const parts=splitCSVLine(line);if(parts.length<2)continue;
+    const line=lines[i].trim();
+    if(!line||line.startsWith('#')) continue;
+    const parts=splitCSVLine(line);
+    if(parts.length<2) continue;
     const title=parts[0].replace(/^"|"$/g,'').trim();
-    const raw1=parts[1].replace(/^"|"$/g,'').trim();
-    if(i===0&&isNaN(parseInt(raw1.replace(/[^0-9-]/g,''))))continue;
-    const y1=parseYearStr(raw1);if(!title||y1===null)continue;
-    const evt={id:'csv_'+i+'_'+Math.random().toString(36).slice(2,5),title,year:y1,cat:'custom',type:'text',desc:''};
-    const raw2=(parts[2]||'').replace(/^"|"$/g,'').trim();
-    const raw3=(parts[3]||'').replace(/^"|"$/g,'').trim();
-    if(raw2&&isYearStr(raw2)){
-      // 3rd col is year2 → date range
-      const y2=parseYearStr(raw2);evt.year=Math.round((y1+y2)/2);evt.yearRange=[y1,y2];
-      const imgRef=raw3;if(imgRef){if(uploadedImgs[imgRef]){evt.type='img';evt.img=uploadedImgs[imgRef];evt.credit=title;evt.wiki=null;}else if(imgRef.startsWith('http')){evt.type='img';evt.img=imgRef;evt.credit='';evt.wiki=null;}}
-    } else if(raw2){
-      // 3rd col is image ref
-      const imgRef=raw2;if(uploadedImgs[imgRef]){evt.type='img';evt.img=uploadedImgs[imgRef];evt.credit=title;evt.wiki=null;}else if(imgRef.startsWith('http')){evt.type='img';evt.img=imgRef;evt.credit='';evt.wiki=null;}
+    const yearRaw=parts[1].replace(/^"|"$/g,'').trim();
+    const imgRef=parts[2]?parts[2].replace(/^"|"$/g,'').trim():'';
+    // Skip header row
+    if(i===0&&isNaN(parseInt(yearRaw.replace(/[^0-9-]/g,'')))) continue;
+    const year=parseYearStr(yearRaw);
+    if(!title||year===null) continue;
+    const evt={id:'csv_'+i+'_'+Math.random().toString(36).slice(2,5),
+               title,year,cat:'custom',type:'text',desc:''};
+    // Image column: local filename or URL
+    if(imgRef){
+      if(uploadedImgs[imgRef]){
+        evt.type='img';evt.img=uploadedImgs[imgRef];evt.credit=title;evt.wiki=null;
+      } else if(imgRef.startsWith('http')){
+        evt.type='img';evt.img=imgRef;evt.credit='';evt.wiki=null;
+      }
     }
     evts.push(evt);
   }
   return evts;
 }
 
-/* ═══ WIKI PREFETCH ═══ */
-const imgURLCache={};
-async function prefetchWikiImages(){
-  const evts=ALL_EVT.filter(e=>e.type==='img');
-  const titles=evts.map(e=>e.wiki).join('|');
-  const apiURL='https://en.wikipedia.org/w/api.php?'+new URLSearchParams({action:'query',titles,prop:'pageimages',pithumbsize:'400',format:'json',origin:'*'});
-  try{const resp=await fetch(apiURL);const data=await resp.json();for(const page of Object.values(data.query.pages)){const ev=evts.find(e=>e.wiki===page.title||e.wiki.replace(/ /g,'_')===page.title.replace(/ /g,'_'));if(ev)imgURLCache[ev.id]=page.thumbnail?.source||ev.img;}}catch(e){}
-  evts.forEach(e=>{if(!imgURLCache[e.id])imgURLCache[e.id]=e.img;});
-}
-/* ═══ GAME ENGINE ═══ */
-const G=(()=>{
-  let persist={highScore:0,totalCorrect:0,bestStreak:0,catCorrect:{},earnedBadges:[]};
-  function loadP(){try{const d=JSON.parse(localStorage.getItem('chronos_v3')||'{}');Object.assign(persist,d);}catch(e){}}
-  function saveP(){try{localStorage.setItem('chronos_v3',JSON.stringify(persist));}catch(e){}}
+/* ═══════════════════════════════════════════════════════
+   IMAGE PRELOADING via Wikipedia API
+═══════════════════════════════════════════════════════ */
+const imgURLCache = {}; // id → verified URL or null
 
-  let s={};let era='CE';let _timers=[],_busy=false;
-  function _delay(fn,ms){const id=setTimeout(fn,ms);_timers.push(id);return id;}
-  function _clearTimers(){_timers.forEach(clearTimeout);_timers=[];_busy=false;}
+async function prefetchWikiImages(){
+  const evts = ALL_EVT.filter(e=>e.type==='img');
+  const titles = evts.map(e=>e.wiki).join('|');
+  const apiURL = 'https://en.wikipedia.org/w/api.php?'
+    + new URLSearchParams({
+        action:'query', titles, prop:'pageimages',
+        pithumbsize:'400', format:'json', origin:'*'
+      });
+  try{
+    const resp = await fetch(apiURL);
+    const data = await resp.json();
+    for(const page of Object.values(data.query.pages)){
+      const ev = evts.find(e=>e.wiki===page.title||
+        e.wiki.replace(/ /g,'_')===page.title.replace(/ /g,'_'));
+      if(ev) imgURLCache[ev.id] = page.thumbnail?.source || ev.img;
+    }
+  } catch(e){
+    // Network or CSP blocked — fall through to direct URLs
+  }
+  // Fill any gaps with the hardcoded fallback
+  evts.forEach(e=>{ if(!imgURLCache[e.id]) imgURLCache[e.id]=e.img; });
+}
+
+/* ═══════════════════════════════════════════════════════
+   GAME ENGINE
+═══════════════════════════════════════════════════════ */
+const G = (()=>{
+
+  /* Persistent */
+  let persist={highScore:0,totalCorrect:0,bestStreak:0,catCorrect:{},earnedBadges:[]};
+  function loadP(){ try{const d=JSON.parse(localStorage.getItem('chronos_v3')||'{}');Object.assign(persist,d);}catch(e){} }
+  function saveP(){ try{localStorage.setItem('chronos_v3',JSON.stringify(persist));}catch(e){} }
+
+  /* Session */
+  let s={};
+  let era='CE';
+  let _timers=[], _busy=false;
+  function _delay(fn,ms){ const id=setTimeout(fn,ms); _timers.push(id); return id; }
+  function _clearTimers(){ _timers.forEach(clearTimeout); _timers=[]; _busy=false; }
 
   function initS(){
     _clearTimers();
     s={placed:[],current:null,queue:[],
-       placements:0,yearHits:0,lives:3,streak:0,maxStreak:0,
-       roundsOk:0,roundsNo:0,waitingNext:false,
-       showingStart:false,startEvt:null,
-       wrongPlaced:[],responseTimes:[],periodStats:{},eventShownAt:0,
+       placements:0, yearHits:0,
+       lives:3,streak:0,maxStreak:0,
+       roundsOk:0,roundsNo:0,
+       waitingNext:false,
        catCorrect:{},sessionBadges:[]};
     era='CE';
-    const inp=document.getElementById('yr-input');if(inp)inp.value='';
-    const h=document.getElementById('yr-hint');if(h){h.textContent='';h.className='';}
-    const ce=document.getElementById('btn-ce'),bce=document.getElementById('btn-bce');
-    if(ce)ce.classList.add('active');if(bce)bce.classList.remove('active');
-    document.getElementById('yr-area').classList.remove('start-mode');
+    const inp=document.getElementById('yr-input');
+    if(inp) inp.value='';
+    const hintEl=document.getElementById('yr-hint');
+    if(hintEl){ hintEl.textContent=''; hintEl.className=''; }
+    const ce=document.getElementById('btn-ce');
+    const bce=document.getElementById('btn-bce');
+    if(ce)  ce.classList.add('active');
+    if(bce) bce.classList.remove('active');
     hideGhost();
-    document.getElementById('feedback').innerHTML='';
   }
 
-  let prevScreen='home',curScreen='home';
+  /* Screen management */
+  let prevScreen='home';
+  let curScreen='home';
   function showScreen(name){
     document.querySelectorAll('.screen').forEach(el=>el.classList.remove('active'));
     document.getElementById('scr-'+name).classList.add('active');
-    prevScreen=curScreen;curScreen=name;
-    if(name==='badges')renderBadges();if(name==='home')renderHome();
+    prevScreen=curScreen; curScreen=name;
+    if(name==='badges') renderBadges();
+    if(name==='home')   renderHome();
   }
+
   function renderHome(){
     const hi=document.getElementById('home-hi');
-    hi.innerHTML=persist.highScore>0?`High score: <b>${persist.highScore}</b>`:'';
+    hi.innerHTML=persist.highScore>0?`High score: <b>${persist.highScore.toLocaleString()}</b>`:'';
     document.getElementById('bs-back-btn').onclick=()=>showScreen(prevScreen==='game'?'game':'home');
   }
 
-  function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+  /* ─── Start ─── */
+  function shuffle(arr){
+    const a=[...arr];
+    for(let i=a.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [a[i],a[j]]=[a[j],a[i]];
+    }
+    return a;
+  }
 
   async function startGame(){
-    const btns=[...document.querySelectorAll('button')].filter(b=>/Play/.test(b.textContent));
-    const lbls=btns.map(b=>b.textContent);
+    const playBtns=[...document.querySelectorAll('button')].filter(b=>/Play/.test(b.textContent));
+    const oldLabels=playBtns.map(b=>b.textContent);
     try{
-      if(appSettings.cats.met!==false&&!MET_EVT.length){btns.forEach(b=>{b.disabled=true;b.textContent='Loading Met…';});await loadMetArtworks();}
-      if(appSettings.cats.europeana!==false&&!EUROPEANA_EVT.length){btns.forEach(b=>{b.disabled=true;b.textContent='Loading Europeana…';});await loadEuropeanaEvents();}
+      if(appSettings.cats.met!==false && !MET_EVT.length){
+        playBtns.forEach(b=>{ b.disabled=true; b.textContent='Loading Met…'; });
+        await loadMetArtworks();
+      }
+      if(appSettings.cats.europeana!==false && !EUROPEANA_EVT.length){
+        playBtns.forEach(b=>{ b.disabled=true; b.textContent='Loading Europeana…'; });
+        await loadEuropeanaEvents();
+      }
       const active=getActiveEvents();
-      if(active.length<2){showSettings();return;}
+      if(active.length<2){
+        showSettings(); // let user fix settings instead of dead-end alert
+        return;
+      }
       initS();
       const sh=shuffle(active);
-      const startEvt=sh[0];
+      const first=sh[0];
       s.queue=sh.slice(1);
-      s.placed=[];          // empty — anchor event revealed by player on Enter
-      s.startEvt=startEvt;
-      s.showingStart=true;
-      showScreen('game');renderHdr();renderTimeline();
-      renderStartCard(startEvt);
+      s.placed=[first];
+      showScreen('game');
+      renderHdr();
+      renderTimeline();
+      nextEvt();
       prefetchWikiImages();
-    }finally{btns.forEach((b,i)=>{b.disabled=false;b.textContent=lbls[i];});}
+    } finally {
+      playBtns.forEach((b,i)=>{ b.disabled=false; b.textContent=oldLabels[i]; });
+    }
   }
 
   function nextEvt(){
-    _busy=false;s.waitingNext=false;
-    document.getElementById('feedback').innerHTML='';
-    document.getElementById('yr-area').classList.remove('start-mode');
+    _busy=false;
+    s.waitingNext=false;
+    document.getElementById('feedback').innerHTML=''; // clear result popup
     hideGhost();
     document.getElementById('yr-input').value='';
-    document.getElementById('yr-input').placeholder='year';
-    document.getElementById('yr-hint').textContent='';document.getElementById('yr-hint').className='';
-    if(s.queue.length===0){endGame();return;}
+    document.getElementById('yr-hint').textContent='';
+    document.getElementById('yr-hint').className='';
+    if(s.queue.length===0){ endGame(); return; }
     s.current=s.queue.shift();
-    s.eventShownAt=Date.now();
-    renderCard();renderTimeline();
+    renderCard();
+    renderTimeline();
     _delay(()=>{
-      const sorted=[...s.placed].sort((a,b)=>a.year-b.year);const xs=dispX(sorted);
-      if(xs.length){const mid=(xs[0]+xs[xs.length-1])/2;const vp=document.getElementById('tl-vp');vp.scrollLeft=Math.max(0,mid-vp.clientWidth/2);}
+      const sorted=[...s.placed].sort((a,b)=>a.year-b.year);
+      const xs=dispX(sorted);
+      if(xs.length){
+        const mid=(xs[0]+xs[xs.length-1])/2;
+        const vp=document.getElementById('tl-vp');
+        vp.scrollLeft=Math.max(0,mid-vp.clientWidth/2);
+      }
     },80);
     _delay(()=>document.getElementById('yr-input').focus(),120);
   }
 
-  /* Show the random anchor event before the game begins */
-  function renderStartCard(ev){
-    document.getElementById('evt-cat').textContent='';
-    const display=document.getElementById('evt-display');
-    const yrRange=ev.yearRange?`<div class="ev-period">Period: ${fmtYrRange(ev.yearRange)}</div>`:'';
-    if(ev.type==='img'){
-      const src=imgURLCache[ev.id]||ev.img;
-      const srcLink=ev.source||(ev.wiki?`https://en.wikipedia.org/wiki/${encodeURIComponent(ev.wiki.replace(/ /g,'_'))}`:null);
-      display.innerHTML=`<div class="evt-start-lbl">📍 Starting Point</div>
-        <img class="ev-img-el" src="${escHTML(src)}" alt="${escHTML(ev.title)}">
-        <div class="ev-img-title">${escHTML(ev.title)}</div>
-        ${ev.credit?`<div class="ev-img-credit">${escHTML(ev.credit)}</div>`:''}${yrRange}`;
-      const imgEl=display.querySelector('img');
-      imgEl.addEventListener('click',()=>showImageModal(src,ev.title,ev.credit,srcLink));
-      imgEl.addEventListener('error',function(){this.outerHTML=`<div class="ev-img-placeholder"><span class="ev-img-placeholder-icon">🖼</span><span>${escHTML(ev.title)}</span></div>`;});
-    } else {
-      display.innerHTML=`<div class="evt-start-lbl">📍 Starting Point</div>
-        <div class="ev-text-title">${escHTML(ev.title)}</div>${yrRange}`;
-    }
-    const inp=document.getElementById('yr-input');
-    inp.value='';inp.placeholder='year ?';
-    document.getElementById('yr-area').classList.add('start-mode');
-    document.getElementById('yr-hint').textContent='↩  Press Enter to reveal the year and start';
-    document.getElementById('yr-hint').className='';
-    hideGhost();
-    _delay(()=>inp.focus(),80);
-  }
-
-  /* Player presses Enter on the starting card — reveal year, place on timeline, begin */
-  function revealStartingEvent(){
-    const ev=s.startEvt;
-    s.placed=[ev];s.showingStart=false;s.startEvt=null;
-    renderTimeline();
-    const x=y2x(ev.year);
-    const vp=document.getElementById('tl-vp');
-    vp.scrollLeft=Math.max(0,x-vp.clientWidth/2);
-    const yrStr=fmtYr(ev.year)+(ev.yearRange?` (${fmtYrRange(ev.yearRange)})`:'');
-    showFeedback(true,`📍 Starting point\n${yrStr}`,false);
-    _delay(()=>nextEvt(),1400);
-  }
-
+  /* ─── Render header ─── */
   function renderHdr(){
-    const el=document.getElementById('hdr-lives');
-    el.innerHTML=[1,2,3].map(i=>`<span class="life-heart${i>s.lives?' lost':''}">♥</span>`).join('');
+    const livesEl=document.getElementById('hdr-lives');
+    livesEl.innerHTML=[1,2,3].map(i=>`<span class="life-heart${i>s.lives?' lost':''}">♥</span>`).join('');
     document.getElementById('hdr-placed').textContent=s.placements;
     document.getElementById('hdr-years').textContent=s.yearHits;
     document.getElementById('hdr-streak').textContent=s.streak;
   }
 
-  function escHTML(v){return String(v||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+  function escHTML(v){
+    return String(v||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  }
 
   function showImageModal(src,title,credit,source){
-    const modal=document.getElementById('img-modal'),img=document.getElementById('img-modal-img'),cap=document.getElementById('img-modal-caption');
-    if(!modal)return;img.src=src;img.alt=title||'';
-    const link=source?`<br><a href="${escHTML(source)}" target="_blank" rel="noopener noreferrer">View source ↗</a>`:'';
-    cap.innerHTML=`<strong>${escHTML(title)}</strong>${credit?`<br>${escHTML(credit)}`:''}${link}`;
+    const modal=document.getElementById('img-modal');
+    const img=document.getElementById('img-modal-img');
+    const cap=document.getElementById('img-modal-caption');
+    if(!modal||!img||!cap) return;
+    img.src=src;
+    img.alt=title||'';
+    cap.innerHTML=`<strong>${escHTML(title)}</strong>${credit?`<br>${escHTML(credit)}`:''}`;
     modal.classList.remove('hidden');
   }
+
   function hideImageModal(){
-    const modal=document.getElementById('img-modal'),img=document.getElementById('img-modal-img');
-    if(img)img.src='';if(modal)modal.classList.add('hidden');
-    const inp=document.getElementById('yr-input');if(inp&&curScreen==='game')requestAnimationFrame(()=>inp.focus());
+    const modal=document.getElementById('img-modal');
+    const img=document.getElementById('img-modal-img');
+    if(img) img.src='';
+    if(modal) modal.classList.add('hidden');
+    const input=document.getElementById('yr-input');
+    if(input && curScreen==='game'){
+      requestAnimationFrame(()=>input.focus());
+    }
   }
 
+  /* ─── Render event card ─── */
   function renderCard(){
     const ev=s.current;
     const cat=CATS[ev.cat]||{name:ev.cat,icon:'📌'};
@@ -1000,122 +1491,157 @@ const G=(()=>{
     const display=document.getElementById('evt-display');
     if(ev.type==='img'){
       const src=imgURLCache[ev.id]||ev.img;
-      const srcLink=ev.source||(ev.wiki?`https://en.wikipedia.org/wiki/${encodeURIComponent(ev.wiki.replace(/ /g,'_'))}`:null);
-      display.innerHTML=`<img class="ev-img-el" src="${escHTML(src)}" alt="${escHTML(ev.title)}">
+      display.innerHTML=`
+        <img class="ev-img-el" src="${escHTML(src)}" alt="${escHTML(ev.title)}">
         <div class="ev-img-title">${escHTML(ev.title)}</div>
-        ${ev.credit?`<div class="ev-img-credit">${escHTML(ev.credit)}</div>`:''}
-        ${ev.yearRange?`<div class="ev-period">Period: ${fmtYrRange(ev.yearRange)}</div>`:''}`;
+        ${ev.credit?`<div class="ev-img-credit">${escHTML(ev.credit)}</div>`:''}`;
+      // Use JS listeners instead of inline handlers (avoids CSP blocks)
       const imgEl=display.querySelector('img');
-      imgEl.addEventListener('click',()=>showImageModal(src,ev.title,ev.credit,srcLink));
+      imgEl.addEventListener('click',()=>showImageModal(src,ev.title,ev.credit,ev.source));
       imgEl.addEventListener('error',function(){
-        this.outerHTML=`<div class="ev-img-placeholder"><span class="ev-img-placeholder-icon">🖼</span><span>${escHTML(ev.title)}</span></div>`;
+        this.outerHTML=`<div class="ev-img-placeholder">
+          <span class="ev-img-placeholder-icon">🖼</span>
+          <span>${escHTML(ev.title)}</span>
+        </div>`;
       });
     } else {
-      display.innerHTML=`<div class="ev-text-title">${escHTML(ev.title)}</div>
-        ${ev.yearRange?`<div class="ev-period">Period: ${fmtYrRange(ev.yearRange)}</div>`:''}`;
+      display.innerHTML=`<div class="ev-text-title">${ev.title}</div>`;
     }
   }
 
-  function setEraUI(e){era=e;document.getElementById('btn-bce').classList.toggle('active',e==='BCE');document.getElementById('btn-ce').classList.toggle('active',e==='CE');}
-  function setEra(e){setEraUI(e);onYearInput();}
+  /* ─── BCE / CE toggle ─── */
+  function setEraUI(e){
+    era=e;
+    document.getElementById('btn-bce').classList.toggle('active',e==='BCE');
+    document.getElementById('btn-ce').classList.toggle('active',e==='CE');
+  }
 
+  function setEra(e){
+    setEraUI(e);
+    onYearInput();
+  }
+
+  /* ─── Real-time preview ─── */
   function onYearInput(){
-    if(!s.current||s.waitingNext||s.showingStart)return;
+    if(!s.current||s.waitingNext) return;
     const raw=(document.getElementById('yr-input').value||'').trim();
-    if(raw.startsWith('-'))setEraUI('BCE');else if(raw.startsWith('+'))setEraUI('CE');
+
+    // Auto-switch era from leading sign
+    if(raw.startsWith('-'))      setEraUI('BCE');
+    else if(raw.startsWith('+')) setEraUI('CE');
+
     const num=parseInt(raw.replace(/^[+-]/,''));
-    if(isNaN(num)||num===0){hideGhost();document.getElementById('yr-hint').textContent='';document.getElementById('yr-hint').className='';return;}
+    if(isNaN(num)||num===0){
+      hideGhost();
+      document.getElementById('yr-hint').textContent='';
+      document.getElementById('yr-hint').className='';
+      return;
+    }
     const guessY=era==='BCE'?-num:num;
     const sorted=[...s.placed].sort((a,b)=>a.year-b.year);
-    const slot=getSlot(guessY,sorted),correctSlot=getSlot(s.current.year,sorted),correct=slot===correctSlot;
+    const slot=getSlot(guessY,sorted);
+    const correctSlot=getSlot(s.current.year,sorted);
+    const correct=slot===correctSlot;
+
+    // Hint text
     const hint=document.getElementById('yr-hint');
     let hTxt='';
-    if(slot===0)hTxt=`Before everything (before ${fmtYr(sorted[0].year)})`;
-    else if(slot===sorted.length)hTxt=`After everything (after ${fmtYr(sorted[sorted.length-1].year)})`;
+    if(slot===0)                  hTxt=`Before everything (before ${fmtYr(sorted[0].year)})`;
+    else if(slot===sorted.length) hTxt=`After everything (after ${fmtYr(sorted[sorted.length-1].year)})`;
     else hTxt=`Between ${fmtYr(sorted[slot-1].year)} and ${fmtYr(sorted[slot].year)}`;
-    hint.textContent='→ '+hTxt;hint.className=correct?'ok':'bad';
-    /* Position the ghost using the SAME adjusted coordinates as the rendered pins
-       (dispX pushes crowded pins rightward to keep a minimum gap apart). Using the
-       raw y2x() here would let the ghost visually land before an already-pushed
-       neighbour even when the typed year is chronologically later. */
-    const gx=ghostX(guessY,sorted,slot);
+    hint.textContent='→ '+hTxt;
+    hint.className=correct?'ok':'bad';
+
+    // Ghost on timeline
+    const gx=y2x(guessY);
     showGhost(gx,fmtYr(guessY),correct);
-    document.getElementById('tl-vp').scrollLeft=Math.max(0,gx-document.getElementById('tl-vp').clientWidth/2);
+    const vp=document.getElementById('tl-vp');
+    vp.scrollLeft=Math.max(0,gx-vp.clientWidth/2);
   }
 
-  /* Compute a ghost x-position consistent with the actual displayed pin positions */
-  function ghostX(guessY,sorted,slot){
-    if(!sorted.length) return y2x(guessY);
-    const xs=dispX(sorted);
-    if(slot===0) return Math.max(SEGS[0].x0, xs[0]-90);
-    if(slot===sorted.length) return xs[xs.length-1]+90;
-    const yLo=sorted[slot-1].year, yHi=sorted[slot].year;
-    const xLo=xs[slot-1], xHi=xs[slot];
-    const t=yHi===yLo?0.5:Math.min(1,Math.max(0,(guessY-yLo)/(yHi-yLo)));
-    return xLo+t*(xHi-xLo);
+  function onYearKey(e){
+    if(e.key==='Enter'){
+      if(s.waitingNext) nextEvt();
+      else placeEvent();
+    }
   }
 
-  function onYearKey(e){if(e.key==='Enter'){
-    if(s.showingStart)revealStartingEvent();
-    else if(s.waitingNext)nextEvt();
-    else placeEvent();
-  }}
-
-  function showGhost(x,lbl,correct){
-    const g=document.getElementById('tl-ghost'),tl=document.getElementById('tl-area');
+  /* ─── Ghost ─── */
+  function showGhost(x, lbl, correct){
+    const g=document.getElementById('tl-ghost');
+    const tl=document.getElementById('tl-area');
     const lineY=Math.floor(tl.clientHeight*0.62);
-    g.style.left=x+'px';g.style.top=(lineY-70)+'px';
+    const stemH=50;
+    g.style.left=x+'px';
+    g.style.top=(lineY-stemH-20)+'px'; // lbl + stem + dot
     document.getElementById('ghost-lbl').textContent=lbl;
-    g.className='';if(correct)g.classList.add('correct');else g.classList.add('wrong');g.classList.add('visible');
+    g.className='';
+    if(correct) g.classList.add('correct');
+    else        g.classList.add('wrong');
+    g.classList.add('visible');
   }
-  function hideGhost(){document.getElementById('tl-ghost').classList.remove('visible');}
 
+  function hideGhost(){
+    document.getElementById('tl-ghost').classList.remove('visible');
+  }
+
+  /* ─── Place event ─── */
   function placeEvent(){
-    if(!s.current||_busy)return;
+    if(!s.current||_busy) return;
     const raw=(document.getElementById('yr-input').value||'').trim();
-    if(raw.startsWith('-'))setEraUI('BCE');else if(raw.startsWith('+'))setEraUI('CE');
+
+    // Auto-switch era from prefix
+    if(raw.startsWith('-'))      setEraUI('BCE');
+    else if(raw.startsWith('+')) setEraUI('CE');
+
     const num=parseInt(raw.replace(/^[+-]/,''));
-    if(isNaN(num)||num===0){_busy=false;document.getElementById('yr-hint').textContent='Please enter a year first';return;}
+    if(isNaN(num)||num===0){
+      _busy=false;
+      document.getElementById('yr-hint').textContent='Please enter a year first';
+      return;
+    }
     _busy=true;
     const guessY=era==='BCE'?-num:num;
     const ev=s.current;
     const sorted=[...s.placed].sort((a,b)=>a.year-b.year);
-    const slot=getSlot(guessY,sorted),correctSlot=getSlot(ev.year,sorted),correct=slot===correctSlot;
-    /* Track response time */
-    if(s.eventShownAt){s.responseTimes.push((Date.now()-s.eventShownAt)/1000);s.eventShownAt=0;}
-    /* Track period stats */
-    const era_=getEraLabel(ev.year);if(!s.periodStats[era_])s.periodStats[era_]={c:0,w:0};
+    const slot=getSlot(guessY,sorted);
+    const correctSlot=getSlot(ev.year,sorted);
+    const correct=slot===correctSlot;
 
     if(correct){
-      s.placements++;s.roundsOk++;
-      const yr=scoreYr(ev.year,guessY,ev.yearRange);  // pass yearRange!
-      const yearHit=yr.pts>=100;if(yearHit)s.yearHits++;
-      s.streak++;if(s.streak>s.maxStreak)s.maxStreak=s.streak;
-      s.placed.push(ev);s.placed.sort((a,b)=>a.year-b.year);
+      s.placements++;
+      s.roundsOk++;
+      const yr=scoreYr(ev.year,guessY);
+      const yearHit = yr.pts>=100;
+      if(yearHit) s.yearHits++;
+      s.streak++; if(s.streak>s.maxStreak)s.maxStreak=s.streak;
+      s.placed.push(ev); s.placed.sort((a,b)=>a.year-b.year);
       s.catCorrect[ev.cat]=(s.catCorrect[ev.cat]||0)+1;
-      persist.catCorrect[ev.cat]=(persist.catCorrect[ev.cat]||0)+1;persist.totalCorrect++;
+      persist.catCorrect[ev.cat]=(persist.catCorrect[ev.cat]||0)+1;
+      persist.totalCorrect++;
       if(s.maxStreak>persist.bestStreak)persist.bestStreak=s.maxStreak;
       if(s.placements>persist.highScore)persist.highScore=s.placements;
-      saveP();s.periodStats[era_].c++;
-      /* Build feedback — show range if available */
-      let yrStr=fmtYr(ev.year);if(ev.yearRange)yrStr+=` (${fmtYrRange(ev.yearRange)})`;
-      const msg=`✓  ${yrStr}${yearHit?'\n'+yr.lbl:''}`;
+      saveP();
+      const msg=`✓  ${fmtYr(ev.year)}${yearHit?'\n'+yr.lbl:''}`;
       showFeedback(true,msg,yearHit);
-      const newB=checkBadges();newB.forEach((b,i)=>_delay(()=>showBadgeNotif(b),600+i*2400));
-      renderHdr();renderTimeline();
+      const newB=checkBadges();
+      newB.forEach((b,i)=>_delay(()=>showBadgeNotif(b),600+i*2400));
+      renderHdr();
+      renderTimeline();
+      // Pause — wait for Enter (year stays in input so player can see what they typed)
       s.waitingNext=true;
       document.getElementById('yr-hint').textContent='↩  Press Enter for the next event';
       document.getElementById('yr-hint').className='';
       document.getElementById('yr-input').focus();
     } else {
-      s.streak=0;s.lives--;s.roundsNo++;
-      s.wrongPlaced.push({...ev,guessedYear:guessY});  // save wrong event for post-game timeline
-      s.periodStats[era_].w++;
+      s.streak=0; s.lives--; s.roundsNo++;
       renderHdr();
-      let yrStr=fmtYr(ev.year);if(ev.yearRange)yrStr+=` (${fmtYrRange(ev.yearRange)})`;
-      showFeedback(false,`✗  It was ${yrStr}`,false);
-      if(s.lives<=0){_delay(()=>endGame(),2200);}
-      else{
+      showFeedback(false,`✗  It was ${fmtYr(ev.year)}`,false);
+      if(s.lives<=0){
+        // Game over — auto-transition after a moment
+        _delay(()=>endGame(),2200);
+      } else {
+        // Pause — wait for Enter (year stays in input so player can see what they typed)
         s.waitingNext=true;
         document.getElementById('yr-hint').textContent='↩  Press Enter for the next event';
         document.getElementById('yr-hint').className='';
@@ -1124,86 +1650,162 @@ const G=(()=>{
     }
   }
 
+  /* ─── Render timeline ─── */
   function renderTimeline(){
     const inner=document.getElementById('tl-inner');
     inner.querySelectorAll('.ev-pin,.era-lbl').forEach(el=>el.remove());
-    const sorted=[...s.placed].sort((a,b)=>a.year-b.year);const xs=dispX(sorted);
-    const tl=document.getElementById('tl-area');const aH=tl.clientHeight||220;const lineY=Math.floor(aH*0.62);
+
+    const sorted=[...s.placed].sort((a,b)=>a.year-b.year);
+    const xs=dispX(sorted);
+    const tl=document.getElementById('tl-area');
+    const aH=tl.clientHeight||220;
+    const lineY=Math.floor(aH*0.62);
+
     document.getElementById('tl-line').style.top=lineY+'px';
-    document.getElementById('tl-ghost').style.top=(lineY-70)+'px';
-    ERAS.forEach(era=>{const lbl=document.createElement('div');lbl.className='era-lbl';lbl.style.left=((era.x0+era.x1)/2)+'px';lbl.style.top=(lineY+10)+'px';lbl.textContent=era.label;inner.appendChild(lbl);});
+    // Reposition ghost
+    document.getElementById('tl-ghost').style.top=(lineY-50-20)+'px';
+
+    // Era labels
+    ERAS.forEach(era=>{
+      const lbl=document.createElement('div');
+      lbl.className='era-lbl';
+      lbl.style.left=((era.x0+era.x1)/2)+'px';
+      lbl.style.top=(lineY+10)+'px';
+      lbl.textContent=era.label;
+      inner.appendChild(lbl);
+    });
+
+    // STEM_HEIGHTS alternating for visual rhythm
     const STEMS=[38,62,44,68,36,56,72,40];
+
     sorted.forEach((ev,i)=>{
-      const x=xs[i],stemH=STEMS[i%STEMS.length],isImg=ev.type==='img';
-      const pin=document.createElement('div');pin.className='ev-pin above'+(isImg?' is-img':'');
+      const x=xs[i];
+      const stemH=STEMS[i%STEMS.length];
+      const isImg=ev.type==='img';
+      const pin=document.createElement('div');
+      pin.className='ev-pin above'+(isImg?' is-img':'');
+      // Position: the dot sits on lineY, stem goes up, card above
+      // total height from top of card to dot = cardH + stemH
       const cardH=isImg?94:60;
-      pin.style.cssText=`position:absolute;left:${x}px;top:${lineY-stemH-cardH}px;display:flex;flex-direction:column;align-items:center;pointer-events:none;`;
-      let ch='';
-      if(isImg){const src=imgURLCache[ev.id]||ev.img;ch=`<div class="ev-card-wrap"><img class="ev-thumb" src="${src}" alt="${ev.title}"><div class="ev-card-title">${ev.title}</div><div class="ev-card-yr">${fmtYr(ev.year)}</div></div>`;}
-      else{ch=`<div class="ev-card-wrap"><div class="ev-card-title">${ev.title}</div><div class="ev-card-yr">${fmtYr(ev.year)}</div></div>`;}
-      pin.innerHTML=`${ch}<div class="ev-stem" style="height:${stemH}px"></div><div class="ev-dot"></div>`;
-      const thumb=pin.querySelector('.ev-thumb');if(thumb)thumb.addEventListener('error',function(){this.style.display='none';});
+      const topY=lineY-stemH-cardH;
+      pin.style.cssText=`position:absolute;left:${x}px;top:${topY}px;display:flex;flex-direction:column;align-items:center;pointer-events:none;`;
+      let cardHTML='';
+      if(isImg){
+        const src=imgURLCache[ev.id]||ev.img;
+        cardHTML=`<div class="ev-card-wrap">
+          <img class="ev-thumb" src="${src}" alt="${ev.title}">
+          <div class="ev-card-title">${ev.title}</div>
+          <div class="ev-card-yr">${fmtYr(ev.year)}</div>
+        </div>`;
+      } else {
+        cardHTML=`<div class="ev-card-wrap">
+          <div class="ev-card-title">${ev.title}</div>
+          <div class="ev-card-yr">${fmtYr(ev.year)}</div>
+        </div>`;
+      }
+      pin.innerHTML=`${cardHTML}<div class="ev-stem" style="height:${stemH}px"></div><div class="ev-dot"></div>`;
+      // Attach error handler to thumb after inserting into DOM
+      const thumb=pin.querySelector('.ev-thumb');
+      if(thumb) thumb.addEventListener('error',function(){this.style.display='none';});
       inner.appendChild(pin);
     });
   }
 
+  /* ─── Feedback ─── */
   function showFeedback(ok,msg,yearHit){
     const fb=document.getElementById('feedback');
-    const div=document.createElement('div');div.className='fb '+(ok?'fb-ok':'fb-no');div.style.whiteSpace='pre-line';div.textContent=msg;
-    fb.innerHTML='';fb.appendChild(div);
-    if(ok&&yearHit){const pt=document.createElement('div');pt.className='pt-float';pt.textContent='+1 year';pt.style.cssText='top:28%;left:'+(30+Math.random()*40)+'%;';document.body.appendChild(pt);setTimeout(()=>pt.remove(),1500);}
-  }
-  function showBadgeNotif(badge){
-    const nb=document.getElementById('badge-notif');
-    nb.innerHTML=`<div class="bn-label">Badge Unlocked</div><span class="bn-icon">${badge.icon}</span><div class="bn-name">${badge.name}</div><div class="bn-desc">${badge.desc}</div>`;
-    nb.classList.add('show');setTimeout(()=>nb.classList.remove('show'),3000);
+    const div=document.createElement('div');
+    div.className='fb '+(ok?'fb-ok':'fb-no');
+    div.style.whiteSpace='pre-line';
+    div.textContent=msg;
+    fb.innerHTML='';
+    fb.appendChild(div);
+    // No auto-remove — stays until Enter is pressed (nextEvt clears it)
+    if(ok&&yearHit){
+      const pt=document.createElement('div');
+      pt.className='pt-float';
+      pt.textContent='+1 year';
+      pt.style.cssText='top:28%;left:'+(30+Math.random()*40)+'%;';
+      document.body.appendChild(pt);
+      setTimeout(()=>pt.remove(),1500);
+    }
   }
 
+  function showBadgeNotif(badge){
+    const nb=document.getElementById('badge-notif');
+    nb.innerHTML=`<div class="bn-label">Badge Unlocked</div>
+    <span class="bn-icon">${badge.icon}</span>
+    <div class="bn-name">${badge.name}</div>
+    <div class="bn-desc">${badge.desc}</div>`;
+    nb.classList.add('show');
+    setTimeout(()=>nb.classList.remove('show'),3000);
+  }
+
+  /* ─── Badges ─── */
   function checkBadges(){
     const n=[];
     for(const b of BADGES){
-      if(persist.earnedBadges.includes(b.id))continue;
-      let e=b.special?b.check(s):(persist.catCorrect[b.cat]||0)>=b.req;
-      if(e){persist.earnedBadges.push(b.id);s.sessionBadges.push(b.id);n.push(b);}
+      if(persist.earnedBadges.includes(b.id)) continue;
+      let e=false;
+      if(!b.special) e=(persist.catCorrect[b.cat]||0)>=b.req;
+      else            e=b.check(s);
+      if(e){ persist.earnedBadges.push(b.id); s.sessionBadges.push(b.id); n.push(b); }
     }
-    if(n.length)saveP();return n;
+    if(n.length) saveP();
+    return n;
   }
 
   function renderBadges(){
-    document.getElementById('bs-hs').textContent=persist.highScore;
+    document.getElementById('bs-hs').textContent=persist.highScore.toLocaleString();
     document.getElementById('bs-total').textContent=persist.totalCorrect;
     document.getElementById('bs-nbadges').textContent=persist.earnedBadges.length;
     document.getElementById('bs-bstreak').textContent=persist.bestStreak;
     document.getElementById('bs-back-btn').onclick=()=>showScreen(curScreen==='badges'&&prevScreen?prevScreen:'home');
-    const body=document.getElementById('bs-body');body.innerHTML='';
+
+    const body=document.getElementById('bs-body');
+    body.innerHTML='';
+
     const makeSec=(title,badges)=>{
-      const sec=document.createElement('div');sec.className='bs-sec';
+      const sec=document.createElement('div');
+      sec.className='bs-sec';
       sec.innerHTML=`<div class="bs-sec-title">${title}</div>`;
-      const grid=document.createElement('div');grid.className='bs-grid';
+      const grid=document.createElement('div');
+      grid.className='bs-grid';
       badges.forEach(b=>{
         const earned=persist.earnedBadges.includes(b.id);
         const prog=b.special?null:(persist.catCorrect[b.cat]||0);
         const pct=b.special?0:Math.min(100,(prog/b.req)*100);
-        const card=document.createElement('div');card.className='bc '+(earned?'earned':'locked');
-        card.innerHTML=`<span class="bc-icon">${b.icon}</span><div class="bc-name">${b.name}</div><div class="bc-desc">${b.desc}</div>${earned?'<div class="bc-check">✓ Earned</div>':b.special?'<div class="bc-prog">Not yet earned</div>':`<div class="bc-bar-wrap"><div class="bc-bar" style="width:${pct}%"></div></div><div class="bc-prog">${prog} / ${b.req}</div>`}`;
+        const card=document.createElement('div');
+        card.className='bc '+(earned?'earned':'locked');
+        card.innerHTML=`<span class="bc-icon">${b.icon}</span>
+          <div class="bc-name">${b.name}</div>
+          <div class="bc-desc">${b.desc}</div>
+          ${earned
+            ?'<div class="bc-check">✓ Earned</div>'
+            :b.special
+              ?'<div class="bc-prog">Not yet earned</div>'
+              :`<div class="bc-bar-wrap"><div class="bc-bar" style="width:${pct}%"></div></div>
+                <div class="bc-prog">${prog} / ${b.req}</div>`
+          }`;
         grid.appendChild(card);
       });
-      sec.appendChild(grid);body.appendChild(sec);
+      sec.appendChild(grid);
+      body.appendChild(sec);
     };
-    makeSec('Category Badges',BADGES.filter(b=>!b.special));
-    makeSec('Special Badges',BADGES.filter(b=>b.special));
+
+    makeSec('Category Badges', BADGES.filter(b=>!b.special));
+    makeSec('Special Badges',  BADGES.filter(b=>b.special));
   }
 
-  /* ─── GAME OVER with stats + timeline ─── */
+  /* ─── End game ─── */
   function endGame(){
-    document.getElementById('feedback').innerHTML='';
-    if(s.placements>persist.highScore){persist.highScore=s.placements;saveP();}
+    document.getElementById('feedback').innerHTML=''; // clear any lingering result popup
+    if(s.placements>persist.highScore){persist.highScore=s.placements; saveP();}
+    document.getElementById('go-score').textContent=s.placements;
     document.getElementById('go-correct').textContent=s.roundsOk;
     document.getElementById('go-wrong').textContent=s.roundsNo;
     document.getElementById('go-streak').textContent=s.maxStreak;
     document.getElementById('go-yr').textContent=s.yearHits;
-    renderGameOverStats();
-    renderGameOverTimeline();
     const row=document.getElementById('go-badge-row');
     const earned=BADGES.filter(b=>s.sessionBadges.includes(b.id));
     row.innerHTML=earned.map(b=>`<div class="go-badge" title="${b.name}">${b.icon}</div>`).join('');
@@ -1211,152 +1813,116 @@ const G=(()=>{
     showScreen('gameover');
   }
 
-  function renderGameOverStats(){
-    const el=document.getElementById('go-stats-section');if(!el)return;
-    const avgTime=s.responseTimes.length?(s.responseTimes.reduce((a,b)=>a+b,0)/s.responseTimes.length).toFixed(1):null;
-    const eraOrder=['Prehistoric','Ancient','Classical','Medieval','Renaissance','Modern'];
-    const hasData=eraOrder.some(e=>s.periodStats[e]);
-    const maxVal=Math.max(1,...eraOrder.map(e=>(s.periodStats[e]?.c||0)+(s.periodStats[e]?.w||0)));
-    let chartSVG='';
-    if(hasData){
-      const bars=eraOrder.map((era,i)=>{
-        const st=s.periodStats[era]||{c:0,w:0};const total=st.c+st.w;if(!total)return'';
-        const x=8+i*65;const cH=Math.round((st.c/maxVal)*72);const wH=Math.round((st.w/maxVal)*72);
-        const pct=Math.round(st.c/total*100);
-        return `<g>
-          <rect x="${x}" y="${80-cH}" width="26" height="${cH}" fill="#2a6e44" opacity=".75"/>
-          <rect x="${x+26}" y="${80-wH}" width="26" height="${wH}" fill="#b83030" opacity=".75"/>
-          <text x="${x+26}" y="95" font-size="7" text-anchor="middle" fill="#777">${era.slice(0,4)}</text>
-          <text x="${x+26}" y="105" font-size="9" font-weight="600" text-anchor="middle" fill="#111">${pct}%</text>
-        </g>`;
-      }).join('');
-      chartSVG=`<span class="go-chart-label">Accuracy by Era</span>
-        <svg width="min(400px,90vw)" height="112" viewBox="0 0 400 112" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:0 auto;">
-          <line x1="8" y1="80" x2="392" y2="80" stroke="#ddd" stroke-width="1"/>
-          ${bars}
-          <g style="font-size:9px;fill:#777;font-family:Georgia,serif">
-            <rect x="8" y="1" width="10" height="8" fill="#2a6e44" opacity=".75"/><text x="22" y="9">correct</text>
-            <rect x="70" y="1" width="10" height="8" fill="#b83030" opacity=".75"/><text x="84" y="9">wrong</text>
-          </g>
-        </svg>`;
-    }
-    el.innerHTML=`${avgTime?`<p class="go-avg-time">Avg. response time: <b>${avgTime}s</b></p>`:''}${chartSVG}`;
+  function quitGame(){
+    if(s.placed&&s.placed.length>1) endGame();
+    else showScreen('home');
   }
 
-  function renderGameOverTimeline(){
-    const el=document.getElementById('go-tl-section');if(!el)return;
-    const all=[
-      ...s.placed.map(e=>({...e,result:'correct'})),
-      ...(s.wrongPlaced||[]).map(e=>({...e,result:'wrong'}))
-    ].sort((a,b)=>a.year-b.year);
-    if(!all.length){el.innerHTML='';return;}
-    el.innerHTML=`<span class="go-tl-label">Timeline — <span style="color:var(--green)">■</span> correct <span style="color:var(--red)">■</span> wrong</span>
-      <div class="go-tl-scroll">
-        ${all.map(e=>{
-          const thumb=e.type==='img'?(imgURLCache[e.id]||e.img||''):'';
-          return `<div class="go-tl-evt ${e.result}">
-            ${thumb?`<img class="go-tl-thumb" src="${escHTML(thumb)}" alt="" onerror="this.style.display='none'">`:''}
-            <span class="go-tl-yr">${fmtYr(e.year)}</span>
-            <div class="go-tl-ttl">${escHTML(e.title)}</div>
-            ${e.result==='wrong'?`<div class="go-tl-guess">guessed ${fmtYr(e.guessedYear)}</div>`:''}
-          </div>`;
-        }).join('')}
-      </div>`;
+  /* ─── Settings UI ─── */
+  function showSettings(){
+    renderSettingsModal();
+    document.getElementById('settings-modal').classList.remove('hidden');
   }
 
-  function printTimeline(){
-    const all=[
-      ...s.placed.map(e=>({...e,result:'correct'})),
-      ...(s.wrongPlaced||[]).map(e=>({...e,result:'wrong'}))
-    ].sort((a,b)=>a.year-b.year);
-    if(!all.length){alert('No events to print yet. Play a game first.');return;}
-    const win=window.open('','_blank');
-    win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>CHRONOS Timeline</title>
-<style>body{font-family:Georgia,serif;margin:40px;color:#111;max-width:700px;}
-h1{font-size:26px;letter-spacing:.12em;margin-bottom:4px;}
-.sub{font-size:12px;color:#777;margin-bottom:24px;}
-.legend{display:flex;gap:20px;margin-bottom:20px;font-size:12px;}
-.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;}
-.tl{border-left:2px solid #ddd;padding-left:20px;margin-left:8px;}
-.evt{margin-bottom:14px;position:relative;}
-.evt::before{content:'';position:absolute;left:-26px;top:4px;width:10px;height:10px;border-radius:50%;}
-.evt.correct::before{background:#2a6e44;}.evt.wrong::before{background:#b83030;}
-.yr{font-size:12px;color:#555;font-weight:600;margin-bottom:2px;}
-.ttl{font-size:14px;}.ttl.wrong{color:#b83030;}
-.guess{font-size:11px;color:#b83030;font-style:italic;}
-.range{font-size:11px;color:#999;}
-@media print{button{display:none;}}
-</style></head><body>
-<h1>CHRONOS</h1>
-<div class="sub">Timeline · ${new Date().toLocaleDateString()} · Correct: ${s.roundsOk} · Wrong: ${s.roundsNo}</div>
-<div class="legend"><span><span class="dot" style="background:#2a6e44"></span>Correct</span><span><span class="dot" style="background:#b83030"></span>Wrong</span></div>
-<div class="tl">
-${all.map(e=>`<div class="evt ${e.result}">
-  <div class="yr">${fmtYr(e.year)}${e.yearRange?` <span class="range">(${fmtYrRange(e.yearRange)})</span>`:''}</div>
-  <div class="ttl ${e.result}">${escHTML(e.title)}</div>
-  ${e.result==='wrong'?`<div class="guess">You guessed: ${fmtYr(e.guessedYear)}</div>`:''}
-</div>`).join('')}
-</div>
-<br><button onclick="window.print()">🖨 Print</button>
-</body></html>`);
-    win.document.close();setTimeout(()=>win.print(),400);
+  function hideSettings(){
+    document.getElementById('settings-modal').classList.add('hidden');
   }
 
-  function quitGame(){if(s.placed&&s.placed.length>1)endGame();else showScreen('home');}
-
-  /* ─── SETTINGS UI ─── */
-  function showSettings(){renderSettingsModal();document.getElementById('settings-modal').classList.remove('hidden');}
-  function hideSettings(){document.getElementById('settings-modal').classList.add('hidden');}
   function renderSettingsModal(){
     const grid=document.getElementById('cat-grid');
-    grid.innerHTML=Object.entries(CATS).filter(([id])=>!['custom','met','europeana'].includes(id)).map(([id,cat])=>
-      `<label class="cat-chk"><input type="checkbox" data-cat="${id}" ${appSettings.cats[id]!==false?'checked':''}><span>${cat.icon} ${cat.name}</span></label>`).join('');
+    grid.innerHTML=Object.entries(CATS)
+      .filter(([id])=>id!=='custom'&&id!=='met'&&id!=='europeana')
+      .map(([id,cat])=>
+        `<label class="cat-chk">
+           <input type="checkbox" data-cat="${id}" ${appSettings.cats[id]!==false?'checked':''}>
+           <span>${cat.icon} ${cat.name}</span>
+         </label>`
+      ).join('');
     document.getElementById('tog-images').checked=appSettings.cats.images!==false;
-    const tm=document.getElementById('tog-met');if(tm){tm.checked=appSettings.cats.met!==false;metStatus(MET_EVT.length?`Met Museum ready: ${MET_EVT.length} artworks.`:'Off by default. Tick and Apply to load Met Museum artworks.',MET_EVT.length?'ok':'');}
-    const te=document.getElementById('tog-europeana');if(te){te.checked=appSettings.cats.europeana!==false;europeanaStatus(EUROPEANA_EVT.length?`Europeana ready: ${EUROPEANA_EVT.length} objects.`:'Loads europeana_archaeology.json from this folder.',EUROPEANA_EVT.length?'ok':'');}
-    const tc=document.getElementById('tog-custom');if(tc)tc.checked=appSettings.cats.custom!==false;
-    const hc=appSettings.customEvents.length>0||csvDraft.length>0;
-    document.getElementById('btn-clear-csv').style.display=hc?'':'none';
-    if(csvDraft.length)showCSVPreview(csvDraft);else if(appSettings.customEvents.length)showCSVPreview(appSettings.customEvents);else document.getElementById('csv-preview').innerHTML='';
+    const togMet=document.getElementById('tog-met');
+    if(togMet){
+      togMet.checked=appSettings.cats.met!==false;
+      metStatus(MET_EVT.length?`Met Museum ready: ${MET_EVT.length} artworks loaded.`:'Off by default. Tick this box and Apply to load Met Museum artworks.', MET_EVT.length?'ok':'');
+    }
+    const togEuropeana=document.getElementById('tog-europeana');
+    if(togEuropeana){
+      togEuropeana.checked=appSettings.cats.europeana!==false;
+      europeanaStatus(EUROPEANA_EVT.length?`Europeana ready: ${EUROPEANA_EVT.length} objects loaded.`:'Off by default. Tick this box and Apply to load europeana_archaeology.json.', EUROPEANA_EVT.length?'ok':'');
+    }
+    const togCustom=document.getElementById('tog-custom');
+    if(togCustom) togCustom.checked=appSettings.cats.custom!==false;
+    const hasCustom=appSettings.customEvents.length>0||csvDraft.length>0;
+    document.getElementById('btn-clear-csv').style.display=hasCustom?'':'none';
+    if(csvDraft.length) showCSVPreview(csvDraft);
+    else if(appSettings.customEvents.length) showCSVPreview(appSettings.customEvents);
+    else document.getElementById('csv-preview').innerHTML='';
   }
+
   async function applySettings(andPlay=false){
-    document.querySelectorAll('#cat-grid input[data-cat]').forEach(inp=>{appSettings.cats[inp.dataset.cat]=inp.checked;});
+    document.querySelectorAll('#cat-grid input[data-cat]').forEach(inp=>{
+      appSettings.cats[inp.dataset.cat]=inp.checked;
+    });
     appSettings.cats.images=document.getElementById('tog-images').checked;
-    const tc=document.getElementById('tog-custom');if(tc)appSettings.cats.custom=tc.checked;
-    const tm=document.getElementById('tog-met');if(tm)appSettings.cats.met=tm.checked;
-    const te=document.getElementById('tog-europeana');if(te)appSettings.cats.europeana=te.checked;
+    const togCustom=document.getElementById('tog-custom');
+    if(togCustom) appSettings.cats.custom=togCustom.checked;
+    const togMet=document.getElementById('tog-met');
+    if(togMet) appSettings.cats.met=togMet.checked;
+    const togEuropeana=document.getElementById('tog-europeana');
+    if(togEuropeana) appSettings.cats.europeana=togEuropeana.checked;
+
+    // If csvDraft is still empty but a file is in the input, read it now
     if(!csvDraft.length){
       const fi=document.getElementById('csv-file');
       if(fi&&fi.files&&fi.files.length){
         const arr=Array.from(fi.files);
         processImgFiles(arr.filter(f=>f.type.startsWith('image/')||/\.(jpe?g|png|gif|webp|svg)$/i.test(f.name)));
         const csvF=arr.find(f=>/\.(csv|txt)$/i.test(f.name));
-        if(csvF)await new Promise(resolve=>{const r=new FileReader();r.onload=e=>{csvDraft=parseCSVText(e.target.result);resolve();};r.onerror=()=>resolve();r.readAsText(csvF);});
+        if(csvF){
+          await new Promise(resolve=>{
+            const r=new FileReader();
+            r.onload=e=>{ csvDraft=parseCSVText(e.target.result); resolve(); };
+            r.onerror=()=>resolve();
+            r.readAsText(csvF);
+          });
+        }
       }
     }
-    if(csvDraft.length){appSettings.customEvents=csvDraft;csvDraft=[];}
+
+    if(csvDraft.length){ appSettings.customEvents=csvDraft; csvDraft=[]; }
     saveAppSettings();
-    if(appSettings.cats.met!==false)await loadMetArtworks();
-    if(appSettings.cats.europeana!==false)await loadEuropeanaEvents();
-    if(andPlay){hideSettings();startGame();}
-    else{const btn=document.getElementById('btn-settings-save');if(btn){btn.textContent='✓ Saved';setTimeout(()=>btn.textContent='Save',1600);}renderSettingsModal();}
+    if(appSettings.cats.met!==false){ await loadMetArtworks(); }
+    if(appSettings.cats.europeana!==false){ await loadEuropeanaEvents(); }
+    if(andPlay){
+      hideSettings();
+      startGame();
+    } else {
+      // Stay open — flash "✓ Saved" on the button, refresh preview
+      const btn=document.getElementById('btn-settings-save');
+      if(btn){ btn.textContent='✓ Saved'; setTimeout(()=>btn.textContent='Save',1600); }
+      renderSettingsModal(); // refresh to show updated CSV preview etc.
+    }
   }
+
   function selectAllCats(v){
-    /* All / None now only controls the Standard Categories grid.
-       Images, Databases (Met/Europeana), and My CSV are independent
-       groups and are left untouched — toggle those individually. */
-    document.querySelectorAll('#cat-grid input[data-cat]').forEach(inp=>{inp.checked=v;});
+    document.querySelectorAll('#cat-grid input[data-cat]').forEach(inp=>{ inp.checked=v; });
+    const ti=document.getElementById('tog-images'); if(ti) ti.checked=v;
+    const tc=document.getElementById('tog-custom'); if(tc) tc.checked=v;
+    const tm=document.getElementById('tog-met'); if(tm) tm.checked=v;
+    const te=document.getElementById('tog-europeana'); if(te) te.checked=v;
   }
+
   function clearCSV(){
     appSettings.customEvents=[];csvDraft=[];
-    Object.values(uploadedImgs).forEach(u=>{try{URL.revokeObjectURL(u);}catch(e){}});Object.keys(uploadedImgs).forEach(k=>delete uploadedImgs[k]);
+    Object.values(uploadedImgs).forEach(u=>{ try{URL.revokeObjectURL(u);}catch(e){} });
+    Object.keys(uploadedImgs).forEach(k=>delete uploadedImgs[k]);
     document.getElementById('csv-preview').innerHTML='';
     document.getElementById('csv-drop-lbl').textContent='Drag CSV + images here';
     document.getElementById('csv-drop-icon').textContent='📄';
     document.getElementById('btn-clear-csv').style.display='none';
-    const fi=document.getElementById('csv-file');if(fi)fi.value='';
+    const fi=document.getElementById('csv-file'); if(fi) fi.value='';
     saveAppSettings();
   }
+
   function handleFiles(files){
     const arr=Array.from(files);
     const csvFile=arr.find(f=>/\.(csv|txt)$/i.test(f.name));
@@ -1365,72 +1931,145 @@ ${all.map(e=>`<div class="evt ${e.result}">
     if(csvFile){
       const reader=new FileReader();
       reader.onload=e=>{
-        csvDraft=parseCSVText(e.target.result);const n=Object.keys(uploadedImgs).length;
-        if(csvDraft.length){document.getElementById('csv-drop-lbl').textContent=`${csvFile.name} · ${csvDraft.length} events${n?' · '+n+' image'+(n>1?'s':''):''}`;document.getElementById('csv-drop-icon').textContent='✓';showCSVPreview(csvDraft);document.getElementById('btn-clear-csv').style.display='';}
-        else document.getElementById('csv-preview').innerHTML='<p class="csv-error">No valid events found. Expected: Title, Year[, Year2][, ImageURL]</p>';
+        csvDraft=parseCSVText(e.target.result);
+        const n=Object.keys(uploadedImgs).length;
+        if(csvDraft.length){
+          document.getElementById('csv-drop-lbl').textContent=
+            `${csvFile.name} · ${csvDraft.length} events${n?' · '+n+' image'+(n>1?'s':''):''}`;
+          document.getElementById('csv-drop-icon').textContent='✓';
+          showCSVPreview(csvDraft);
+          document.getElementById('btn-clear-csv').style.display='';
+        } else {
+          document.getElementById('csv-preview').innerHTML=
+            '<p class="csv-error">No valid events found. Expected: Title, Year[, ImageURL]</p>';
+        }
       };
-      reader.onerror=()=>{document.getElementById('csv-preview').innerHTML='<p class="csv-error">Could not read the file.</p>';};
+      reader.onerror=()=>{
+        document.getElementById('csv-preview').innerHTML=
+          '<p class="csv-error">Could not read the file.</p>';
+      };
       reader.readAsText(csvFile);
-    } else if(imgFiles.length){const n=Object.keys(uploadedImgs).length;document.getElementById('csv-drop-lbl').textContent=`${n} image${n>1?'s':''} ready — now upload a CSV`;document.getElementById('csv-drop-icon').textContent='🖼';}
+    } else if(imgFiles.length){
+      const n=Object.keys(uploadedImgs).length;
+      document.getElementById('csv-drop-lbl').textContent=
+        `${n} image${n>1?'s':''} ready — now upload a CSV`;
+      document.getElementById('csv-drop-icon').textContent='🖼';
+    }
   }
+
   function showCSVPreview(evts){
-    const shown=evts.slice(0,6),more=evts.length-shown.length;
-    document.getElementById('csv-preview').innerHTML=`<p class="csv-count">${evts.length} event${evts.length!==1?'s':''} ready</p>
-      <table class="csv-tbl"><tr><th>Title</th><th>Year</th><th>Range?</th><th></th></tr>
-      ${shown.map(e=>`<tr><td>${escHTML(e.title)}</td><td>${fmtYr(e.year)}</td><td>${e.yearRange?fmtYrRange(e.yearRange):'—'}</td><td>${e.type==='img'?'🖼':'—'}</td></tr>`).join('')}
-      ${more?`<tr><td colspan="4" class="csv-more">…and ${more} more</td></tr>`:''}</table>`;
+    const shown=evts.slice(0,6);
+    const more=evts.length-shown.length;
+    document.getElementById('csv-preview').innerHTML=`
+      <p class="csv-count">${evts.length} event${evts.length!==1?'s':''} ready</p>
+      <table class="csv-tbl">
+        <tr><th>Title</th><th>Year</th><th></th></tr>
+        ${shown.map(e=>`<tr><td>${e.title}</td><td>${fmtYr(e.year)}</td><td>${e.type==='img'?'🖼':'—'}</td></tr>`).join('')}
+        ${more?`<tr><td colspan="3" class="csv-more">…and ${more} more</td></tr>`:''}
+      </table>`;
   }
+
   function initCSV(){
-    document.getElementById('csv-file').addEventListener('change',function(){if(this.files.length)handleFiles(this.files);});
+    document.getElementById('csv-file').addEventListener('change',function(){
+      if(this.files.length) handleFiles(this.files);
+    });
     const drop=document.getElementById('csv-drop');
-    drop.addEventListener('dragover',e=>{e.preventDefault();drop.classList.add('drag-over');});
-    drop.addEventListener('dragleave',e=>{if(!drop.contains(e.relatedTarget))drop.classList.remove('drag-over');});
-    drop.addEventListener('drop',e=>{e.preventDefault();drop.classList.remove('drag-over');if(e.dataTransfer.files.length)handleFiles(e.dataTransfer.files);});
+    drop.addEventListener('dragover',e=>{ e.preventDefault(); drop.classList.add('drag-over'); });
+    drop.addEventListener('dragleave',e=>{ if(!drop.contains(e.relatedTarget)) drop.classList.remove('drag-over'); });
+    drop.addEventListener('drop',e=>{
+      e.preventDefault(); drop.classList.remove('drag-over');
+      if(e.dataTransfer.files.length) handleFiles(e.dataTransfer.files);
+    });
   }
 
-  async function reloadMetArtworks(){localStorage.removeItem(MET_CACHE_KEY);MET_EVT=[];metLoadPromise=null;metStatus('Loading a new random Met set…');await loadMetArtworks(true);renderSettingsModal();}
-  function clearMetCache(){localStorage.removeItem(MET_CACHE_KEY);MET_EVT=[];metLoadPromise=null;metStatus('Met cache cleared.','ok');renderSettingsModal();}
-  async function reloadEuropeanaEvents(){localStorage.removeItem(EUROPEANA_CACHE_KEY);EUROPEANA_EVT=[];europeanaLoadPromise=null;europeanaStatus('Reloading…');await loadEuropeanaEvents(true);renderSettingsModal();}
-  function clearEuropeanaCache(){localStorage.removeItem(EUROPEANA_CACHE_KEY);EUROPEANA_EVT=[];europeanaLoadPromise=null;europeanaStatus('Europeana cache cleared.','ok');renderSettingsModal();}
 
-  function showInfo(){document.getElementById('info-modal').classList.remove('hidden');}
-  function hideInfo(){document.getElementById('info-modal').classList.add('hidden');}
-  function scrollTL(dx){document.getElementById('tl-vp').scrollLeft+=dx;}
+  async function reloadMetArtworks(){
+    localStorage.removeItem(MET_CACHE_KEY);
+    MET_EVT=[];
+    metLoadPromise=null;
+    metStatus('Loading a new random Met set…');
+    await loadMetArtworks(true);
+    renderSettingsModal();
+  }
 
+  function clearMetCache(){
+    localStorage.removeItem(MET_CACHE_KEY);
+    MET_EVT=[];
+    metLoadPromise=null;
+    metStatus('Met cache cleared. Tick Met Museum and click Apply & Play, or use New Met Set.', 'ok');
+    renderSettingsModal();
+  }
+
+  async function reloadEuropeanaEvents(){
+    localStorage.removeItem(EUROPEANA_CACHE_KEY);
+    EUROPEANA_EVT=[];
+    europeanaLoadPromise=null;
+    europeanaStatus('Reloading Europeana JSON…');
+    await loadEuropeanaEvents(true);
+    renderSettingsModal();
+  }
+
+  function clearEuropeanaCache(){
+    localStorage.removeItem(EUROPEANA_CACHE_KEY);
+    EUROPEANA_EVT=[];
+    europeanaLoadPromise=null;
+    europeanaStatus('Europeana cache cleared. Tick Europeana and click Apply & Play, or use Reload Europeana JSON.', 'ok');
+    renderSettingsModal();
+  }
+
+  /* ─── Info modal ─── */
+  function showInfo(){ document.getElementById('info-modal').classList.remove('hidden'); }
+  function hideInfo(){ document.getElementById('info-modal').classList.add('hidden'); }
+
+  /* ─── Scroll ─── */
+  function scrollTL(dx){
+    document.getElementById('tl-vp').scrollLeft+=dx;
+  }
+
+  /* ─── Drag to scroll ─── */
   function initDrag(){
-    const vp=document.getElementById('tl-vp');let dr=false,sx=0,ss=0;
-    vp.addEventListener('mousedown',e=>{dr=true;sx=e.clientX;ss=vp.scrollLeft;vp.style.cursor='grabbing';});
+    const vp=document.getElementById('tl-vp');
+    let dr=false,sx=0,ss=0;
+    vp.addEventListener('mousedown',e=>{if(e.target.closest('.dz'))return;dr=true;sx=e.clientX;ss=vp.scrollLeft;vp.style.cursor='grabbing';});
     document.addEventListener('mousemove',e=>{if(!dr)return;vp.scrollLeft=ss-(e.clientX-sx);});
     document.addEventListener('mouseup',()=>{dr=false;vp.style.cursor='grab';});
     vp.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;ss=vp.scrollLeft;},{passive:true});
     vp.addEventListener('touchmove',e=>{if(e.cancelable)e.preventDefault();vp.scrollLeft=ss-(e.touches[0].clientX-sx);},{passive:false});
   }
+
+  /* ─── Resize ─── */
   let rTimer;
-  window.addEventListener('resize',()=>{clearTimeout(rTimer);rTimer=setTimeout(()=>{if(curScreen==='game')renderTimeline();},180);});
+  window.addEventListener('resize',()=>{
+    clearTimeout(rTimer);
+    rTimer=setTimeout(()=>{if(curScreen==='game')renderTimeline();},180);
+  });
 
+  /* ─── Init ─── */
   function init(){
-    loadP();loadAppSettings();
-    try{const c=JSON.parse(localStorage.getItem(MET_CACHE_KEY)||'null');if(appSettings.cats.met!==false&&Array.isArray(c))MET_EVT=c;}catch(e){}
-    try{const c=JSON.parse(localStorage.getItem(EUROPEANA_CACHE_KEY)||'null');if(appSettings.cats.europeana!==false&&Array.isArray(c))EUROPEANA_EVT=c;}catch(e){}
-    initDrag();initCSV();
-    document.addEventListener('keydown',e=>{if(e.key==='Escape')hideImageModal();});
-    renderHome();showScreen('home');
+    loadP();
+    loadAppSettings();
+    try{
+      const cached=JSON.parse(localStorage.getItem(MET_CACHE_KEY)||'null');
+      if(appSettings.cats.met!==false && Array.isArray(cached)) MET_EVT=cached;
+    }catch(e){}
+    try{
+      const cachedEu=JSON.parse(localStorage.getItem(EUROPEANA_CACHE_KEY)||'null');
+      if(appSettings.cats.europeana!==false && Array.isArray(cachedEu)) EUROPEANA_EVT=cachedEu;
+    }catch(e){}
+    initDrag();
+    initCSV();
+    document.addEventListener('keydown',e=>{ if(e.key==='Escape') hideImageModal(); });
+    renderHome();
+    showScreen('home');
   }
 
-  function hideImageModal(){
-    const modal=document.getElementById('img-modal'),img=document.getElementById('img-modal-img');
-    if(img)img.src='';if(modal)modal.classList.add('hidden');
-    const inp=document.getElementById('yr-input');if(inp&&curScreen==='game')requestAnimationFrame(()=>inp.focus());
-  }
-
-  return{showScreen,startGame,quitGame,scrollTL,
-    setEra,onYearInput,onYearKey,placeEvent,
-    showInfo,hideInfo,hideImageModal,
-    showSettings,hideSettings,applySettings,clearCSV,selectAllCats,
-    reloadMetArtworks,clearMetCache,reloadEuropeanaEvents,clearEuropeanaCache,
-    printTimeline,
-    get persist(){return persist;},init};
+  return { showScreen, startGame, quitGame, scrollTL,
+           setEra, onYearInput, onYearKey, placeEvent,
+           showInfo, hideInfo, hideImageModal,
+           showSettings, hideSettings, applySettings, clearCSV, selectAllCats, reloadMetArtworks, clearMetCache, reloadEuropeanaEvents, clearEuropeanaCache,
+           get persist(){ return persist; }, init };
 })();
+
 G.init();
 </script>
 </body>
