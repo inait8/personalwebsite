@@ -53,6 +53,19 @@ body{color:var(--ink);font-family:var(--f);}
   color:var(--ink);border:1px solid var(--ink);padding:3px 12px;border-radius:2px;margin-bottom:10px;}
 #yr-area.start-mode #yr-input{opacity:.45;pointer-events:none;}
 #yr-area.start-mode .yr-era-toggle{opacity:.3;pointer-events:none;}
+/* Mobile "Enter" substitute — phones have no Enter key on the numeric keypad,
+   so without this the typed year is never submitted. Shown only on touch
+   devices that lack a precise pointer (i.e. real phones/tablets, not a
+   resized desktop window). */
+.yr-submit-btn{
+  display:none;padding:11px 38px;background:var(--ink);color:#fff;border:none;
+  border-radius:3px;font-family:var(--f);font-size:15px;letter-spacing:.08em;
+  cursor:pointer;-webkit-tap-highlight-color:transparent;
+}
+.yr-submit-btn:active{opacity:.7;}
+@media (hover:none) and (pointer:coarse){
+  .yr-submit-btn{display:inline-block;}
+}
 
 /* YEAR INPUT */
 #yr-area{flex-shrink:0;padding:14px 20px 16px;background:#fff;
@@ -364,6 +377,7 @@ body{color:var(--ink);font-family:var(--f);}
         <button class="yr-era-btn active" id="btn-ce" onclick="G.setEra('CE')">after →</button>
       </div>
     </div>
+    <button type="button" class="yr-submit-btn" id="yr-submit-btn" onclick="G.submitYear()">↵ Enter</button>
     <div id="yr-hint"></div>
   </div>
   <div id="tl-area">
@@ -1055,11 +1069,14 @@ const G=(()=>{
     return xLo+t*(xHi-xLo);
   }
 
-  function onYearKey(e){if(e.key==='Enter'){
+  function onYearKey(e){if(e.key==='Enter'){submitYear();}}
+
+  /* Mobile substitute for the Enter key (phones have no Enter on the numeric pad) */
+  function submitYear(){
     if(s.showingStart)revealStartingEvent();
     else if(s.waitingNext)nextEvt();
     else placeEvent();
-  }}
+  }
 
   function showGhost(x,lbl,correct){
     const g=document.getElementById('tl-ghost'),tl=document.getElementById('tl-area');
@@ -1424,7 +1441,7 @@ ${all.map(e=>`<div class="evt ${e.result}">
   }
 
   return{showScreen,startGame,quitGame,scrollTL,
-    setEra,onYearInput,onYearKey,placeEvent,
+    setEra,onYearInput,onYearKey,placeEvent,submitYear,
     showInfo,hideInfo,hideImageModal,
     showSettings,hideSettings,applySettings,clearCSV,selectAllCats,
     reloadMetArtworks,clearMetCache,reloadEuropeanaEvents,clearEuropeanaCache,
