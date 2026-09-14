@@ -413,8 +413,8 @@ body{color:var(--ink);font-family:var(--f);}
     <div class="yr-lower">
       <div class="yr-controls">
         <div class="yr-era-toggle">
-          <button class="yr-era-btn" id="btn-bce" onclick="G.setEra('BCE')">← before</button>
-          <button class="yr-era-btn active" id="btn-ce" onclick="G.setEra('CE')">after →</button>
+          <button class="yr-era-btn" id="btn-bce" onclick="G.setEra('BCE')">← BCE</button>
+          <button class="yr-era-btn active" id="btn-ce" onclick="G.setEra('CE')">CE →</button>
         </div>
       </div>
       <button type="button" class="yr-submit-btn" id="yr-submit-btn" onclick="G.submitYear()">↵ Enter</button>
@@ -699,6 +699,7 @@ const BADGES=[
   {id:'timeTraveler',cat:null,name:'Time Traveler',icon:'⏰',desc:'Score 5 year hits in one game',special:true,check:s=>s.yearHits>=5},
   {id:'streakMaster',cat:null,name:'Streak Master',icon:'🔥',desc:'Get a 5-event correct streak',special:true,check:s=>s.maxStreak>=5},
   {id:'curator',cat:null,name:'Curator',icon:'🖼️',desc:'Correctly place 5 artwork/object events',special:true,check:s=>(s.catCorrect['art']||0)>=5},
+  {id:'lostInTime',cat:null,name:'Lost in Time',icon:'🌀',desc:'Accumulate 10,000 wrong years in one game — the sum of all your missed year distances',special:true,check:s=>(s.wrongYearSum||0)>=10000},
 ];
 
 /* ═══ TIMELINE POSITIONING ═══ */
@@ -932,7 +933,7 @@ const G=(()=>{
        placements:0,yearHits:0,lives:unlimited?Infinity:3,unlimited,streak:0,maxStreak:0,
        roundsOk:0,roundsNo:0,waitingNext:false,
        showingStart:false,startEvt:null,
-       wrongPlaced:[],responseTimes:[],periodStats:{},eventShownAt:0,
+       wrongPlaced:[],responseTimes:[],periodStats:{},eventShownAt:0,wrongYearSum:0,
        catCorrect:{},sessionBadges:[]};
     era='CE';
     setEraUI('CE');
@@ -1205,6 +1206,7 @@ const G=(()=>{
     } else {
       s.streak=0;if(!s.unlimited)s.lives--;s.roundsNo++;
       s.wrongPlaced.push({...ev,guessedYear:guessY});
+      s.wrongYearSum=(s.wrongYearSum||0)+Math.abs(ev.year-guessY);
       s.periodStats[era_].w++;
       renderHdr();
       let yrStr=fmtYr(ev.year);if(ev.yearRange)yrStr+=` (${fmtYrRange(ev.yearRange)})`;
@@ -1354,7 +1356,9 @@ const G=(()=>{
           </g>
         </svg>`;
     }
-    el.innerHTML=`${avgTime?`<p class="go-avg-time">Avg. response time: <b>${avgTime}s</b></p>`:''}${chartSVG}`;
+    const wrongSum=s.wrongYearSum||0;
+    const wrongSumStr=wrongSum>0?wrongSum.toLocaleString('en-US')+' years':null;
+    el.innerHTML=`${avgTime?`<p class="go-avg-time">Avg. response time: <b>${avgTime}s</b></p>`:''}${wrongSumStr?`<p class="go-avg-time">Total wrong years: <b>${wrongSumStr}</b></p>`:''}${chartSVG}`;
   }
 
   function renderGameOverTimeline(){
