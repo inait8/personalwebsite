@@ -1532,14 +1532,16 @@ ${all.map(e=>`<div class="evt ${e.result}">
   async function reloadEuropeanaEvents(){
     localStorage.removeItem(EUROPEANA_CACHE_KEY);
     EUROPEANA_EVT=[];europeanaLoadPromise=null;
-    europeanaStatus('Reloading…');
+    europeanaStatus('Reloading Europeana JSON…');
     await loadEuropeanaEvents(true);
-    // If data loaded successfully, tick the toggle on automatically
     if(EUROPEANA_EVT.length){
       appSettings.cats.europeana=true;
+      saveAppSettings();
       const te=document.getElementById('tog-europeana');if(te)te.checked=true;
+      europeanaStatus(`Europeana ready: ${EUROPEANA_EVT.length} objects loaded.`,'ok');
+    } else {
+      europeanaStatus('No usable objects found in europeana_archaeology.json.','bad');
     }
-    renderSettingsModal();
   }
   function clearEuropeanaCache(){localStorage.removeItem(EUROPEANA_CACHE_KEY);EUROPEANA_EVT=[];europeanaLoadPromise=null;europeanaStatus('Europeana cache cleared.','ok');renderSettingsModal();}
 
