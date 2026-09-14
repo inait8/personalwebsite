@@ -564,12 +564,13 @@ body{color:var(--ink);font-family:var(--f);}
     <h2>How to Play</h2>
     <p>A historical event or artwork appears. Type the year and press <strong>Enter</strong>.</p>
     <p>Your year determines where the event lands on the timeline. Correct placement = +1 placed. Close year = +1 year hit.</p>
+    <p>After the result is shown, press <strong>Enter a second time</strong> to move on to the next event.</p>
     <p>Some events have <em>uncertain dates</em> — guessing within the documented period counts as a year hit.</p>
     <div class="info-rule">
       <h3>Shortcuts</h3>
       <div class="info-shortcut"><span class="info-key">−44</span><span class="info-key-desc">Minus → auto-switches to BCE</span></div>
       <div class="info-shortcut"><span class="info-key">+1503</span><span class="info-key-desc">Plus → auto-switches to CE</span></div>
-      <div class="info-shortcut"><span class="info-key">Enter</span><span class="info-key-desc">Place event / advance after result</span></div>
+      <div class="info-shortcut"><span class="info-key">Enter</span><span class="info-key-desc">1st press: place event — 2nd press: next event</span></div>
       <div class="info-shortcut"><span class="info-key">← / →</span><span class="info-key-desc">Scroll the timeline</span></div>
     </div>
     <div class="info-rule">
@@ -1538,6 +1539,23 @@ ${all.map(e=>`<div class="evt ${e.result}">
     try{const c=JSON.parse(localStorage.getItem(EUROPEANA_CACHE_KEY)||'null');if(appSettings.cats.europeana!==false&&Array.isArray(c))EUROPEANA_EVT=c;}catch(e){}
     initDrag();initCSV();
     document.addEventListener('keydown',e=>{if(e.key==='Escape')hideImageModal();});
+    /* Global Enter handler — works even if the input has lost focus.
+       Covers the starting point case where the player clicked elsewhere first. */
+    document.addEventListener('keydown',e=>{
+      if(e.key!=='Enter') return;
+      const tag=document.activeElement?.tagName;
+      if(tag==='INPUT'||tag==='TEXTAREA'||tag==='BUTTON') return; // let normal handlers fire
+      if(curScreen==='game') submitYear();
+    });
+    /* Refocus the year input on any click during game play, so keyboard always works */
+    document.addEventListener('click',e=>{
+      if(curScreen!=='game') return;
+      const inp=document.getElementById('yr-input');
+      if(!inp||e.target===inp) return;
+      // Don't steal focus from settings/modal buttons
+      if(e.target.closest('#settings-modal,#info-modal,#img-modal,#badge-notif')) return;
+      requestAnimationFrame(()=>inp.focus());
+    });
     renderHome();showScreen('home');
   }
 
