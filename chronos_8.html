@@ -848,7 +848,7 @@ function parseEuropeanaYear(v){
 }
 
 async function loadEuropeanaEvents(force=false){
-  if(appSettings.cats.europeana===false)return[];
+  if(!force&&appSettings.cats.europeana===false)return[];
   if(EUROPEANA_EVT.length&&!force)return EUROPEANA_EVT;
   if(europeanaLoadPromise&&!force)return europeanaLoadPromise;
   europeanaLoadPromise=(async()=>{
@@ -1529,7 +1529,18 @@ ${all.map(e=>`<div class="evt ${e.result}">
 
   async function reloadMetArtworks(){localStorage.removeItem(MET_CACHE_KEY);MET_EVT=[];metLoadPromise=null;metStatus('Loading a new random Met set…');await loadMetArtworks(true);renderSettingsModal();}
   function clearMetCache(){localStorage.removeItem(MET_CACHE_KEY);MET_EVT=[];metLoadPromise=null;metStatus('Met cache cleared.','ok');renderSettingsModal();}
-  async function reloadEuropeanaEvents(){localStorage.removeItem(EUROPEANA_CACHE_KEY);EUROPEANA_EVT=[];europeanaLoadPromise=null;europeanaStatus('Reloading…');await loadEuropeanaEvents(true);renderSettingsModal();}
+  async function reloadEuropeanaEvents(){
+    localStorage.removeItem(EUROPEANA_CACHE_KEY);
+    EUROPEANA_EVT=[];europeanaLoadPromise=null;
+    europeanaStatus('Reloading…');
+    await loadEuropeanaEvents(true);
+    // If data loaded successfully, tick the toggle on automatically
+    if(EUROPEANA_EVT.length){
+      appSettings.cats.europeana=true;
+      const te=document.getElementById('tog-europeana');if(te)te.checked=true;
+    }
+    renderSettingsModal();
+  }
   function clearEuropeanaCache(){localStorage.removeItem(EUROPEANA_CACHE_KEY);EUROPEANA_EVT=[];europeanaLoadPromise=null;europeanaStatus('Europeana cache cleared.','ok');renderSettingsModal();}
 
   function showInfo(){document.getElementById('info-modal').classList.remove('hidden');}
