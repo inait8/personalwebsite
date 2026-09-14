@@ -854,8 +854,14 @@ async function loadEuropeanaEvents(force=false){
   europeanaLoadPromise=(async()=>{
     if(!force){try{const c=JSON.parse(localStorage.getItem(EUROPEANA_CACHE_KEY)||'null');if(Array.isArray(c)&&c.length){EUROPEANA_EVT=c;europeanaStatus(`Europeana ready: ${EUROPEANA_EVT.length} cached objects.`,'ok');return EUROPEANA_EVT;}}catch(e){}}
     europeanaStatus(force?'Reloading Europeana JSON…':'Loading Europeana archaeology JSON…');
-    const res=await fetch('./europeana_archaeology.json?cb='+Date.now(),{headers:{'Accept':'application/json'}});
-    if(!res.ok)throw new Error('HTTP '+res.status);
+    let res;
+    try{
+      res=await fetch('./europeana_archaeology.json?cb='+Date.now(),{headers:{'Accept':'application/json'}});
+    }catch(fetchErr){
+      console.error('[Europeana] fetch failed — is the JSON in the same folder as the HTML?',fetchErr);
+      throw fetchErr;
+    }
+    if(!res.ok){console.error('[Europeana] HTTP error',res.status,res.url);throw new Error('HTTP '+res.status);}
     const data=await res.json();
     const items=Array.isArray(data)?data:(Array.isArray(data.items)?data.items:[]);
     const out=items.map((item,idx)=>{
@@ -872,7 +878,11 @@ async function loadEuropeanaEvents(force=false){
     try{localStorage.setItem(EUROPEANA_CACHE_KEY,JSON.stringify(EUROPEANA_EVT));}catch(e){}
     europeanaStatus(EUROPEANA_EVT.length?`Europeana ready: ${EUROPEANA_EVT.length} objects.`:'No usable objects found in JSON.',EUROPEANA_EVT.length?'ok':'bad');
     return EUROPEANA_EVT;
-  })().catch(err=>{europeanaStatus('Could not load europeana_archaeology.json.','bad');return[];}).finally(()=>{europeanaLoadPromise=null;});
+  })().catch(err=>{
+    console.error('[Europeana] load error:',err);
+    europeanaStatus('Could not load europeana_archaeology.json — make sure it is in the same folder as the HTML and you are serving via a web server (not file://).','bad');
+    return[];
+  }).finally(()=>{europeanaLoadPromise=null;});
   return europeanaLoadPromise;
 }
 
@@ -1540,7 +1550,8 @@ ${all.map(e=>`<div class="evt ${e.result}">
   function init(){
     loadP();loadAppSettings();
     try{const c=JSON.parse(localStorage.getItem(MET_CACHE_KEY)||'null');if(appSettings.cats.met!==false&&Array.isArray(c))MET_EVT=c;}catch(e){}
-    try{const c=JSON.parse(localStorage.getItem(EUROPEANA_CACHE_KEY)||'null');if(appSettings.cats.europeana!==false&&Array.isArray(c))EUROPEANA_EVT=c;}catch(e){}
+    /* Load Europeana cache unconditionally so it's ready if the user enables it this session */
+    try{const c=JSON.parse(localStorage.getItem(EUROPEANA_CACHE_KEY)||'null');if(Array.isArray(c)&&c.length)EUROPEANA_EVT=c;}catch(e){}
     initDrag();initCSV();
     document.addEventListener('keydown',e=>{if(e.key==='Escape')hideImageModal();});
     /* Global Enter handler — works even if the input has lost focus.
