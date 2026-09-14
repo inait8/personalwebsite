@@ -24,6 +24,7 @@ body{color:var(--ink);font-family:var(--f);}
 .hdr-lives{display:flex;align-items:center;gap:4px;flex-shrink:0;}
 .life-heart{font-size:15px;color:#8B0000;line-height:1;flex-shrink:0;font-style:normal;}
 .life-heart.lost{color:var(--dim2);}
+.life-heart.life-inf{color:var(--ink);font-size:17px;}
 .hdr-scores{display:flex;gap:22px;flex-shrink:0;}
 .hdr-score-item{text-align:center;line-height:1;}
 .hdr-score-num{font-size:17px;font-weight:600;display:block;}
@@ -34,24 +35,25 @@ body{color:var(--ink);font-family:var(--f);}
 .hdr-btn:hover{border-color:var(--ink);}
 
 /* EVENT AREA */
-#evt-area{flex-shrink:0;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;padding:20px 20px 0;background:#fff;}
-.evt-cat{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--dim);margin-bottom:10px;}
+#evt-area{flex-shrink:0;flex-grow:0;height:230px;overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:flex-end;padding:8px 20px 10px;background:#fff;}
+.evt-cat{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--dim);margin-bottom:8px;}
 #evt-display{display:flex;flex-direction:column;align-items:center;gap:5px;width:100%;}
-.ev-img-el{max-height:160px;max-width:min(260px,65vw);object-fit:contain;
+.ev-img-el{max-height:120px;max-width:min(240px,62vw);object-fit:contain;
   border:1px solid var(--rule);display:block;cursor:zoom-in;}
 .ev-img-credit{font-size:9px;color:var(--dim);font-style:italic;text-align:center;}
 .ev-img-title{font-size:17px;font-weight:600;text-align:center;}
 .ev-text-title{font-size:clamp(24px,4vw,38px);font-weight:600;line-height:1.2;text-align:center;max-width:640px;}
 .ev-period{font-size:11px;color:var(--dim);font-style:italic;text-align:center;margin-top:3px;}
-.ev-img-placeholder{width:min(220px,60vw);height:140px;border:1px solid var(--rule);
+.ev-img-placeholder{width:min(200px,58vw);height:110px;border:1px solid var(--rule);
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:8px;color:var(--dim);font-size:11px;letter-spacing:.1em;text-transform:uppercase;}
 .ev-img-placeholder-icon{font-size:32px;}
 /* Starting point intro card */
 .evt-start-lbl{display:inline-block;font-size:10px;letter-spacing:.22em;text-transform:uppercase;
   color:var(--ink);border:1px solid var(--ink);padding:3px 12px;border-radius:2px;margin-bottom:10px;}
-#yr-area.start-mode #yr-input{opacity:.45;pointer-events:none;}
+#yr-area.start-mode .yr-input-wrap{opacity:.45;pointer-events:none;}
 #yr-area.start-mode .yr-era-toggle{opacity:.3;pointer-events:none;}
 /* Mobile "Enter" substitute — phones have no Enter key on the numeric keypad,
    so without this the typed year is never submitted. Shown only on touch
@@ -68,12 +70,29 @@ body{color:var(--ink);font-family:var(--f);}
 }
 
 /* YEAR INPUT */
-#yr-area{flex-shrink:0;padding:14px 20px 16px;background:#fff;
+#yr-area{flex-shrink:0;padding:14px 20px 0;background:#fff;
   display:flex;flex-direction:column;align-items:center;gap:10px;}
-.yr-controls{display:flex;align-items:center;gap:0;}
-#yr-input{font-family:var(--f);font-size:clamp(36px,6vw,56px);font-weight:600;
-  text-align:center;letter-spacing:.04em;width:min(220px,60vw);border:none;
-  border-bottom:2.5px solid var(--ink);background:none;color:var(--ink);padding:2px 4px;display:block;}
+/* yr-lower is the anchor for the feedback overlay — input-wrap above it stays visible */
+.yr-lower{position:relative;display:flex;flex-direction:column;align-items:center;
+  gap:10px;width:100%;padding-bottom:16px;min-height:110px;}
+/* yr-input-wrap: inline so it shrinks to content; underline hugs number+era */
+.yr-input-wrap{display:inline-flex;align-items:baseline;gap:6px;
+  border-bottom:2.5px solid var(--ink);padding-bottom:2px;}
+/* Left mirror of the era label — invisible, same width — so the number stays centred */
+.yr-era-mirror{font-family:var(--f);font-size:clamp(18px,3vw,28px);font-weight:600;
+  letter-spacing:.04em;visibility:hidden;flex-shrink:0;user-select:none;}
+/* Sizer: inline-block sized by ghost; input overlays it absolutely */
+.yr-input-sizer{position:relative;display:inline-block;}
+.yr-input-ghost{display:inline-block;visibility:hidden;white-space:pre;
+  font-family:var(--f);font-size:clamp(36px,6vw,56px);font-weight:600;
+  letter-spacing:.04em;padding:2px 6px;min-width:1.5ch;}
+#yr-input{position:absolute;top:0;left:0;right:0;bottom:0;
+  font-family:var(--f);font-size:clamp(36px,6vw,56px);font-weight:600;
+  text-align:center;letter-spacing:.04em;padding:2px 6px;
+  border:none;background:transparent;color:var(--ink);}
+#yr-era-lbl{font-family:var(--f);font-size:clamp(18px,3vw,28px);font-weight:600;
+  color:var(--dim);letter-spacing:.04em;flex-shrink:0;
+  line-height:1;user-select:none;align-self:flex-end;padding-bottom:4px;}
 #yr-input:focus{outline:none;}
 #yr-input::placeholder{color:var(--dim2);}
 .yr-era-toggle{display:flex;border:1px solid var(--ink);border-radius:2px;overflow:hidden;flex-shrink:0;}
@@ -159,6 +178,11 @@ body{color:var(--ink);font-family:var(--f);}
 /* Settings group differentiation: standard categories (plain) /
    image categories (ink-accented box) / databases (gold-accented box, "live" badge) */
 .st-group-desc{font-size:11px;color:var(--dim);line-height:1.5;margin-bottom:10px;}
+.lives-toggle{display:flex;border:1px solid var(--ink);border-radius:2px;overflow:hidden;width:fit-content;}
+.lives-btn{padding:8px 18px;background:none;border:none;font-family:var(--f);
+  font-size:13px;letter-spacing:.03em;cursor:pointer;color:var(--dim);transition:all .12s;white-space:nowrap;}
+.lives-btn:not(:last-child){border-right:1px solid var(--rule);}
+.lives-btn.active{background:var(--ink);color:#fff;}
 .st-group-images{margin-top:16px;padding:12px 16px;border:1px solid var(--rule);
   border-left:3px solid var(--ink);border-radius:2px;background:var(--panel);}
 .st-group-db{margin-top:16px;padding:14px 16px;border:1px solid var(--rule);
@@ -226,12 +250,19 @@ body{color:var(--ink);font-family:var(--f);}
 #tl-ghost.wrong .ghost-dot{background:var(--red);border-color:var(--red);}
 #tl-ghost.wrong .ghost-lbl{color:var(--red);border-color:var(--red);}
 
-/* FEEDBACK */
-#feedback{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:80;
-  display:flex;align-items:center;justify-content:center;}
+/* FEEDBACK — overlays yr-lower only; the typed year in yr-input-wrap above stays visible */
+#feedback{position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:80;
+  display:flex;align-items:flex-start;padding-top:8px;justify-content:center;overflow:visible;}
+/* White background when active fully covers the before/after toggle */
+#feedback.active{background:#fff;}
 .fb{font-family:var(--f);font-size:20px;font-weight:600;
   padding:16px 36px;border-radius:3px;text-align:center;letter-spacing:.04em;
-  animation:fbFadeIn .25s ease forwards;}
+  animation:fbFadeIn .25s ease forwards;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:5px;
+  min-height:90px;min-width:min(260px,80vw);}
+.fb-main{display:block;}
+.fb-sub{display:block;font-size:13px;font-weight:400;letter-spacing:.05em;opacity:.82;}
+.fb-heart-gone{opacity:.28;}
 .fb-ok{background:rgba(42,110,68,.94);color:#fff;}
 .fb-no{background:rgba(184,48,48,.94);color:#fff;}
 @keyframes fbFadeIn{from{opacity:0;transform:translateY(8px) scale(.95);}to{opacity:1;transform:translateY(0) scale(1);}}
@@ -369,16 +400,27 @@ body{color:var(--ink);font-family:var(--f);}
     <div id="evt-display"></div>
   </div>
   <div id="yr-area">
-    <input type="text" inputmode="decimal" id="yr-input" placeholder="year"
-           oninput="G.onYearInput()" onkeydown="G.onYearKey(event)" autocomplete="off">
-    <div class="yr-controls">
-      <div class="yr-era-toggle">
-        <button class="yr-era-btn" id="btn-bce" onclick="G.setEra('BCE')">← before</button>
-        <button class="yr-era-btn active" id="btn-ce" onclick="G.setEra('CE')">after →</button>
+    <div class="yr-input-wrap">
+      <span class="yr-era-mirror" id="yr-era-mirror" aria-hidden="true">CE</span>
+      <div class="yr-input-sizer">
+        <span class="yr-input-ghost" id="yr-input-ghost">0000000</span>
+        <input type="text" inputmode="decimal" id="yr-input" placeholder="year"
+               oninput="G.onYearInput()" onkeydown="G.onYearKey(event)" autocomplete="off">
       </div>
+      <span id="yr-era-lbl">CE</span>
     </div>
-    <button type="button" class="yr-submit-btn" id="yr-submit-btn" onclick="G.submitYear()">↵ Enter</button>
-    <div id="yr-hint"></div>
+    <!-- feedback overlays this lower zone only — yr-input-wrap above stays visible -->
+    <div class="yr-lower">
+      <div class="yr-controls">
+        <div class="yr-era-toggle">
+          <button class="yr-era-btn" id="btn-bce" onclick="G.setEra('BCE')">← before</button>
+          <button class="yr-era-btn active" id="btn-ce" onclick="G.setEra('CE')">after →</button>
+        </div>
+      </div>
+      <button type="button" class="yr-submit-btn" id="yr-submit-btn" onclick="G.submitYear()">↵ Enter</button>
+      <div id="yr-hint"></div>
+      <div id="feedback"></div>
+    </div>
   </div>
   <div id="tl-area">
     <button class="tl-arr left" onclick="G.scrollTL(-320)">◀</button>
@@ -442,6 +484,14 @@ body{color:var(--ink);font-family:var(--f);}
   <div class="st-box">
     <div class="st-hdr"><h2>⚙ Settings</h2><button class="st-close" onclick="G.hideSettings()">✕</button></div>
     <div class="st-body">
+      <div>
+        <span class="st-sec-lbl">Lives</span>
+        <p class="st-group-desc">3 Lives ends the game after three wrong guesses. Unlimited removes that limit — the game only ends when you run out of events or quit.</p>
+        <div class="lives-toggle">
+          <button type="button" class="lives-btn active" id="btn-lives-3" onclick="G.setLivesMode('3')">♥♥♥ 3 Lives</button>
+          <button type="button" class="lives-btn" id="btn-lives-inf" onclick="G.setLivesMode('unlimited')">♾ Unlimited</button>
+        </div>
+      </div>
       <div>
         <div class="cat-sec-hdr">
           <span class="st-sec-lbl">Standard Categories</span>
@@ -522,6 +572,10 @@ body{color:var(--ink);font-family:var(--f);}
       <div class="info-shortcut"><span class="info-key">Enter</span><span class="info-key-desc">Place event / advance after result</span></div>
       <div class="info-shortcut"><span class="info-key">← / →</span><span class="info-key-desc">Scroll the timeline</span></div>
     </div>
+    <div class="info-rule">
+      <h3>Make it your own</h3>
+      <p>Open <strong>⚙ Settings</strong> to expand the game — enable artworks from the Met Museum, archaeological objects from Europeana, or upload your own events as a CSV file.</p>
+    </div>
   </div>
 </div>
 
@@ -535,7 +589,6 @@ body{color:var(--ink);font-family:var(--f);}
   </div>
 </div>
 
-<div id="feedback"></div>
 <div id="badge-notif"></div>
 
 <script>
@@ -716,7 +769,7 @@ const DEFAULT_CATS={prehistoric:true,ancient:true,roman:true,medieval:true,
   exploration:true,science:true,art:true,food:true,wars:true,modern:true,
   custom:false,images:false,met:false,europeana:false};
 const SETTINGS_KEY='chronos_st_v4'; // v4: reset to clean defaults (standard categories only; Images/Met/Europeana/CSV off until user opts in)
-const appSettings={cats:{...DEFAULT_CATS},customEvents:[]};
+const appSettings={cats:{...DEFAULT_CATS},customEvents:[],livesMode:'3'};
 let csvDraft=[];
 const uploadedImgs={};
 let MET_EVT=[],metLoadPromise=null;
@@ -730,11 +783,12 @@ function loadAppSettings(){
     const d=JSON.parse(localStorage.getItem(SETTINGS_KEY)||'null');
     if(!d)return;
     if(d.cats)appSettings.cats={...DEFAULT_CATS,...d.cats};
+    if(d.livesMode==='unlimited')appSettings.livesMode='unlimited';
     if(Array.isArray(d.customEvents))appSettings.customEvents=d.customEvents;
   }catch(e){}
 }
 function saveAppSettings(){
-  try{localStorage.setItem(SETTINGS_KEY,JSON.stringify({cats:appSettings.cats,customEvents:appSettings.customEvents.filter(e=>!e.img||e.img.startsWith('http'))}));}catch(e){}
+  try{localStorage.setItem(SETTINGS_KEY,JSON.stringify({cats:appSettings.cats,livesMode:appSettings.livesMode,customEvents:appSettings.customEvents.filter(e=>!e.img||e.img.startsWith('http'))}));}catch(e){}
 }
 function getActiveEvents(){
   const base=ALL_EVT.filter(e=>{
@@ -872,20 +926,20 @@ const G=(()=>{
 
   function initS(){
     _clearTimers();
+    const unlimited=appSettings.livesMode==='unlimited';
     s={placed:[],current:null,queue:[],
-       placements:0,yearHits:0,lives:3,streak:0,maxStreak:0,
+       placements:0,yearHits:0,lives:unlimited?Infinity:3,unlimited,streak:0,maxStreak:0,
        roundsOk:0,roundsNo:0,waitingNext:false,
        showingStart:false,startEvt:null,
        wrongPlaced:[],responseTimes:[],periodStats:{},eventShownAt:0,
        catCorrect:{},sessionBadges:[]};
     era='CE';
-    const inp=document.getElementById('yr-input');if(inp)inp.value='';
-    const h=document.getElementById('yr-hint');if(h){h.textContent='';h.className='';}
-    const ce=document.getElementById('btn-ce'),bce=document.getElementById('btn-bce');
-    if(ce)ce.classList.add('active');if(bce)bce.classList.remove('active');
+    setEraUI('CE');
+    const inp=document.getElementById('yr-input');if(inp){inp.value='';inp.readOnly=false;}
+    updateYrGhost('');
     document.getElementById('yr-area').classList.remove('start-mode');
     hideGhost();
-    document.getElementById('feedback').innerHTML='';
+    const _fb=document.getElementById('feedback');if(_fb){_fb.innerHTML='';_fb.classList.remove('active');}
   }
 
   let prevScreen='home',curScreen='home';
@@ -926,11 +980,12 @@ const G=(()=>{
 
   function nextEvt(){
     _busy=false;s.waitingNext=false;
-    document.getElementById('feedback').innerHTML='';
+    const _fb=document.getElementById('feedback');if(_fb){_fb.innerHTML='';_fb.classList.remove('active');}
     document.getElementById('yr-area').classList.remove('start-mode');
     hideGhost();
     document.getElementById('yr-input').value='';
     document.getElementById('yr-input').placeholder='year';
+    updateYrGhost('');
     document.getElementById('yr-hint').textContent='';document.getElementById('yr-hint').className='';
     if(s.queue.length===0){endGame();return;}
     s.current=s.queue.shift();
@@ -963,9 +1018,13 @@ const G=(()=>{
         <div class="ev-text-title">${escHTML(ev.title)}</div>${yrRange}`;
     }
     const inp=document.getElementById('yr-input');
-    inp.value='';inp.placeholder='year ?';
+    setEraUI(ev.year<0?'BCE':'CE');
+    inp.value=String(Math.abs(ev.year));
+    inp.readOnly=true;
+    inp.placeholder='year';
+    updateYrGhost(inp.value);
     document.getElementById('yr-area').classList.add('start-mode');
-    document.getElementById('yr-hint').textContent='↩  Press Enter to reveal the year and start';
+    document.getElementById('yr-hint').textContent='↩  Press Enter';
     document.getElementById('yr-hint').className='';
     hideGhost();
     _delay(()=>inp.focus(),80);
@@ -980,13 +1039,20 @@ const G=(()=>{
     const vp=document.getElementById('tl-vp');
     vp.scrollLeft=Math.max(0,x-vp.clientWidth/2);
     const yrStr=fmtYr(ev.year)+(ev.yearRange?` (${fmtYrRange(ev.yearRange)})`:'');
-    showFeedback(true,`📍 Starting point\n${yrStr}`,false);
-    _delay(()=>nextEvt(),1400);
+    showFeedback(true,`📍 Starting point`,escHTML(yrStr));
+    /* Unlock input and wait for second Enter to start the game */
+    const inp=document.getElementById('yr-input');
+    inp.readOnly=false;
+    s.waitingNext=true;
+    document.getElementById('yr-hint').textContent='↩  Press Enter to start';
+    _delay(()=>inp.focus(),80);
   }
 
   function renderHdr(){
     const el=document.getElementById('hdr-lives');
-    el.innerHTML=[1,2,3].map(i=>`<span class="life-heart${i>s.lives?' lost':''}">♥</span>`).join('');
+    el.innerHTML=s.unlimited
+      ? '<span class="life-heart life-inf" title="Unlimited">♾</span>'
+      : [1,2,3].map(i=>`<span class="life-heart${i>s.lives?' lost':''}">♥</span>`).join('');
     document.getElementById('hdr-placed').textContent=s.placements;
     document.getElementById('hdr-years').textContent=s.yearHits;
     document.getElementById('hdr-streak').textContent=s.streak;
@@ -1017,25 +1083,35 @@ const G=(()=>{
       const srcLink=ev.source||(ev.wiki?`https://en.wikipedia.org/wiki/${encodeURIComponent(ev.wiki.replace(/ /g,'_'))}`:null);
       display.innerHTML=`<img class="ev-img-el" src="${escHTML(src)}" alt="${escHTML(ev.title)}">
         <div class="ev-img-title">${escHTML(ev.title)}</div>
-        ${ev.credit?`<div class="ev-img-credit">${escHTML(ev.credit)}</div>`:''}
-        ${ev.yearRange?`<div class="ev-period">Period: ${fmtYrRange(ev.yearRange)}</div>`:''}`;
+        ${ev.credit?`<div class="ev-img-credit">${escHTML(ev.credit)}</div>`:''}`;
       const imgEl=display.querySelector('img');
       imgEl.addEventListener('click',()=>showImageModal(src,ev.title,ev.credit,srcLink));
       imgEl.addEventListener('error',function(){
         this.outerHTML=`<div class="ev-img-placeholder"><span class="ev-img-placeholder-icon">🖼</span><span>${escHTML(ev.title)}</span></div>`;
       });
     } else {
-      display.innerHTML=`<div class="ev-text-title">${escHTML(ev.title)}</div>
-        ${ev.yearRange?`<div class="ev-period">Period: ${fmtYrRange(ev.yearRange)}</div>`:''}`;
+      display.innerHTML=`<div class="ev-text-title">${escHTML(ev.title)}</div>`;
     }
   }
 
-  function setEraUI(e){era=e;document.getElementById('btn-bce').classList.toggle('active',e==='BCE');document.getElementById('btn-ce').classList.toggle('active',e==='CE');}
+  function setEraUI(e){
+    era=e;
+    document.getElementById('btn-bce').classList.toggle('active',e==='BCE');
+    document.getElementById('btn-ce').classList.toggle('active',e==='CE');
+    const lbl=document.getElementById('yr-era-lbl');if(lbl)lbl.textContent=e;
+    const mir=document.getElementById('yr-era-mirror');if(mir)mir.textContent=e;
+  }
   function setEra(e){setEraUI(e);onYearInput();}
+
+  function updateYrGhost(val){
+    const g=document.getElementById('yr-input-ghost');
+    if(g) g.textContent=val||'0000000';
+  }
 
   function onYearInput(){
     if(!s.current||s.waitingNext||s.showingStart)return;
     const raw=(document.getElementById('yr-input').value||'').trim();
+    updateYrGhost(raw);
     if(raw.startsWith('-'))setEraUI('BCE');else if(raw.startsWith('+'))setEraUI('CE');
     const num=parseInt(raw.replace(/^[+-]/,''));
     if(isNaN(num)||num===0){hideGhost();document.getElementById('yr-hint').textContent='';document.getElementById('yr-hint').className='';return;}
@@ -1047,13 +1123,13 @@ const G=(()=>{
     if(slot===0)hTxt=`Before everything (before ${fmtYr(sorted[0].year)})`;
     else if(slot===sorted.length)hTxt=`After everything (after ${fmtYr(sorted[sorted.length-1].year)})`;
     else hTxt=`Between ${fmtYr(sorted[slot-1].year)} and ${fmtYr(sorted[slot].year)}`;
-    hint.textContent='→ '+hTxt;hint.className=correct?'ok':'bad';
+    hint.textContent='→ '+hTxt;hint.className='';
     /* Position the ghost using the SAME adjusted coordinates as the rendered pins
        (dispX pushes crowded pins rightward to keep a minimum gap apart). Using the
        raw y2x() here would let the ghost visually land before an already-pushed
        neighbour even when the typed year is chronologically later. */
     const gx=ghostX(guessY,sorted,slot);
-    showGhost(gx,fmtYr(guessY),correct);
+    showGhost(gx,fmtYr(guessY));
     document.getElementById('tl-vp').scrollLeft=Math.max(0,gx-document.getElementById('tl-vp').clientWidth/2);
   }
 
@@ -1078,12 +1154,12 @@ const G=(()=>{
     else placeEvent();
   }
 
-  function showGhost(x,lbl,correct){
+  function showGhost(x,lbl){
     const g=document.getElementById('tl-ghost'),tl=document.getElementById('tl-area');
     const lineY=Math.floor(tl.clientHeight*0.62);
     g.style.left=x+'px';g.style.top=(lineY-70)+'px';
     document.getElementById('ghost-lbl').textContent=lbl;
-    g.className='';if(correct)g.classList.add('correct');else g.classList.add('wrong');g.classList.add('visible');
+    g.className='visible';
   }
   function hideGhost(){document.getElementById('tl-ghost').classList.remove('visible');}
 
@@ -1116,8 +1192,9 @@ const G=(()=>{
       saveP();s.periodStats[era_].c++;
       /* Build feedback — show range if available */
       let yrStr=fmtYr(ev.year);if(ev.yearRange)yrStr+=` (${fmtYrRange(ev.yearRange)})`;
-      const msg=`✓  ${yrStr}${yearHit?'\n'+yr.lbl:''}`;
-      showFeedback(true,msg,yearHit);
+      showFeedback(true,`✓  ${yrStr}`,yearHit?escHTML(yr.lbl):'');
+      showFloat('+1','var(--green)');
+      if(yearHit) showFloat('+1 year','var(--gold)',350);
       const newB=checkBadges();newB.forEach((b,i)=>_delay(()=>showBadgeNotif(b),600+i*2400));
       renderHdr();renderTimeline();
       s.waitingNext=true;
@@ -1125,13 +1202,14 @@ const G=(()=>{
       document.getElementById('yr-hint').className='';
       document.getElementById('yr-input').focus();
     } else {
-      s.streak=0;s.lives--;s.roundsNo++;
-      s.wrongPlaced.push({...ev,guessedYear:guessY});  // save wrong event for post-game timeline
+      s.streak=0;if(!s.unlimited)s.lives--;s.roundsNo++;
+      s.wrongPlaced.push({...ev,guessedYear:guessY});
       s.periodStats[era_].w++;
       renderHdr();
       let yrStr=fmtYr(ev.year);if(ev.yearRange)yrStr+=` (${fmtYrRange(ev.yearRange)})`;
-      showFeedback(false,`✗  It was ${yrStr}`,false);
-      if(s.lives<=0){_delay(()=>endGame(),2200);}
+      showFeedback(false,`It was ${yrStr}`,s.unlimited?'':lostHeartHtml(s.lives));
+      if(!s.unlimited)showFloat('−1 ♥','var(--red)');
+      if(!s.unlimited&&s.lives<=0){_delay(()=>endGame(),2200);}
       else{
         s.waitingNext=true;
         document.getElementById('yr-hint').textContent='↩  Press Enter for the next event';
@@ -1164,11 +1242,29 @@ const G=(()=>{
     });
   }
 
-  function showFeedback(ok,msg,yearHit){
+  function showFeedback(ok,msg,subtitle=''){
     const fb=document.getElementById('feedback');
-    const div=document.createElement('div');div.className='fb '+(ok?'fb-ok':'fb-no');div.style.whiteSpace='pre-line';div.textContent=msg;
+    fb.classList.add('active');
+    const div=document.createElement('div');div.className='fb '+(ok?'fb-ok':'fb-no');
+    div.innerHTML=`<span class="fb-main">${escHTML(msg)}</span>`
+      +(subtitle?`<span class="fb-sub">${subtitle}</span>`:'');
     fb.innerHTML='';fb.appendChild(div);
-    if(ok&&yearHit){const pt=document.createElement('div');pt.className='pt-float';pt.textContent='+1 year';pt.style.cssText='top:28%;left:'+(30+Math.random()*40)+'%;';document.body.appendChild(pt);setTimeout(()=>pt.remove(),1500);}
+  }
+  /* Build the hearts-remaining subtitle for a wrong guess */
+  function lostHeartHtml(livesLeft){
+    const h=[1,2,3].map(i=>
+      i<=livesLeft?'♥':`<span class="fb-heart-gone">♥</span>`
+    ).join(' ');
+    return `you lost a heart!<br>${h}`;
+  }
+  /* Floating +1 / +1 year / −1 heart indicator, used for score and life changes */
+  function showFloat(text,color,delayMs){
+    _delay(()=>{
+      const pt=document.createElement('div');pt.className='pt-float';pt.textContent=text;
+      pt.style.cssText=`top:${24+Math.random()*10}%;left:${28+Math.random()*44}%;color:${color};`;
+      document.body.appendChild(pt);
+      setTimeout(()=>pt.remove(),1500);
+    },delayMs||0);
   }
   function showBadgeNotif(badge){
     const nb=document.getElementById('badge-notif');
@@ -1213,7 +1309,7 @@ const G=(()=>{
 
   /* ─── GAME OVER with stats + timeline ─── */
   function endGame(){
-    document.getElementById('feedback').innerHTML='';
+    const _fb=document.getElementById('feedback');if(_fb){_fb.innerHTML='';_fb.classList.remove('active');}
     if(s.placements>persist.highScore){persist.highScore=s.placements;saveP();}
     document.getElementById('go-correct').textContent=s.roundsOk;
     document.getElementById('go-wrong').textContent=s.roundsNo;
@@ -1325,6 +1421,7 @@ ${all.map(e=>`<div class="evt ${e.result}">
   function showSettings(){renderSettingsModal();document.getElementById('settings-modal').classList.remove('hidden');}
   function hideSettings(){document.getElementById('settings-modal').classList.add('hidden');}
   function renderSettingsModal(){
+    setLivesMode(appSettings.livesMode==='unlimited'?'unlimited':'3');
     const grid=document.getElementById('cat-grid');
     grid.innerHTML=Object.entries(CATS).filter(([id])=>!['custom','met','europeana'].includes(id)).map(([id,cat])=>
       `<label class="cat-chk"><input type="checkbox" data-cat="${id}" ${appSettings.cats[id]!==false?'checked':''}><span>${cat.icon} ${cat.name}</span></label>`).join('');
@@ -1342,6 +1439,8 @@ ${all.map(e=>`<div class="evt ${e.result}">
     const tc=document.getElementById('tog-custom');if(tc)appSettings.cats.custom=tc.checked;
     const tm=document.getElementById('tog-met');if(tm)appSettings.cats.met=tm.checked;
     const te=document.getElementById('tog-europeana');if(te)appSettings.cats.europeana=te.checked;
+    const livesInf=document.getElementById('btn-lives-inf');
+    appSettings.livesMode=(livesInf&&livesInf.classList.contains('active'))?'unlimited':'3';
     if(!csvDraft.length){
       const fi=document.getElementById('csv-file');
       if(fi&&fi.files&&fi.files.length){
@@ -1363,6 +1462,14 @@ ${all.map(e=>`<div class="evt ${e.result}">
        Images, Databases (Met/Europeana), and My CSV are independent
        groups and are left untouched — toggle those individually. */
     document.querySelectorAll('#cat-grid input[data-cat]').forEach(inp=>{inp.checked=v;});
+  }
+  /* Lives mode toggle (3 hearts / unlimited) — purely visual selection,
+     read into appSettings.livesMode when Save/Apply is pressed, same
+     pattern as the category checkboxes so Cancel discards the change. */
+  function setLivesMode(mode){
+    const b3=document.getElementById('btn-lives-3'),bi=document.getElementById('btn-lives-inf');
+    if(b3)b3.classList.toggle('active',mode!=='unlimited');
+    if(bi)bi.classList.toggle('active',mode==='unlimited');
   }
   function clearCSV(){
     appSettings.customEvents=[];csvDraft=[];
@@ -1443,7 +1550,7 @@ ${all.map(e=>`<div class="evt ${e.result}">
   return{showScreen,startGame,quitGame,scrollTL,
     setEra,onYearInput,onYearKey,placeEvent,submitYear,
     showInfo,hideInfo,hideImageModal,
-    showSettings,hideSettings,applySettings,clearCSV,selectAllCats,
+    showSettings,hideSettings,applySettings,clearCSV,selectAllCats,setLivesMode,
     reloadMetArtworks,clearMetCache,reloadEuropeanaEvents,clearEuropeanaCache,
     printTimeline,
     get persist(){return persist;},init};
